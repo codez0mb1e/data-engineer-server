@@ -182,8 +182,30 @@
       "name": "[variables('diagnosticsStorageAccountName')]",
       "apiVersion": "[providers('Microsoft.Storage','storageAccounts').apiVersions[0]]",
       "location": "[resourceGroup().location]",
-      "properties": {
-        "accountType": "Standart_LRS"
+	  "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+      },
+      "kind": "Storage",
+	  "properties": {
+          "networkAcls": {
+              "bypass": "AzureServices",
+              "virtualNetworkRules": [],
+              "ipRules": [],
+              "defaultAction": "Allow"
+          },
+          "supportsHttpsTrafficOnly": true,
+          "encryption": {
+              "services": {
+                  "file": {
+                      "enabled": true
+                  },
+                  "blob": {
+                      "enabled": true
+                  }
+              },
+              "keySource": "Microsoft.Storage"
+          }
       }
     },
 	{
