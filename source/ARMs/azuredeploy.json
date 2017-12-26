@@ -268,7 +268,7 @@
               ]             
             },
             "protectedSettings": {
-               "commandToExecute": "[concat('sudo bash init.sh \"', parameters('adminUsername'), '\" \"', parameters('adminPassword'), '\" > init.log')]"
+               "commandToExecute": "[concat('bash init.sh \"', parameters('adminUsername'), '\" \"', parameters('adminPassword'), '\"')]"
             }
           }
         }
