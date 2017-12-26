@@ -264,11 +264,11 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": [
-                "[concat(variables('scriptsUri'), 'onebox_configure.sh')]"
+                "[concat(variables('scriptsUri'), 'init.sh')]"
               ]             
             },
             "protectedSettings": {
-               "commandToExecute": "[concat('bash onebox_configure.sh \"', parameters('adminPassword'), '\"')]"
+               "commandToExecute": "[concat('sudo bash init.sh \"', parameters('adminUsername'), '\" \"', parameters('adminPassword'), '\" > init.log')]"
             }
           }
         }
