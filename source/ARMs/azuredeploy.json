@@ -6,7 +6,7 @@
       "type": "string",
 	  "defaultValue": "dp",
       "metadata": {
-        "description": "The Virtual Machine Dictator"
+        "description": "The Virtual Machine Dictator."
       }
     },
     "adminPassword": {
@@ -31,7 +31,7 @@
     },
     "sourceIpAddress": {
         "type": "string",
-        "defaultValue": "217.21.218.0/24",
+        "defaultValue": "255.255.255.0/24",
         "metadata": {
             "description": "Source IP address for network security settings."
         }
@@ -55,12 +55,12 @@
       "defaultValue": "Ubuntu",
       "allowedValues": [ "CentOS", "RedHat", "Ubuntu" ],
       "metadata": {
-        "description": "The linux flavor for the VM"
+        "description": "The linux flavor for the VM."
       }
     }
   },
   "variables": {
-    "diagnosticsStorageAccountName": "[concat(toLower(parameters('vmName')), 'intrnl')]",
+    "diagnosticsStorageAccountName": "[concat(replace(toLower(parameters('vmName')), '-', ''), 'diag')]",
     "nicName": "[concat(parameters('vmName'), 'VMNic')]",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
@@ -100,7 +100,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "22",
-              "sourceAddressPrefix": "parameters('sourceIpAddress')",
+              "sourceAddressPrefix": "*",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 100,
@@ -114,7 +114,7 @@
               "protocol": "Tcp",
               "sourcePortRange": "*",
               "destinationPortRange": "12800",
-              "sourceAddressPrefix": "parameters('sourceIpAddress')",
+              "sourceAddressPrefix": "*",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 101,
