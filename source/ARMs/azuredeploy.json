@@ -31,7 +31,7 @@
     },
     "sourceIpAddress": {
         "type": "string",
-        "defaultValue": "0.0.0.0/24",
+        "defaultValue": "0.0.0.0",
         "metadata": {
             "description": "Source IP address for network security settings."
         }
@@ -100,7 +100,7 @@
               "protocol": "TCP",
               "sourcePortRange": "*",
               "destinationPortRange": "22",
-              "sourceAddressPrefix": "*",
+              "sourceAddressPrefix": "parameters('sourceIpAddress')",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 100,
@@ -114,7 +114,7 @@
               "protocol": "TCP",
               "sourcePortRange": "*",
               "destinationPortRange": "12800",
-              "sourceAddressPrefix": "*",
+              "sourceAddressPrefix": "parameters('sourceIpAddress')",
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 101,
