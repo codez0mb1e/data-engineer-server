@@ -31,14 +31,14 @@
     },
     "sourceIpAddress": {
         "type": "string",
-        "defaultValue": "255.255.255.0/24",
+        "defaultValue": "0.0.0.0/24",
         "metadata": {
             "description": "Source IP address for network security settings."
         }
     },
     "vmSku": {
       "type": "string",
-      "defaultValue": "Standard_DS13_v2",
+      "defaultValue": "Standard_DS12_v2",
       "allowedValues": [
         "Standard_DS11_v2",
 		"Standard_DS12_v2",
@@ -60,8 +60,8 @@
     }
   },
   "variables": {
-    "diagnosticsStorageAccountName": "[concat(replace(toLower(parameters('vmName')), '-', ''), 'diag')]",
-    "nicName": "[concat(parameters('vmName'), 'VMNic')]",
+    "diagnosticsStorageAccountName": "[concat(replace(toLower(resourceGroup().name), '-', ''), 'diag')]",
+    "nicName": "[concat(parameters('vmName'), '-VMNic')]",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
     "subnetPrefix": "10.0.0.0/24",
@@ -97,7 +97,7 @@
             "name": "SSH",
             "properties": {
               "description": "Allows SSH traffic",
-              "protocol": "Tcp",
+              "protocol": "TCP",
               "sourcePortRange": "*",
               "destinationPortRange": "22",
               "sourceAddressPrefix": "*",
@@ -111,7 +111,7 @@
             "name": "WebNode",
             "properties": {
               "description": "Allows WebNode traffic",
-              "protocol": "Tcp",
+              "protocol": "TCP",
               "sourcePortRange": "*",
               "destinationPortRange": "12800",
               "sourceAddressPrefix": "*",
@@ -183,17 +183,10 @@
       "apiVersion": "[providers('Microsoft.Storage','storageAccounts').apiVersions[0]]",
       "location": "[resourceGroup().location]",
 	  "sku": {
-          "name": "Standard_LRS",
-          "tier": "Standard"
+          "name": "Standard_LRS"
       },
-      "kind": "Storage",
+      "kind": "StorageV2",
 	  "properties": {
-          "networkAcls": {
-              "bypass": "AzureServices",
-              "virtualNetworkRules": [],
-              "ipRules": [],
-              "defaultAction": "Allow"
-          },
           "supportsHttpsTrafficOnly": true,
           "encryption": {
               "services": {
