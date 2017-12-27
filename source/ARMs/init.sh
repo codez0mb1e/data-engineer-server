@@ -29,12 +29,12 @@ git clone --recursive https://github.com/Microsoft/LightGBM /home/$usr/apps/Ligh
 apt-get -y install cmake
 apt-get -y install glibc-source
 
-# RStudio Server installer
-apt-get -y install gdebi-core
-wget https://download2.rstudio.org/$rstudio
-gdebi --n $rstudio
-rstudio-server verify-installation
-rm $rstudio
+## RStudio Server installer
+#apt-get -y install gdebi-core
+#wget https://download2.rstudio.org/$rstudio
+#gdebi --n $rstudio
+#rstudio-server verify-installation
+#rm $rstudio
 
 # tools
 apt-get -y install htop

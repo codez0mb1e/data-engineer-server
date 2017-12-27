@@ -1,5 +1,6 @@
-# Azure Tempalates for Microsoft Machine Learning Server 
-## One-Box сonfiguration to operationalize analytics 
+# Azure Templates for __Microsoft Machine Learning Server__ 
+### Include:
+One-Box сonfiguration to operationalize analytics 
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcodez0mb1e%2FMinotaur%2Fmaster%2Fsource%2FARMs%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png" />
