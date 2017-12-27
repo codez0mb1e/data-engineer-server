@@ -27,7 +27,7 @@ apt-get -y install gfortran
 mkdir -p /home/$usr/apps/LightGBM
 apt-get -y install cmake
 apt-get -y install glibc-source
-git clone --recursive https://github.com/Microsoft/LightGBM /home/$usr/apps/LightGBM
+
 
 ## RStudio Server installer
 apt-get -y install gdebi-core
