@@ -4,7 +4,7 @@
   "parameters": {
     "adminUsername": {
       "type": "string",
-	  "defaultValue": "dp",
+      "defaultValue": "dp",
       "metadata": {
         "description": "The Virtual Machine Dictator."
       }
@@ -41,13 +41,13 @@
       "defaultValue": "Standard_DS12_v2",
       "allowedValues": [
         "Standard_DS11_v2",
-		"Standard_DS12_v2",
-		"Standard_DS13_v2",
-		"Standard_DS14_v2",
-		"Standard_DS15_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14_v2",
+        "Standard_DS15_v2",
       ],
       "metadata": {
-        "description": "Size of VM. See more https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes-memory"
+        "description": "Size of VM. See more on https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes-memory"
       } 
     },
     "linuxOS": {
@@ -56,6 +56,14 @@
       "allowedValues": [ "CentOS", "RedHat", "Ubuntu" ],
       "metadata": {
         "description": "The linux flavor for the VM."
+      }
+    },
+    "RStudioServerVersion": {
+      "type": "string",
+      "defaultValue": "1.1.383",
+      "allowedValues": [ "1.0.153", "1.1.383" ],
+      "metadata": {
+        "description": "RStudio Server version. See more on https://support.rstudio.com/hc/en-us/articles/200716783-RStudio-Release-History"
       }
     }
   },
@@ -182,11 +190,11 @@
       "name": "[variables('diagnosticsStorageAccountName')]",
       "apiVersion": "[providers('Microsoft.Storage','storageAccounts').apiVersions[0]]",
       "location": "[resourceGroup().location]",
-	  "sku": {
+      "sku": {
           "name": "Standard_LRS"
       },
       "kind": "StorageV2",
-	  "properties": {
+      "properties": {
           "supportsHttpsTrafficOnly": true,
           "encryption": {
               "services": {
@@ -201,7 +209,7 @@
           }
       }
     },
-	{
+    {
       "apiVersion": "[providers('Microsoft.Compute','virtualMachines').apiVersions[0]]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('vmName')]",
@@ -228,9 +236,9 @@
           },
           "osDisk": {
             "createOption": "fromImage",
-			"managedDisk": {
-			  "storageAccountType": "Premium_LRS"
-			}
+            "managedDisk": {
+              "storageAccountType": "Premium_LRS"
+            }
           },
           "dataDisks": [ ]
         },
@@ -268,7 +276,7 @@
               ]             
             },
             "protectedSettings": {
-               "commandToExecute": "[concat('bash init.sh \"', parameters('adminUsername'), '\" \"', parameters('adminPassword'), '\"')]"
+               "commandToExecute": "[concat('bash init.sh ', parameters('adminUsername'), ' \"', parameters('adminPassword'), '\" '), parameters('RStudioServerVersion')]"
             }
           }
         }
