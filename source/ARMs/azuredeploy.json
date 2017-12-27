@@ -276,7 +276,7 @@
               ]             
             },
             "protectedSettings": {
-               "commandToExecute": "[concat('bash init.sh ', parameters('adminUsername'), ' \"', parameters('adminPassword'), '\" '), parameters('RStudioServerVersion')]"
+               "commandToExecute": "[concat('bash init.sh ', parameters('adminUsername'), ' \"', parameters('adminPassword'), '\" ', parameters('RStudioServerVersion'))]"
             }
           }
         }
