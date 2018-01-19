@@ -8,7 +8,8 @@ local({
                 "microbenchmark", "config", "lubridate", "jsonlite", # tools
                 "xts", "zoo", "Quandl", "quantmod", # time series and financial analysis
                 "ggplot2", # vizualization
-                "foreach", "doParallel" # parallel computing
+                "foreach", "doParallel", # parallel computing
+                "Metrics" # machine learning
   )
   
   # install packages
