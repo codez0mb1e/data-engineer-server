@@ -27,7 +27,12 @@ securities.getCandles <- function(symbols, .from, .to, candleType = "1D") {
   )
   
   r <- map(symbols, 
-           ~ getSymbols(.x, src = "yahoo", from = .from - days(1), to = .to, auto.assign = F))
+           function(.x) {
+             s <- getSymbols(.x, src = "yahoo", from = .from - days(1), to = .to, auto.assign = F)
+             names(s) <- c("Open", "High", "Low", "Close", "Volume", "Adjusted")
+             
+             s
+           })
   
   checkDailyTrades(r, .from, .to)
   
