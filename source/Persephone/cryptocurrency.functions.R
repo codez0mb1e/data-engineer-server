@@ -161,3 +161,31 @@ cryptocurrency.getMarketStats <- function(coinCodes, .from, .to) {
 }
 
 
+
+
+#' Create candles
+#'
+#' @param dt List of coins trades
+#' @param f Candle calculation function
+#' @param names Names of columns. By default: OHLCV
+#'
+#' @return List of coins candles
+cryptocurrency.createCandles <- function(dt, f, names = c("Open", "High", "Low", "Close", "Volume")) {
+  require(purrr)
+  require(xts)
+  stopifnot(
+    is.list(dt),
+    is.function(f),
+    is.vector(names) && is.character(names)
+  )
+  
+  map(dt,
+      function(.x) {
+        s <- f(.x)
+        names(s) <- names
+        
+        s
+      })
+}
+
+
