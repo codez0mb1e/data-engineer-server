@@ -3,7 +3,7 @@
 
 
 ### set enviroment ----
-Sys.setenv(R_CONFIG_ACTIVE = "dubug")
+Sys.setenv(R_CONFIG_ACTIVE = "debug")
 
 # set compute context
 library(RevoScaleR)
