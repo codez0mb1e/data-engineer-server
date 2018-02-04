@@ -8,22 +8,19 @@ source("securities.functions.R")
 source("macroeconomics.functions.R")
 
 suppressPackageStartupMessages({
-  library(Quandl)
 })
 
 
 
 ### Load datasets ----
-Quandl.api_key(job.config$QuandlApiKey)
-
 # load securities
-securities.candles.1D <- securities.getCandles(securities.Symbols, fromTime, toTime)
+securities.candles.1D <- securities.loadCandles(securities.Symbols, job.settings$FromTime, job.settings$ToTime)
 
 # load BTCUSD & market stats
-coins.btcusd.trades <- cryptocurrency.getTradesFromMarkets(cryptocurrency.Markets[1:2], cryptocurrency.Symbols, fromTime, toTime)
-coins.market.stats <- cryptocurrency.getMarketStats(cryptocurrency.Codes, fromTime, toTime)
+coins.btcusd.trades <- cryptocurrency.loadTradesFromMarkets(cryptocurrency.Markets[1:2], cryptocurrency.Symbols, job.settings$FromTime, job.settings$ToTime)
+coins.market.stats <- cryptocurrency.loadMarketStats(cryptocurrency.Codes, job.settings$FromTime, job.settings$ToTime)
 
 # load GDPs
-economics.GDPs <- macroeconomics.getGDP(macroeconomics.Countries.GDP, fromTime, toTime)
+economics.GDPs <- macroeconomics.loadGDP(macroeconomics.Countries.GDP, job.settings$FromTime, job.settings$ToTime, job.config$QuandlApiKey)
 
 

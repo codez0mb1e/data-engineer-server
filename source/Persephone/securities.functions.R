@@ -4,20 +4,25 @@
 
 
 #' Available securities
-securities.Symbols <- c("AAPL", "MSFT", "NDAQ", "GOOG")
+securities.Symbols <- c(
+  "AAPL", "MSFT",  "RHT",
+  "INTL", "AMD", "QCOM", "NVDA",
+  "NDAQ", "CBOE", "MA", "V", "JPM"
+  )
 names(securities.Symbols) <- securities.Symbols
 
 
 
-#' Get Trades Candles
+#' Load Trades Candles
 #'
 #' @param symbols Vector of Symbols
 #' @param candleType Type of candle (data source support onle 1D candles)
 #' @param .from From time (inclusive bound)
 #' @param .to To time (exclusive bound)
+#' @param apiKey API key
 #' 
 #' @return List of xts's
-securities.getCandles <- function(symbols, .from, .to, candleType = "1D") {
+securities.loadCandles <- function(symbols, .from, .to, candleType = "1D", apiKey = NULL) {
   require(purrr)
   require(quantmod)
   require(lubridate)
@@ -28,7 +33,7 @@ securities.getCandles <- function(symbols, .from, .to, candleType = "1D") {
   
   r <- map(symbols, 
            function(.x) {
-             s <- getSymbols(.x, src = "yahoo", from = .from - days(1), to = .to, auto.assign = F)
+             s <- getSymbols(.x, src = "yahoo", from = .from, to = .to, auto.assign = F)
              names(s) <- c("Open", "High", "Low", "Close", "Volume", "Adjusted")
              
              s

@@ -18,19 +18,20 @@ names(cryptocurrency.Codes) <- cryptocurrency.Codes
 
 
 
-#' Get Bitcoin/Currency pair trades
+#' Load Bitcoin/Currency pair trades
 #'
 #' @param market Market
 #' @param symbol Symbol (support only BTCUSD)
 #' @param .from From time (inclusive bound)
 #' @param .to To time (exclusive bound)
 #' @param dataSource Trades source (support only bitcoincharts API) 
+#' @param apiKey API key
 #' 
 #' @return Dataframe w/ Bitcoin/Currency pair trades
 #' 
 #' @example cryptocurrency.getTrades("ITBIT", "BTCUSD", fromTime, toTime)
 #' @seealso http://api.bitcoincharts.com/v1/csv
-cryptocurrency.getTrades <- function(market, symbol, .from, .to, dataSource = "api.bitcoincharts.com/v1") {
+cryptocurrency.loadTrades <- function(market, symbol, .from, .to, dataSource = "api.bitcoincharts.com/v1", apiKey = NULL) {
   require(dplyr)
   
   stopifnot(
@@ -38,7 +39,8 @@ cryptocurrency.getTrades <- function(market, symbol, .from, .to, dataSource = "a
     is.character(dataSource) && dataSource == "api.bitcoincharts.com/v1",
     is.character(symbol) && symbol %in% cryptocurrency.Symbols,
     is.POSIXt(.from),
-    is.POSIXt(.to) && .to > .from
+    is.POSIXt(.to) && .to > .from,
+    is.null(apiKey) || is.character(apiKey)
   )
   
   
@@ -78,22 +80,23 @@ cryptocurrency.getTrades <- function(market, symbol, .from, .to, dataSource = "a
 
 
 
-#' Get Bitcoin trades from passed markets
+#' Load Bitcoin trades from passed markets
 #' 
 #' @param markets Vector of markets
 #' @param symbol Symbol
 #' @param .from From time (inclusive bound)
 #' @param .to To time (exclusive bound)
+#' @param apiKey API key
 #' 
 #' @return Dataframe w/ Bitcoin trades
-cryptocurrency.getTradesFromMarkets <- function(markets, symbol, .from, .to) {
+cryptocurrency.loadTradesFromMarkets <- function(markets, symbol, .from, .to, apiKey = NULL) {
   require(purrr)
   stopifnot(
     is.vector(markets) & is.character(markets)
   )
   
   r <- map(markets,
-           ~ cryptocurrency.getTrades(.x, symbol, .from, .to))
+           ~ cryptocurrency.loadTrades(.x, symbol, .from, .to, apiKey = apiKey))
   
   checkDailyTrades(r, .from, .to, uniqueIndex = F)
   
@@ -103,16 +106,17 @@ cryptocurrency.getTradesFromMarkets <- function(markets, symbol, .from, .to) {
 
 
 
-#' Get market statistics
+#' Load market statistics
 #'
-#' @param symbol Symbol
+#' @param coinCode 
 #' @param .from From time (inclusive bound)
 #' @param .to To time (exclusive bound)
 #' @param dataSource Data source (support only coincap.io/history)
+#' @param apiKey API key
 #' 
 #' @return Dataframe w/ market statistics
 #' @seealso https://github.com/CoinCapDev/CoinCap.io
-cryptocurrency.getMarketStatsByCoin <- function(coinCode, .from, .to, dataSource = "coincap.io/history") {
+cryptocurrency.loadMarketStatsByCoin <- function(coinCode, .from, .to, dataSource = "coincap.io/history", apiKey = NULL) {
   require(jsonlite)
   require(purrr)
   require(xts)
@@ -121,7 +125,8 @@ cryptocurrency.getMarketStatsByCoin <- function(coinCode, .from, .to, dataSource
     is.character(coinCode),
     is.POSIXt(.from),
     is.POSIXt(.to) && .to > .from,
-    is.character(dataSource)
+    is.character(dataSource),
+    is.null(apiKey) || is.character(apiKey)
   )
 
   
@@ -137,22 +142,23 @@ cryptocurrency.getMarketStatsByCoin <- function(coinCode, .from, .to, dataSource
 
 
 
-#' Get market statistics
+#' Load market statistics
 #'
 #' @param coinCodes List of coin codes
 #' @param .from From time (inclusive bound)
 #' @param .to To time (exclusive bound)
+#' @param apiKey API key
 #' 
 #' @return Dataframe w/ market statistics
 #' @example cryptocurrency.getMarketStats(cryptocurrency.Codes, fromTime, toTime)
-cryptocurrency.getMarketStats <- function(coinCodes, .from, .to) {
+cryptocurrency.loadMarketStats <- function(coinCodes, .from, .to, apiKey = NULL) {
   require(purrr)
   stopifnot(
     is.vector(coinCodes) && is.character(coinCodes)
   )
   
   r <- map(coinCodes,
-           ~ cryptocurrency.getMarketStatsByCoin(.x, .from, .to))
+           ~ cryptocurrency.loadMarketStatsByCoin(.x, .from, .to, apiKey= apiKey))
   
   checkDailyTrades(r, .from, .to)
   

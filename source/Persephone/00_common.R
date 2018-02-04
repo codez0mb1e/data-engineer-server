@@ -19,10 +19,14 @@ suppressPackageStartupMessages({
 })
 
 
-# params
+# set params
 toTime <- Sys.time()
-fromTime <- toTime - years(2)
-splitTime <- toTime - days(7)
+job.settings <- list(
+  FromTime = toTime - years(2), 
+  ToTime = toTime,
+  SplitBy = toTime - days(7)
+  )
+rm(toTime)
 
 # load config
 job.config <- config::get()

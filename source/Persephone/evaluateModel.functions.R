@@ -55,7 +55,7 @@ model.scoreMetrics <- function(.actual, .predicted, .index) {
   
   
   # return result
-  list("Data" = residuals, "Metrics" = m)
+  list("Data" = dt$Residuals, "Metrics" = m)
 }
 
 

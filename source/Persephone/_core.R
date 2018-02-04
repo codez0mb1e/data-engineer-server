@@ -40,7 +40,7 @@ checkDailyTrades <- function(dt, .from, .to, uniqueIndex = T) {
 
   stopifnot(
     every(dt, ~ is.xts(.x) && (!uniqueIndex | is.index.unique(.x))),
-    every(dt, ~ length(.x) > 0 && !anyNA(.x)),
+    every(dt, ~ length(.x) > 0),
     every(dt, ~ length(.x[sprintf("/%s", format(.from - days(1), "%F"))]) == 0),
     every(dt, ~ length(.x[sprintf("%s/", format(.to + days(1), "%F"))]) == 0)
   )
