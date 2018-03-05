@@ -257,7 +257,7 @@
               ]
             },
             "protectedSettings": {
-              "commandToExecute": "[concat('sh init.sh ', parameters('adminUsername'), ' \"', parameters('adminPassword'))]"
+              "commandToExecute": "[concat('sh init.sh ', parameters('adminUsername'), ' \"', parameters('adminPassword'), '\"')]"
             }
           }
         }
