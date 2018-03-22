@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Get params
+## Get args
 usr=$1
 password=$2
 
@@ -11,5 +11,5 @@ apt-get -y upgrade
 apt-get -y dist-upgrade
 
 
-# tools
+# Tools
 apt-get -y install htop
