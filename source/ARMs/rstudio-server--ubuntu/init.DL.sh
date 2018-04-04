@@ -1,3 +1,7 @@
+#!/bin/bash
+
+### summary: install DL-frameworks and R tools
+
 
 ## install updates ----
 apt-get -y update
@@ -67,10 +71,10 @@ curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
 exit 
 
-sudo apt-get update
-sudo ACCEPT_EULA=Y apt-get install msodbcsql
+apt-get update
+ACCEPT_EULA=Y apt-get install msodbcsql
 
-sudo apt-get -y install unixodbc unixodbc-dev #? tdsodbc
+apt-get -y install unixodbc unixodbc-dev #? tdsodbc
 
 
 
@@ -82,8 +86,6 @@ R CMD INSTALL --build . --no-multiarch
 
 
 ## install CNTK (todo: section needs to be checked) ----
-# core
-apt-get -y install python3-pip python3-dev
 apt-get -y install libopencv-dev python-opencv
 
 wget https://repo.continuum.io/archive/Anaconda3-5.1.0-Linux-x86_64.sh
