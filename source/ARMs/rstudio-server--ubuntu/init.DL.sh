@@ -79,11 +79,18 @@ apt-get -y install unixodbc unixodbc-dev #? tdsodbc
 
 
 ## install LightGBM ----
-git clone --recursive https://github.com/Microsoft/LightGBM
-cd LightGBM/R-package
-R CMD INSTALL --build . --no-multiarch
+# see for GPU version install: http://lightgbm.readthedocs.io/en/latest/Installation-Guide.html#id6
 
+# CPU version install
+git clone --recursive https://github.com/Microsoft/LightGBM ; cd LightGBM
+mkdir build ; cd build
+cmake ..
+make -j4
 
+# or run in RStudio
+#    library(devtools)
+#    options(devtools.install.args = "--no-multiarch") # if you have 64-bit R only, you can skip this
+#    install_github("Microsoft/LightGBM", subdir = "R-package")
 
 ## install CNTK (todo: section needs to be checked) ----
 apt-get -y install libopencv-dev python-opencv
