@@ -107,11 +107,11 @@ R
 ## install tools ----
 apt-get -y install htop # and git, nvidia-smi if not already installed
 
-sudo adduser dmitry
+adduser d
 
 git --version
 git config --global user.name "Dmitry Petukhov"
-git config --global user.email "dpetukhov@openwaygroup.com"
+git config --global user.email "dpetukhov@***.com"
 git config --list
 
 
