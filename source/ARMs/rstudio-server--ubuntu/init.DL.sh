@@ -114,12 +114,19 @@ R
 ## install tools ----
 apt-get -y install htop # and git, nvidia-smi if not already installed
 
-adduser d
+adduser <user>
 
 git --version
 git config --global user.name "Dmitry Petukhov"
 git config --global user.email "dpetukhov@***.com"
 git config --list
+
+# see more on https://docs.microsoft.com/en-us/vsts/git/use-ssh-keys-to-authenticate?view=vsts
+ssh-keygen -C "dpetukhov@***.com"
+cat /home/<user>/.ssh/id_rsa.pub
+
+cd ./apps
+git clone ssh://<server>@vs-ssh.visualstudio.com:22/DefaultCollection/_ssh/<repo>
 
 
 
