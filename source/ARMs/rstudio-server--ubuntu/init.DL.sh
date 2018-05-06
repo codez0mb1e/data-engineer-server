@@ -46,18 +46,18 @@ pip install keras --upgrade pip #? pip3
 
 
 ## install R and R tools ----
-wget https://mran.blob.core.windows.net/install/mro/3.4.3/microsoft-r-open-3.4.3.tar.gz
-tar -xf microsoft-r-open-3.4.3.tar.gz
+wget  https://mran.blob.core.windows.net/install/mro/3.4.4/microsoft-r-open-3.4.4.tar.gz
+tar -xf microsoft-r-open-3.4.4.tar.gz
 cd microsoft-r-open/
-./install.sh -u
+./install.sh -a -u
 
 R --version
 
 
 # RStudio Server
 apt-get install gdebi-core
-wget https://download2.rstudio.org/rstudio-server-1.1.423-amd64.deb
-gdebi rstudio-server-1.1.423-amd64.deb
+wget https://download2.rstudio.org/rstudio-server-1.1.447-amd64.deb
+gdebi rstudio-server-1.1.447-amd64.deb
 
 rstudio-server status
 
@@ -106,6 +106,8 @@ R
 
 ## install tools ----
 apt-get -y install htop # and git, nvidia-smi if not already installed
+
+sudo adduser dmitry
 
 git --version
 git config --global user.name "Dmitry Petukhov"
