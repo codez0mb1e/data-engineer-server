@@ -27,8 +27,8 @@ R --version
 
 # RStudio Server
 apt-get install gdebi-core
-wget https://download2.rstudio.org/rstudio-server-1.1.447-amd64.deb
-gdebi -q rstudio-server-1.1.447-amd64.deb
+wget https://download2.rstudio.org/rstudio-server-1.1.453-amd64.deb
+gdebi -q rstudio-server-1.1.453-amd64.deb
 
 rstudio-server status
 
@@ -48,19 +48,12 @@ apt-get -y install unixodbc unixodbc-dev #? tdsodbc
 
 
 ## install LightGBM ----
-# see for GPU version install: http://lightgbm.readthedocs.io/en/latest/Installation-Guide.html#id6
-
-# CPU version install
-git clone --recursive https://github.com/Microsoft/LightGBM ; cd LightGBM
-mkdir build ; cd build
-cmake ..
-make -j4
-
-# or run in RStudio
-#    library(devtools)
-#    options(devtools.install.args = "--no-multiarch") # if you have 64-bit R only, you can skip this
-#    install_github("Microsoft/LightGBM", subdir = "R-package")
-
+# CPU version install: https://github.com/Microsoft/LightGBM/tree/master/R-package
+# GPU version install: http://lightgbm.readthedocs.io/en/latest/Installation-Guide.html#id6
+git clone --recursive https://github.com/Microsoft/LightGBM
+cd LightGBM/R-package
+R CMD INSTALL --build . --no-multiarch
+ 
 
 ## install tools ----
 apt-get -y install htop # and git, nvidia-smi if not already installed
