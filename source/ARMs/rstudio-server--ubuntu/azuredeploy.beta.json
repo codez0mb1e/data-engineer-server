@@ -4,15 +4,14 @@
   "parameters": {
     "adminUsername": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "The Virtual Machine Dictator."
       }
     },
-    "adminPassword": {
-      "type": "securestring",
+    "sshPublicKey": {
+      "type": "string",
       "metadata": {
-        "description": "Password for the Virtual Machine and Operationalization. Must be 8-16 characters long and contain at least 1 uppercase character(s), 1+ lowercase character(s), 1+ number(s), and 1+ special character(s)"
+        "description": "SSH Public Key."
       }
     },
     "vmName": {
@@ -30,14 +29,14 @@
     },
     "sourceIpAddress": {
       "type": "string",
-      "defaultValue": "0.0.0.0",
+      "defaultValue": "255.255.255.0/24",
       "metadata": {
         "description": "Source IP address for network security settings."
       }
     },
     "vmSku": {
       "type": "string",
-      "defaultValue": "Standard_DS12_v2",
+      "defaultValue": "Standard_DS14_v2",
       "allowedValues": [
         "Standard_DS11_v2",
         "Standard_DS12_v2",
@@ -65,14 +64,12 @@
   "variables": {
     "diagnosticsStorageAccountName": "[concat(replace(toLower(resourceGroup().name), '-', ''), 'diag')]",
     "nicName": "[concat(parameters('vmName'), '-VMNic')]",
-    "addressPrefix": "10.0.0.0/16",
+    "addressPrefix": "[variables('addressPrefix')]",
     "subnetName": "Subnet",
-    "subnetPrefix": "10.0.0.0/24",
     "publicIPAddressName": "[concat(parameters('vmName'), '-IP')]",
     "vmName": "[parameters('vmName')]",
     "virtualNetworkName": "[concat(parameters('vmName'), '-VNET')]",
     "networkSecurityGroupName": "[concat(parameters('vmName'), '-NSG')]",
-    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
     "scriptsUri": "[uri(deployment().properties.templateLink.uri, '.')]"
   },
   "resources": [
@@ -81,46 +78,48 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
       "location": "[resourceGroup().location]",
+      "tags": {},
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "idleTimeoutInMinutes": 30,
         "dnsSettings": {
           "domainNameLabel": "[parameters('dnsLabelPrefix')]"
         }
-      }
+      },
+      "dependsOn": []
     },
     {
       "apiVersion": "[providers('Microsoft.Network','networkSecurityGroups').apiVersions[0]]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('networkSecurityGroupName')]",
       "location": "[resourceGroup().location]",
+      "tags": {},
       "properties": {
         "securityRules": [
           {
-            "name": "SSH",
+            "name": "default-allow-ssh",
             "properties": {
               "description": "Allows SSH traffic",
               "protocol": "TCP",
               "sourcePortRange": "*",
               "destinationPortRange": "22",
-              "sourceAddressPrefix": "x.x.x.0/24",
+              "sourceAddressPrefix": "[parameters('sourceIpAddress')]",
               "destinationAddressPrefix": "*",
               "access": "Allow",
-              "priority": 100,
+              "priority": 101,
               "direction": "Inbound"
             }
           }
         ]
-      }
+      },
+      "dependsOn": []
     },
     {
       "apiVersion": "[providers('Microsoft.Network','virtualNetworks').apiVersions[0]]",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
-      ],
       "location": "[resourceGroup().location]",
+      "tags": {},
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -131,24 +130,24 @@
           {
             "name": "[variables('subnetName')]",
             "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]",
+              "addressPrefix": "[variables('addressPrefix')]",
               "networkSecurityGroup": {
                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
               }
             }
           }
         ]
-      }
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+      ]
     },
     {
       "apiVersion": "[providers('Microsoft.Network','networkInterfaces').apiVersions[0]]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
       "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
-      ],
+      "tags": {},
       "properties": {
         "ipConfigurations": [
           {
@@ -159,12 +158,16 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
               },
               "subnet": {
-                "id": "[variables('subnetRef')]"
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]"
               }
             }
           }
         ]
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ]
     },
     {
       "apiVersion": "[providers('Microsoft.Storage','storageAccounts').apiVersions[0]]",
@@ -175,6 +178,7 @@
         "name": "Standard_LRS"
       },
       "kind": "StorageV2",
+      "tags": {},
       "properties": {
         "supportsHttpsTrafficOnly": true,
         "encryption": {
@@ -188,17 +192,15 @@
           },
           "keySource": "Microsoft.Storage"
         }
-      }
+      },
+      "dependsOn": []
     },
     {
       "apiVersion": "[providers('Microsoft.Compute','virtualMachines').apiVersions[0]]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('vmName')]",
       "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
-        "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
-      ],
+      "tags": {},
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSku')]"
@@ -206,7 +208,18 @@
         "osProfile": {
           "computerName": "[variables('vmName')]",
           "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": true,
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                  "keyData": "[concat('ssh-rsa ', parameters('sshPublicKey')]"
+                }
+              ]
+            }
+          },
+          "secrets": []
         },
         "storageProfile": {
           "imageReference": {
@@ -216,17 +229,21 @@
             "version": "latest"
           },
           "osDisk": {
+            "name": "[concat(variables('vmName'),'_OsDisk_1')]",
+            "osType": "Linux",
             "createOption": "FromImage",
+            "caching": "ReadWrite",
             "managedDisk": {
               "storageAccountType": "Premium_LRS"
-            }
+            },
+            "diskSizeGB": 128
           },
           "dataDisks": [ ]
         },
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
             }
           ]
         },
@@ -257,10 +274,14 @@
               ]
             },
             "protectedSettings": {
-              "commandToExecute": "[concat('sh init.sh ', parameters('adminUsername'), ' \"', parameters('adminPassword'), '\"')]"
+              "commandToExecute": "[concat('sh init.sh ', parameters('adminUsername'))]"
             }
           }
         }
+      ],
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ]
     }
   ],
