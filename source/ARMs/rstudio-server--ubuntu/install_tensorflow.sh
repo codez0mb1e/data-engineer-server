@@ -15,19 +15,19 @@
 apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
 wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
 wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
-
 dpkg -i cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
 dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
 apt-get update
 
-# Includes optional NCCL 2.x.
+# Includes optional NCCL 2.x for TensorFlow with multiple GPUs
 apt-get -y install cuda9.0 cuda-cublas-9-0 cuda-cufft-9-0 cuda-curand-9-0 \
   cuda-cusolver-9-0 cuda-cusparse-9-0 libcudnn7=7.1.4.18-1+cuda9.0 \
   libnccl2=2.2.13-1+cuda9.0 cuda-command-line-tools-9-0
   
-# Install TensorRT runtime, must be done after above cuda install (optionally)
-sudo apt-get update
-sudo apt-get -y install libnvinfer4=4.1.2-1+cuda9.0
+# Install TensorRT runtime for improve latency and throughput for inference (optionally)
+apt-get update
+apt-get -y install libnvinfer4=4.1.2-1+cuda9.0
+
 
 # Install GPU tools (optionally)
 apt-get -y install nvidia-smi
@@ -38,7 +38,7 @@ apt-get -y install nvidia-smi
 python3 -V  # or: python -V
 pip3 -V     # or: pip -V
 
-apt-get -y  install python3-pip python3-dev python-virtualenv
+apt-get -y install python3-pip python3-dev python-virtualenv
 pip install -U pip
 
 # Create virtual environment
@@ -48,7 +48,7 @@ cd ~/tensorflow
 virtualenv --system-site-packages -p python3 venv
 
 # Activate virtualenv
-source ~/tensorflow/venv/bin/activate
+source venv/bin/activate
 
 # ensure pip ≥8.1 is installed
 pip install -U pip # or: easy_install -U pip
@@ -56,7 +56,7 @@ pip install -U pip # or: easy_install -U pip
 
 
 # Install Tensorflow ---- 
-pip install -U tensorflow-gpu #? pip3
+pip install -U tensorflow-gpu
 
 # Validate installation
 python -c "import tensorflow as tf; print(tf.__version__)"
