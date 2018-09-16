@@ -7,10 +7,6 @@
 
 
 # Install CUDA ----
-# See also:
-#   - https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=debnetwork
-#   - https://www.tensorflow.org/install/install_linux#NVIDIARequirements
-
 # Adds NVIDIA package repository
 apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
 wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
@@ -64,26 +60,27 @@ python -c "import tensorflow as tf; print(tf.__version__)"
 
 
 # Install Keras ----
-# See also:
-#  1. https://keras.io/#installation
-#  2. Deep_Learning_with_R_v1_MEAP
+# Before installing Keras, please install one of its backend engines: TensorFlow, Theano, or CNTK
 
-# install a BLAS library to ensure that you can run fast tensor operations on your CPU [2]
-apt-get -y install unzip pkg-config libopenblas-dev liblapack-dev
+# install a BLAS library to ensure that you can run fast tensor operations on your CPU [4]
+ apt-get -y install unzip pkg-config libopenblas-dev liblapack-dev
 
-# install the Python scientific suite [2]
+# install the Python scientific suite [4]
 apt-get -y install python-numpy python-scipy python-matplotlib python-yaml
 
-# install HDF5. This library, originally developed by NASA, stores large files of numeric
-# data in an efficient binary format. It will allow you to save your Keras models to disk
-# quickly and efficiently [2]
+# install HDF5. It will allow you to save your Keras models to disk quickly and efficiently [4]
 apt-get -y install libhdf5-serial-dev python-h5py
 
-
-# install Keras]
+# install Keras
 pip3 install keras
-
 
 # R:
 #  library(keras)
 #  install_keras(tensorflow = "gpu")
+
+
+# References ----
+# 1. https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=debnetwork
+# 2. https://www.tensorflow.org/install/install_linux#NVIDIARequirements
+# 3. https://keras.io/#installation
+# 4. https://livebook.manning.com/#!/book/deep-learning-with-r/appendix-a/1
