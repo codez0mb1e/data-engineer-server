@@ -1,29 +1,33 @@
 #!/bin/bash
 
 #
-# Add user, configure Git and VSTS
+# Add user, configure Git/VSTS
 #
+
+usr = "<user>"
+userName = "<user_name>"
+userEmail = "<user_email>"
 
 
 adduser $usr
 
-# NOTE: execute commands under new <user>
-git config --global user.name "Dmitry Petukhov"
-git config --global user.email "dpetukhov@***.com"
+# NOTE: recommended execute commands under created $usr
+git config --global user.name $userName
+git config --global user.email $userEmail
 git config --list
 
 
-ssh-keygen -C "dpetukhov@***.com"
+ssh-keygen -C $userName
 cat ~/.ssh/id_rsa.pub
 
 
-cd ~
-mkdir apps
-cd apps
+mkdir ~/apps ; cd ~/apps
 
-git clone $repo_url
+
+# Now you can clone repo:
+# git clone $repo_url
 
 
 #
 # References:
-#   1. https://docs.microsoft.com/en-us/vsts/git/use-ssh-keys-to-authenticate?view=vsts
+# 1. https://docs.microsoft.com/en-us/vsts/git/use-ssh-keys-to-authenticate?view=vsts
