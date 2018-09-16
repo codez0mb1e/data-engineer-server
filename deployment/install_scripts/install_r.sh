@@ -12,9 +12,9 @@ apt-get -y install  gfortran libcurl4-openssl-dev libxml2-dev
 
 
 # Install Microsoft R Open ----
-wget  https://mran.blob.core.windows.net/install/mro/3.5.1/microsoft-r-open-3.5.1.tar.gz
+wget https://mran.blob.core.windows.net/install/mro/3.5.1/microsoft-r-open-3.5.1.tar.gz
 tar -xf microsoft-r-open-3.5.1.tar.gz
-cd microsoft-r-open/
+cd microsoft-r-open
 ./install.sh -a -u
 cd ~
 
@@ -39,4 +39,3 @@ apt-get update
 ACCEPT_EULA=Y apt-get install msodbcsql
 
 apt-get -y install unixodbc unixodbc-dev #? tdsodbc
-
