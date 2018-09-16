@@ -1,26 +1,25 @@
 #!/bin/bash
 
 #
-# Install LightGBM
-# See also: 
-#  1. https://github.com/Microsoft/LightGBM/blob/master/docs/Installation-Guide.rst#build-gpu-version
-#
+# Install LightGBM script
+# 
 
 
-# Install Boost and OpenCL first as first
-apt-get -y install  libboost-all-dev ocl-icd-opencl-dev 
+# install Boost and OpenCL
+apt-get -y install libboost-all-dev ocl-icd-opencl-dev 
 
+# clone LightGBM
+git clone --recursive https://github.com/Microsoft/LightGBM
+cd LightGBM
 
-# Clone Install
-cd ~/apps
-
-git clone --recursive https://github.com/Microsoft/Install ; cd LightGBM
+# build LightGBM
 mkdir build ; cd build
-
-# Build
 cmake -DUSE_GPU=1 ..
 make -j4
 
+# test
+# Rscript "install.packages('lightgbm', destdir = 'home/<user>/LightGBM/build'); library(lightgbm)"
 
-# R:
-#   install.packages("lightgbm", destdir = "hoe/dp/apps/LightGBM/build"); library(lightgbm)
+
+# References ----
+# 1. https://github.com/Microsoft/LightGBM/blob/master/docs/Installation-Guide.rst#build-gpu-version
