@@ -6,7 +6,7 @@
 
 
 # Install updates ----
-apt-get -y update
+apt-get -y update &&
 apt-get -y dist-upgrade
 
 
@@ -14,8 +14,8 @@ apt-get -y dist-upgrade
 apt-get -y install build-essential libssl-dev cmake 
 
 
-ls
 # Execute scripts:
+ls
 ./install_tensorflow.sh
 ./install_r.sh
 ./git_configure.sh
