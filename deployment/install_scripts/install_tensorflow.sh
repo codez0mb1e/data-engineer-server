@@ -31,32 +31,35 @@ apt-get -y install nvidia-smi
 
 
 # Install Python, pip, and virtualenv ----
-python3 -V  # or: python -V
-pip3 -V     # or: pip -V
+python3 --version
+pip3 --version
+virtualenv --version
 
-apt-get -y install python3-pip python3-dev python-virtualenv
-pip install -U pip
-
-# Create virtual environment
-mkdir ~/tensorflow
-cd ~/tensorflow
-
-virtualenv --system-site-packages -p python3 venv
-
-# Activate virtualenv
-source venv/bin/activate
-
-# ensure pip ≥8.1 is installed
-pip install -U pip # or: easy_install -U pip
+apt update
+apt -y install python3-dev python3-pip
+pip3 install -U virtualenv
 
 
 
 # Install Tensorflow ---- 
-pip install -U tensorflow-gpu
+# See also: https://www.tensorflow.org/install/pip
+
+# (optionally)
+mkdir ~/tensorflow
+cd ~/tensorflow
+
+virtualenv --system-site-packages -p python3 ./venv
+source ./venv/bin/activate
+# When virtualenv is active, your shell prompt is prefixed with (venv)
+pip install --upgrade pip
+pip list  # show packages installed within the virtual environment
+
+pip install --upgrade tensorflow # tensorflow-gpu
 
 # Validate installation
 python -c "import tensorflow as tf; print(tf.__version__)"
 
+deactivate
 
 
 # Install Keras ----
