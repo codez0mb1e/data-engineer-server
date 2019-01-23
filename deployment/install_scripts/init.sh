@@ -10,15 +10,16 @@ apt-get -y update &&
 apt-get -y dist-upgrade
 
 
-# Install core libs ----
+# Install harware drivers
+./install_cuda_drivers.sh
+
+
+# Install frameworks ----
+# core libs
 apt-get -y install build-essential libssl-dev cmake 
 
-
-# Execute scripts:
 ls
 ./install_tensorflow.sh
-
-adduser <username>
 ./install_r.sh
 ./git_configure.sh
 ./install_lightgbm.sh
