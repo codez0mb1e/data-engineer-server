@@ -5,12 +5,12 @@
 #
 
 
-usr = dp
-readonly usr
+USR = dp
+readonly USR
 
 
 # install
-pip3 install --user $usr kaggle
+pip3 install --user USR kaggle
 
 # upload kaggle.json to ~/.kaggle/kaggle.json
 

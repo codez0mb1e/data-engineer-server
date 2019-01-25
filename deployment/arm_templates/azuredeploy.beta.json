@@ -36,24 +36,37 @@
     },
     "vmSku": {
       "type": "string",
-      "defaultValue": "Standard_DS14_v2",
+      "defaultValue": "Standard_NC6",
       "allowedValues": [
-        "Standard_DS11_v2",
-        "Standard_DS12_v2",
-        "Standard_DS13_v2",
-        "Standard_DS14_v2",
-        "Standard_DS15_v2"
+        "Standard_NC6",
+        "Standard_NC12",
+        "Standard_NC24",
+        "Standard_NC24r",
+        "Standard_NC6s_v2",
+        "Standard_NC12s_v2",
+        "Standard_NC24s_v2",
+        "Standard_NC24rs_v2",
+        "Standard_NC6s_v3",
+        "Standard_NC12s_v3",
+        "Standard_NC24s_v3",
+        "Standard_NC24rs_v3",
+        "Standard_ND6s",
+        "Standard_ND12s",
+        "Standard_ND24s",
+        "Standard_ND24rs",
+        "Standard_NV6",
+        "Standard_NV12",
+        "Standard_NV24"
       ],
       "metadata": {
-        "description": "Size of VM. See more on https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes-memory"
+        "description": "Size of VM. See more on https://docs.microsoft.com/ru-ru/azure/templates/Microsoft.Compute/2018-10-01/virtualMachines"
       }
     },
     "ubuntuOSVersion": {
       "type": "string",
-      "defaultValue": "16.04.0-LTS",
+      "defaultValue": "18.04.0-LTS",
       "allowedValues": [
-        "14.04.5-LTS",
-        "15.10",
+        "18.04.5-LTS",
         "16.04.0-LTS"
       ],
       "metadata": {
@@ -64,8 +77,9 @@
   "variables": {
     "diagnosticsStorageAccountName": "[concat(replace(toLower(resourceGroup().name), '-', ''), 'diag')]",
     "nicName": "[concat(parameters('vmName'), '-VMNic')]",
-    "addressPrefix": "[variables('addressPrefix')]",
+    "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
+    "subnetPrefix": "10.0.0.0/24",
     "publicIPAddressName": "[concat(parameters('vmName'), '-IP')]",
     "vmName": "[parameters('vmName')]",
     "virtualNetworkName": "[concat(parameters('vmName'), '-VNET')]",
@@ -130,7 +144,7 @@
           {
             "name": "[variables('subnetName')]",
             "properties": {
-              "addressPrefix": "[variables('addressPrefix')]",
+              "addressPrefix": "[variables('subnetPrefix')]",
               "networkSecurityGroup": {
                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
               }

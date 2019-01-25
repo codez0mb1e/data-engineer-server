@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 #
@@ -6,32 +5,35 @@
 #
 
 
-# Check hardware
+# Set params ----
+OS="ubuntu1804"
+
+
+# Check hardware ----
 lspci | grep -i NVIDIA
 
 
-# Download and install the CUDA drivers
-CUDA_REPO_PATH=http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64
-CUDA_REPO_PKG=cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+# Download and install the CUDA drivers ----
+apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/7fa2af80.pub
 
-sudo apt-key adv --fetch-keys ${CUDA_REPO_PATH}/7fa2af80.pub 
+wget http://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/cuda-repo-${OS}_10.0.130-1_amd64.deb
+apt -y install ./cuda-repo-${OS}_10.0.130-1_amd64.deb
 
-wget -O /tmp/${CUDA_REPO_PKG} ${CUDA_REPO_PATH}/${CUDA_REPO_PKG} 
-sudo dpkg -i /tmp/${CUDA_REPO_PKG}
-rm -f /tmp/${CUDA_REPO_PKG}
+wget http://developer.download.nvidia.com/compute/machine-learning/repos/${OS}/x86_64/nvidia-machine-learning-repo-${OS}_1.0.0-1_amd64.deb
+apt -y install ./nvidia-machine-learning-repo-${OS}_1.0.0-1_amd64.deb
 
-wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
-sudo apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+apt -y update
 
+apt -y install cuda-drivers cuda10.0
+apt -y install cuda-cublas-10-0 cuda-cufft-10-0 cuda-curand-10-0 cuda-cusolver-10-0 cuda-cusparse-10-0 cuda-command-line-tools-10-0
+apt -y install libcudnn7 libnccl2
 
-sudo apt-get -y update
-sudo apt-get -y install cuda-drivers
-sudo apt-get -y install cuda
-
-
-#! WARN: need to reboot
-sudo reboot
+reboot
 
 
-# Validate installation
+# Validate installation ----
 nvidia-smi
+
+
+# References ----
+# 1. https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=debnetwork
