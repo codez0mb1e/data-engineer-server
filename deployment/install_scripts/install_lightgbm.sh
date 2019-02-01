@@ -6,12 +6,13 @@
 
 
 # Install dependecies ----
-apt-get -y install ocl-icd-opencl-dev libboost-dev libboost-system-dev libboost-filesystem-dev
-Rscript -e "install.packages(c('roxygen2', 'data.table', 'devtools'))"
+apt -y install ocl-icd-opencl-dev libboost-dev libboost-system-dev libboost-filesystem-dev
 
 
 # Install LightGBM ----
+
 # WARN: go to RStudio terminal
+
 # clone LightGBM
 git clone --recursive https://github.com/Microsoft/LightGBM
 # set use_gpu to TRUE in R-package/src/install.libs.R 
@@ -21,6 +22,7 @@ cd ~
 
 
 # Validate installation ----
+# if nessary: install.packages("lightgbm", destdir = "/home/dp/apps/LightGBM/build")
 Rscript -e "library(lightgbm)"
 
 

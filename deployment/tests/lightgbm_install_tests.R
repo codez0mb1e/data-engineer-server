@@ -4,9 +4,6 @@
 #'
 
 
-install.packages("lightgbm", destdir = "/home/dp/apps/LightGBM/build")
-
-
 library(lightgbm)
 data(agaricus.train, package = "lightgbm")
 

@@ -10,14 +10,14 @@ python3 --version
 pip3 --version
 virtualenv --version
 
-apt update
 apt -y install python3-dev python3-pip
 pip3 install -U virtualenv
 
 
 
 # Install Tensorflow ---- 
-pip3 install tensorflow-gpu
+# tensorflow-gpu cannot work with CUDA 10 [https://github.com/tensorflow/tensorflow/issues/22940]
+pip3 install tf-nightly-gpu # tensorflow-gpu 
 
 # validate installation 
 python3 -c "import tensorflow as tf; print(tf.__version__)"
@@ -28,13 +28,13 @@ python3 -c "import tensorflow as tf; print(tf.__version__)"
 # NOTE: before installing Keras, please install one of its backend engines: TensorFlow, Theano, or CNTK
 
 # install a BLAS library to ensure that you can run fast tensor operations on your CPU [3]
- apt-get -y install unzip pkg-config libopenblas-dev liblapack-dev
+apt -y install unzip pkg-config libopenblas-dev liblapack-dev
 
 # install the Python scientific suite [3]
-apt-get -y install python-numpy python-scipy python-matplotlib python-yaml
+apt -y install python-numpy python-scipy python-matplotlib python-yaml
 
 # install HDF5. It will allow you to save your Keras models to disk quickly and efficiently [3]
-apt-get -y install libhdf5-serial-dev python-h5py
+apt -y install libhdf5-serial-dev python-h5py
 
 # install Keras
 pip3 install keras

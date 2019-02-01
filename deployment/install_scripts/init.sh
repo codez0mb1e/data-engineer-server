@@ -6,8 +6,9 @@
 
 
 # Install updates ----
-apt-get -y update &&
-apt-get -y dist-upgrade
+apt -y update
+apt list --upgradable
+apt -y upgrade
 
 
 # Install harware drivers
@@ -16,14 +17,8 @@ apt-get -y dist-upgrade
 
 # Install frameworks ----
 # core libs
-apt-get -y install build-essential libssl-dev cmake 
-
-ls
-./install_tensorflow.sh
-./install_r.sh
-./git_configure.sh
-./install_lightgbm.sh
+apt -y install build-essential libssl-dev cmake 
 
 
 # Install tools ----
-apt-get -y install htop
+apt -y install htop

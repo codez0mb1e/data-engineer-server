@@ -4,30 +4,31 @@
 # Add user, configure Git/VSTS
 #
 
-usr = "<user>"
-userName = "<user_name>"
-userEmail = "<user_email>"
+
+# WARN: execute commands under created RStudio Server user
 
 
-adduser $usr
+# Set params ----
+USER_NAME="<user_name>"; readonly USER_NAME
+USER_EMAIL="<user@email>"; readonly USER_EMAIL
 
-# NOTE: recommended execute commands under created $usr
-git config --global user.name $userName
-git config --global user.email $userEmail
+
+git config --global user.name $USER_NAME
+git config --global user.email $USER_EMAIL
 git config --list
 
 
-ssh-keygen -C $userName
-cat ~/.ssh/id_rsa.pub
+ssh-keygen -C $USER_NAME
+cat ~/.ssh/id_rsa.pub # copy ouptut and add to SSH keys https://github.com/settings/keys
 
 
 mkdir ~/apps ; cd ~/apps
 
 
 # Now you can clone repo:
-# git clone $repo_url
+git clone $repo_url
 
 
-#
-# References:
+
+# References ----
 # 1. https://docs.microsoft.com/en-us/vsts/git/use-ssh-keys-to-authenticate?view=vsts

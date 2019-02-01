@@ -90,5 +90,3 @@ scores <- model %>% evaluate(
 sprintf("Test loss: %s", scores[[1]])
 sprintf("Test accuracy: %s", scores[[2]])
 
-
-
