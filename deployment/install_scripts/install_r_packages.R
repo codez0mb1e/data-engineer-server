@@ -21,8 +21,8 @@ packages.install <- function(x, repos = getOption("repos")) {
       ("https://mran.microsoft.com/snapshot/2018-08-01" %in% repos | "https://cran.r-project.org/" %in% repos)
   )
   
-  packages.missing <- x[!(x %in% installed.packages()[, 1])]
-  if (length(packages.missing) != 0)
+  packages.missing <- x[!(x %in% installed.packages()[, "Package"])]
+  if (length(packages.missing))
   {
     install.packages(packages.missing, repos = repos)
     print(paste("Successfully installed packages:", paste(packages.missing, collapse = ", ")))
@@ -35,7 +35,7 @@ packages.install <- function(x, repos = getOption("repos")) {
 
 local({
   # packages list
-  packages <- c("data.table", "dplyr", "purrr", "tidyr", # data transform
+  packages <- c("data.table", "dplyr", "purrr", "tidyr", "reshape2", # data transform
                 "microbenchmark", "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", # tools
                 "scales", "stringr", "lubridate", # data processing
                 "ggplot2", # vizualization
