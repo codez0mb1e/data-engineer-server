@@ -26,4 +26,4 @@ docker run hello-world
 
 
 # References ----
-# https://docs.docker.com/install/linux/docker-ce/ubuntu/
+# 1. https://docs.docker.com/install/linux/docker-ce/ubuntu/
