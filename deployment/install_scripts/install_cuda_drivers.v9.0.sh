@@ -7,8 +7,7 @@
 # TODO: move to cuda9
 
 # Set params ----
-OS="ubuntu1804"
-readonly USR
+OS="ubuntu1804" ; readonly OS
 
 
 # Check hardware ----

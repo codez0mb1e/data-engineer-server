@@ -8,7 +8,6 @@
 #$ Rscript install_packages.R > install_packages.logs
 
 
-
 #' Install packages if its not installed yet
 #'
 #' @param x A character vector of installing packages
@@ -32,7 +31,6 @@ packages.install <- function(x, repos = getOption("repos")) {
 }
 
 
-
 local({
   # packages list
   packages <- c("data.table", "dplyr", "purrr", "tidyr", "reshape2", # data transform
@@ -45,8 +43,8 @@ local({
   )
   
   # install packages
-  # for install CRAN version package
-  # packages.install("lubridate", "https://cran.r-project.org/")
+  # for install CRAN version package print:
+  # > packages.install("lubridate", "https://cran.r-project.org/")
   # for install MRAN version package
   packages.install(packages) 
 })

@@ -6,11 +6,14 @@
     - DNS name
 - Script for installation:
     - CUDA drivers
-    - Microsoft R Open with preinstalled basic R-packages
+    - ML/DL frameworks:
+       - Tensorflow (with GPU support)
+       - Keras (with GPU support)
+       - LightGBM (with GPU support)
+    - .NET Core 2.2
+    - Microsoft R Open with pre-installed basic R-packages
     - RStudio Server with Azure SQL Database connector
-    - ML/DL frameworks: Tensorflow, Keras, LightGBM (all with GPU support)
-    - Keras (with GPU support)
-    - LightGBM (with GPU support)
+    - Docker
     - Git configure
  
 
@@ -24,16 +27,36 @@ Prepare:
 
 `mkdir logs`
 
-Install scripts
-1. sudo [init.sh](/install_scripts/init.sh) > logs/init.log
-1. sudo [install_cuda_drivers.v9.0.sh](/install_scripts/install_cuda_drivers.v9.0.sh) > logs/install_cuda_drivers.log
-1. sudo [install_tensorflow.sh](/install_scripts/install_tensorflow.sh) > logs/install_tensorflow.log
-1. sudo [install_docker.sh](/install_scripts/install_docker.sh) > logs/install_docker.log
-1. sudo [install_r.sh](/install_scripts/install_r.sh) > logs/install_r.log
-1. (install under rstudio user) sudo [install_lightgbm.sh](/install_scripts/install_lightgbm.sh) > logs/install_lightgbm.log
-1. (install under rstudio user) sudo [git_configure.sh](/install_scripts/git_configure.sh) > logs/git_configure.log
-1. (install under rstudio user) sudo [kaggle_configure.sh](/install_scripts/kaggle_configure.sh) > logs/kaggle_configure.log
-1. Rscript [install_r_packages.R](/install_scripts/install_r_packages.R) > logs/install_r_packages.log
+Install scripts:
+
+`sudo [init.sh](/install_scripts/init.sh) > logs/init.log`
+
+`sudo [install_cuda_drivers.v9.0.sh](/install_scripts/install_cuda_drivers.v9.0.sh) > logs/install_cuda_drivers.log`
+
+`sudo [install_tensorflow.sh](/install_scripts/install_tensorflow.sh) > logs/install_tensorflow.log`
+
+`sudo [install_docker.sh](/install_scripts/install_docker.sh) > logs/install_docker.log`
+
+`sudo [install_r.sh](/install_scripts/install_r.sh) > logs/install_r.log`
+
+`# (install under rstudio user)`
+
+`sudo [install_lightgbm.sh](/install_scripts/install_lightgbm.sh) > logs/install_lightgbm.log`
+
+`# (install under rstudio user)`
+
+`sudo [git_configure.sh](/install_scripts/git_configure.sh) > logs/git_configure.log`
+
+`# (install under rstudio user)`
+
+`sudo [kaggle_configure.sh](/install_scripts/kaggle_configure.sh) > logs/kaggle_configure.log`
+
+`# (install under rstudio user)`
+`Rscript [install_r_packages.R](/install_scripts/install_r_packages.R) > logs/install_r_packages.log`
+
+`sudo [install_dotnet_core.sh](/install_scripts/install_dotnet_core.sh) > logs/install_dotnet_core.log`
+
+`sudo [install_docker.sh](/install_scripts/install_docker.sh) > logs/install_docker.log`
 
 Test installation:
 1. [keras_install_tests.R](/tests/keras_install_tests.R)

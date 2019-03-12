@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install .NET Core 2.2 
+# Install .NET Core 2.2
 #
 
 
@@ -9,7 +9,7 @@ wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-pr
 dpkg -i packages-microsoft-prod.deb
 
 apt update
-apt install -y dotnet-runtime-2.2
+apt -y install dotnet-runtime-2.2
 
 
 # References ----

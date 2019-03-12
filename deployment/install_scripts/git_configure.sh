@@ -19,7 +19,7 @@ git config --list
 
 
 ssh-keygen -C $USER_NAME
-cat ~/.ssh/id_rsa.pub # copy ouptut and add to SSH keys https://github.com/settings/keys
+cat ~/.ssh/id_rsa.pub # copy output and add to SSH keys https://github.com/settings/keys
 
 
 mkdir ~/apps ; cd ~/apps
