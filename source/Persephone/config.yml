@@ -1,6 +1,0 @@
-default:
-  QuandlApiKey: "<QuandlApi>"
-  RServer:
-    Endpoint: "<host>" 
-    Username: "admin"
-    Password: "***"
