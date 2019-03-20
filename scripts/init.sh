@@ -1,24 +1,19 @@
 #!/bin/bash
 
 #
-# Install ML-frameworks and R tools
+# Install core libs and tools
 #
 
 
 # Install updates ----
-apt -y update
+apt update
 apt list --upgradable
-apt -y upgrade
+apt upgrade -y 
 
 
-# Install harware drivers
-./install_cuda_drivers.sh
-
-
-# Install frameworks ----
-# core libs
-apt -y install build-essential libssl-dev cmake 
+# Install core libs ----
+apt install -y build-essential libssl-dev cmake
 
 
 # Install tools ----
-apt -y install htop
+apt install -y htop
