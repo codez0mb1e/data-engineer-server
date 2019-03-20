@@ -19,16 +19,17 @@ git config --list
 
 
 ssh-keygen -C $USER_NAME
-cat ~/.ssh/id_rsa.pub # copy output and add to SSH keys https://github.com/settings/keys
+cat ~/.ssh/id_rsa.pub # copy output and add to SSH keys [2]
 
 
-mkdir ~/apps ; cd ~/apps
+mkdir ~/repos ; cd ~/repos
 
 
 # Now you can clone repo:
-git clone $repo_url
+# > git clone $repo_url
 
 
 
 # References ----
 # 1. https://docs.microsoft.com/en-us/vsts/git/use-ssh-keys-to-authenticate?view=vsts
+# 2. https://github.com/settings/keys
