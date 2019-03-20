@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install CUDA drivers
+# Install CUDA drivers v10.0
 #
 
 
@@ -14,25 +14,44 @@ lspci | grep -i NVIDIA
 
 
 # Download and install the CUDA drivers ----
-apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/7fa2af80.pub
 
-wget http://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/cuda-repo-${OS}_10.0.130-1_amd64.deb
-apt -y install ./cuda-repo-${OS}_10.0.130-1_amd64.deb
+# Add NVIDIA package repositories
+wget https://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/cuda-repo-${OS}_10.0.130-1_amd64.deb
+
+dpkg -i cuda-repo-${OS}_10.0.130-1_amd64.deb
+apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/${OS}/x86_64/7fa2af80.pub
+
+apt update
 
 wget http://developer.download.nvidia.com/compute/machine-learning/repos/${OS}/x86_64/nvidia-machine-learning-repo-${OS}_1.0.0-1_amd64.deb
-apt -y install ./nvidia-machine-learning-repo-${OS}_1.0.0-1_amd64.deb
 
-apt -y update
+apt install -y ./nvidia-machine-learning-repo-${OS}_1.0.0-1_amd64.deb
+apt update
 
-apt -y install cuda-drivers cuda10.0
-apt -y install cuda-cublas-10-0 cuda-cufft-10-0 cuda-curand-10-0 cuda-cusolver-10-0 cuda-cusparse-10-0 cuda-command-line-tools-10-0
-apt -y install libcudnn7 libnccl2
+# Install NVIDIA driver
+apt install -y --no-install-recommends nvidia-driver-410
 
+# Reboot
 reboot
 
-
-# Validate installation ----
+# Validate installation
 nvidia-smi
+
+
+# Install development and runtime libraries (~4GB)
+apt install -y --no-install-recommends \
+    cuda-10-0 \
+    libcudnn7=7.4.1.5-1+cuda10.0 \
+    libcudnn7-dev=7.4.1.5-1+cuda10.0
+apt update
+
+
+# Install TensorRT. Requires that libcudnn7 is installed above.
+apt install -y nvinfer-runtime-trt-repo-${OS}-5.0.2-ga-cuda10.0
+apt update
+
+apt install -y --no-install-recommends libnvinfer-dev=5.0.2-1+cuda10.0
+
 
 
 # References ----
