@@ -47,7 +47,7 @@ apt update
 
 
 # Install TensorRT. Requires that libcudnn7 is installed above.
-apt install -y nvinfer-runtime-trt-repo-${OS}-5.0.2-ga-cuda10.0
+apt install -y nvinfer-runtime-trt-repo-ubuntu1804-5.0.2-ga-cuda10.0
 apt update
 
 apt install -y --no-install-recommends libnvinfer-dev=5.0.2-1+cuda10.0
