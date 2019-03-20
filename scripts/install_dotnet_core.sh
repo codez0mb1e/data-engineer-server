@@ -9,7 +9,7 @@ wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-pr
 dpkg -i packages-microsoft-prod.deb
 
 apt update
-apt -y install dotnet-runtime-2.2
+apt install -y dotnet-runtime-2.2
 
 
 # References ----

@@ -6,7 +6,7 @@
 
 
 # Install dependecies ----
-apt -y install ocl-icd-opencl-dev libboost-dev libboost-system-dev libboost-filesystem-dev
+apt install -y ocl-icd-opencl-dev libboost-dev libboost-system-dev libboost-filesystem-dev
 
 
 # Install LightGBM ----
@@ -16,7 +16,7 @@ apt -y install ocl-icd-opencl-dev libboost-dev libboost-system-dev libboost-file
 # clone LightGBM
 git clone --recursive https://github.com/Microsoft/LightGBM
 
-# set use_gpu to TRUE in R-package/src/install.libs.R 
+# WARN: set use_gpu to TRUE in R-package/src/install.libs.R 
 cd LightGBM
 Rscript build_r.R
 cd ~
