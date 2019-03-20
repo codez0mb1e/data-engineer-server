@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install Python, Tensorflow and Keras
+# Install Tensorflow and Keras
 #
 
 
