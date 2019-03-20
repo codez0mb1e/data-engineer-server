@@ -3,22 +3,6 @@
 RStudio Server with Deep Learning on Azure GPU VM.
 
 
-### ARM Templates (beta)
-Azure Resource Manager (ARM) templates allow automatic deployment Azure VM with:
-- GPU instance VM
-- OS Ubuntu Server 18.04
-- Login only via SSH public key
-- Network security settings for specified subset
-- DNS name
-
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcodez0mb1e%2FMinotaur%2Fmaster%2Fsource%2FARMs%2Frstudio-server--ubuntu%2Fazuredeploy.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png" />
-</a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcodez0mb1e%2FMinotaur%2Fmaster%2Fsource%2FARMs%2Frstudio-server--ubuntu%2Fazuredeploy.json" target="_blank">
-    <img src="http://armviz.io/visualizebutton.png"/>
-</a>
-
-
 ### Installation Scripts
 
  Script for installation:
@@ -39,11 +23,11 @@ Azure Resource Manager (ARM) templates allow automatic deployment Azure VM with:
 
 #### Prepare:
 
-`mkdir repo ; cd repo`
+`mkdir repos ; cd repos`
 
-`git clone https://github.com/codez0mb1e/Minotaur.git`
+`git clone https://github.com/codez0mb1e/Cloud-RStudio-Server.git`
 
-`mkdir Minotaur ; cd Minotaur`
+`cd Cloud-RStudio-Server/scripts`
 
 `mkdir logs`
 
@@ -72,3 +56,19 @@ Azure Resource Manager (ARM) templates allow automatic deployment Azure VM with:
 #### Test installation:
 1. [keras_install_tests.R](/tests/keras_install_tests.R)
 1. [lightgbm_install_tests.R](/tests/lightgbm_install_tests.R)
+
+
+### ARM Templates (beta)
+Azure Resource Manager (ARM) templates allow automatic deployment Azure VM with:
+- GPU instance VM
+- OS Ubuntu Server 18.04
+- Login only via SSH public key
+- Network security settings for specified subset
+- DNS name
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcodez0mb1e%2FMinotaur%2Fmaster%2Fsource%2FARMs%2Frstudio-server--ubuntu%2Fazuredeploy.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png" />
+</a>
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcodez0mb1e%2FMinotaur%2Fmaster%2Fsource%2FARMs%2Frstudio-server--ubuntu%2Fazuredeploy.json" target="_blank">
+    <img src="http://armviz.io/visualizebutton.png"/>
+</a>
