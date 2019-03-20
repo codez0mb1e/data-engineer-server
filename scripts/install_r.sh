@@ -11,11 +11,8 @@ R_VERSION="3.5.1"; readonly R_VERSION
 RSTUDIO_SERVER_VERSION="1.1.463"; readonly RSTUDIO_SERVER_VERSION
 
 
-
 # R-packages dependencies ----
-apt -y install gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
-# optional: apt install -y r-base r-base-dev
-
+apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
 
 
 # Install Microsoft R Open ----
@@ -29,39 +26,38 @@ cd ~
 wget https://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb
 dpkg -i libpng12-0_1.2.54-1ubuntu1_amd64.deb
 
+# validate R Open installation
 R --version
-
 
 
 # Install RStudio Server ----
 # add user for RStudio
 adduser $USR
 
-apt -y install gdebi-core
+apt install -y gdebi-core
 wget https://download2.rstudio.org/rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 
+# validate RStudio installation
 rstudio-server status
 
 
-
-# Tools ----
-
-# install SQL Server drivers [1]
-apt -y install unixodbc unixodbc-dev --install-suggests
-
-sudo su 
+# SQL Server drivers ----
+sudo su
 curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
-exit 
+exit
 
-apt-get update
-ACCEPT_EULA=Y apt-get install msodbcsql17
+apt update
+ACCEPT_EULA=Y apt install msodbcsql17
+apt install -y unixodbc-dev
 
 
 # install for keras
-apt -y install python-pip python-virtualenv
+apt install -y python-pip python-virtualenv
 
+# validate installation
+Rscript -e "install.packages('keras');library(keras);install_keras(tensorflow='gpu')"
 
 
 # References ----

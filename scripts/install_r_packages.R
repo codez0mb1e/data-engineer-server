@@ -5,7 +5,7 @@
 
 
 # Execute script: 
-#$ Rscript install_packages.R > install_packages.logs
+#$ Rscript install_packages.R > logs/install_r_packages.logs
 
 
 #' Install packages if its not installed yet
@@ -33,13 +33,17 @@ packages.install <- function(x, repos = getOption("repos")) {
 
 local({
   # packages list
-  packages <- c("data.table", "dplyr", "purrr", "tidyr", "reshape2", # data transform
-                "microbenchmark", "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", # tools
+  packages <- c("odbc", # data retrive
+                "data.table", "dplyr", "purrr", "tidyr", "reshape2", # data transform
                 "scales", "stringr", "lubridate", # data processing
-                "ggplot2", # vizualization
+                "recipes", # feature engineering
+                "microbenchmark", "testthat", # tests and benchmarks
+                "glimpse", "skimr", # descriptive stats
+                "ggplot2", "knitr", # vizualization and reports
                 "zoo", "xts", "Quandl", # time-series and finacial
                 "foreach", "doParallel", # parallel computing
-                "PRROC", "caret", "keras" # ML algos
+                "PRROC", "caret", # ML algos
+                "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2" # tools
   )
   
   # install packages
