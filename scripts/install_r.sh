@@ -7,8 +7,8 @@
 
 # Set params ----
 USR="dp"; readonly USR
-R_VERSION="3.5.1"; readonly R_VERSION
-RSTUDIO_SERVER_VERSION="1.1.463"; readonly RSTUDIO_SERVER_VERSION
+R_VERSION="3.5.3"; readonly R_VERSION
+RSTUDIO_SERVER_VERSION="1.2.1335"; readonly RSTUDIO_SERVER_VERSION
 
 
 # R-packages dependencies ----
@@ -35,7 +35,7 @@ R --version
 adduser $USR
 
 apt install -y gdebi-core
-wget https://download2.rstudio.org/rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
+wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 
 # validate RStudio installation
