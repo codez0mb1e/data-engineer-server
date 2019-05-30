@@ -16,7 +16,7 @@ apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
 
 
 # Install Microsoft R Open ----
-wget https://mran.blob.core.windows.net/install/mro/${R_VERSION}/microsoft-r-open-${R_VERSION}.tar.gz
+wget https://mran.blob.core.windows.net/install/mro/${R_VERSION}/ubuntu/microsoft-r-open-${R_VERSION}.tar.gz
 tar -xf microsoft-r-open-${R_VERSION}.tar.gz
 cd microsoft-r-open
 ./install.sh -a -u
