@@ -15,5 +15,5 @@ apt upgrade -y
 apt install -y build-essential libssl-dev cmake
 
 
-# Install tools ----
-apt install -y htop
+# Install utils ----
+apt install -y htop ncdu
