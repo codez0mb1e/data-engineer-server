@@ -27,7 +27,9 @@ wget https://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1
 dpkg -i libpng12-0_1.2.54-1ubuntu1_amd64.deb
 
 # validate R Open installation
-R --version
+rstudio-server verify-installation
+# or
+R --version 
 
 
 # Install RStudio Server ----
