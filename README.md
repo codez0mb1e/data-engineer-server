@@ -9,24 +9,24 @@ ___RStudio Server with Deep Learning on Azure GPU VM___
 Script:
 
 - [x] CUDA drivers
-- ML/DL frameworks:
+- [x] ML/DL frameworks:
   - [x] Tensorflow (with GPU support)
   - [x] Keras (with GPU support)
   - [x] LightGBM (with GPU support)
   - [x] .NET Core (latest)
 - [x] Microsoft R Open 
   - [x] with pre-installed basic R-packages
-- [x] RStudio Server 
-  - [x] with Azure SQL Database connector
+- [x] RStudio Server
+  - [x] with Azure Database connector
 - [x] Docker
 - [x] Git configure
 
 
 ## Instructions
 
-#### Prepare:
+#### Prepare
 
-`mkdir repos ; cd repos`
+`mkdir repos; cd repos`
 
 `git clone https://github.com/codez0mb1e/Cloud-RStudio-Server.git`
 
@@ -34,7 +34,8 @@ Script:
 
 `mkdir logs`
 
-### Installation scripts:
+
+#### Installation scripts
 
 1. sudo [init.sh](/scripts/init.sh) > logs/init.log
 
@@ -57,20 +58,21 @@ Script:
 1. sudo [install_docker.sh](/scripts/install_docker.sh) > logs/install_docker.log
 
 
-#### Test installation:
+#### Test installation
 
 1. [keras_install_tests.R](/tests/keras_install_tests.R)
 
 1. [lightgbm_install_tests.R](/tests/lightgbm_install_tests.R)
 
 
-### ARM Templates (beta)
+
+## ARM Templates (beta)
 Azure Resource Manager (ARM) templates allow automatic deployment Azure VM with:
-- GPU instance VM
-- OS Ubuntu Server 18.04
-- Login only via SSH public key
-- Network security settings for specified subset
-- DNS name
+- [x] GPU instance VM
+- [ ] OS Ubuntu Server 18.04
+- [x] Login only via SSH public key
+- [x] Network security settings for specified subset
+- [x] DNS name
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcodez0mb1e%2FMinotaur%2Fmaster%2Fsource%2FARMs%2Frstudio-server--ubuntu%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png" />
