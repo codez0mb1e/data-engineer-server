@@ -1,22 +1,25 @@
 
 # Cloud RStudio Server
-RStudio Server with Deep Learning on Azure GPU VM.
+
+___RStudio Server with Deep Learning on Azure GPU VM___
 
 
-### Installation Scripts
+## Installation Scripts
 
- Script for installation:
-- CUDA drivers
+Script:
+
+- [x] CUDA drivers
 - ML/DL frameworks:
-  - Tensorflow (with GPU support)
-  - Keras (with GPU support)
-  - LightGBM (with GPU support)
-  - .NET Core 2.2
-- Microsoft R Open 
-  - with pre-installed basic R-packages
-- RStudio Server with Azure SQL Database connector
-- Docker
-- Git configure
+  - [x] Tensorflow (with GPU support)
+  - [x] Keras (with GPU support)
+  - [x] LightGBM (with GPU support)
+  - [x] .NET Core (latest)
+- [x] Microsoft R Open 
+  - [x] with pre-installed basic R-packages
+- [x] RStudio Server 
+  - [x] with Azure SQL Database connector
+- [x] Docker
+- [x] Git configure
 
 
 ## Instructions
@@ -53,8 +56,11 @@ RStudio Server with Deep Learning on Azure GPU VM.
 
 1. sudo [install_docker.sh](/scripts/install_docker.sh) > logs/install_docker.log
 
+
 #### Test installation:
+
 1. [keras_install_tests.R](/tests/keras_install_tests.R)
+
 1. [lightgbm_install_tests.R](/tests/lightgbm_install_tests.R)
 
 
