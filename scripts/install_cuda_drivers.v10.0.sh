@@ -35,6 +35,7 @@ apt install -y --no-install-recommends nvidia-driver-410
 reboot
 
 # Validate installation
+cat /usr/local/cuda/version.txt
 nvidia-smi
 
 
