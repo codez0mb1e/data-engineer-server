@@ -16,7 +16,7 @@ pip3 install -U virtualenv
 
 
 # Install Tensorflow ---- 
-pip3 install tensorflow-gpu
+pip3 install --upgrade tensorflow-gpu
 
 # validate installation 
 python3 -c "import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))"
@@ -34,6 +34,6 @@ pip3 install keras
 
 # References ----
 # 1. https://www.tensorflow.org/install/install_linux#NVIDIARequirements
-# 2. https://www.tensorflow.org/install/pip
+# 2. https://www.tensorflow.org/install/pip?lang=python3
 # 3. https://keras.io/#installation
 # 4. https://livebook.manning.com/#!/book/deep-learning-with-r/appendix-a/1
