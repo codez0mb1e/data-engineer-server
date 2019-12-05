@@ -28,9 +28,9 @@ Script:
 
 `mkdir repos; cd repos`
 
-`git clone https://github.com/codez0mb1e/Cloud-RStudio-Server.git`
+`git clone https://github.com/codez0mb1e/cloud-rstudio-server.git`
 
-`cd Cloud-RStudio-Server/scripts`
+`cd cloud-rstudio-server/scripts`
 
 `mkdir logs`
 
