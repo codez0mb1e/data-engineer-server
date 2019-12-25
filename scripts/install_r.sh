@@ -8,7 +8,7 @@
 # Set params ----
 USR="dp"; readonly USR
 R_VERSION="3.5.3"; readonly R_VERSION
-RSTUDIO_SERVER_VERSION="1.2.5001"; readonly RSTUDIO_SERVER_VERSION
+RSTUDIO_SERVER_VERSION="1.2.5033"; readonly RSTUDIO_SERVER_VERSION
 
 
 # R-packages dependencies ----
