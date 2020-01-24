@@ -13,6 +13,7 @@ Script:
   - [x] Tensorflow (with GPU support)
   - [x] Keras (with GPU support)
   - [x] LightGBM (with GPU support)
+  - [x] H2O
   - [x] .NET Core (latest)
 - [x] Microsoft R Open 
   - [x] with pre-installed basic R-packages
