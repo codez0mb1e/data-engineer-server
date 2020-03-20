@@ -30,6 +30,9 @@ apt install -y libhdf5-serial-dev python-h5py
 # install Keras
 pip3 install keras
 
+# install for R
+Rscript -e "install.packages('keras');library(keras);install_keras(tensorflow='gpu')"
+
 
 
 # References ----
