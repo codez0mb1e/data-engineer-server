@@ -22,10 +22,6 @@ cd microsoft-r-open
 ./install.sh -a -u
 cd ~
 
-# fix 'memory not mapped' error
-wget https://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb
-dpkg -i libpng12-0_1.2.54-1ubuntu1_amd64.deb
-
 # validate R Open installation
 R --version 
 
@@ -42,24 +38,12 @@ gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 rstudio-server status
 
 
-# SQL Server drivers ----
-sudo su
-curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
-exit
+# SQL Server drivers  ----
+# For SQL Server connection support see [1]
 
-apt update
-ACCEPT_EULA=Y apt install msodbcsql17
-apt install -y unixodbc-dev
-
-
-# install for keras
-apt install -y python-pip python-virtualenv
-
-# validate installation
-Rscript -e "install.packages('keras');library(keras);install_keras(tensorflow='gpu')"
 
 
 # References ----
-# 1. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017
-# 2. https://db.rstudio.com/databases/microsoft-sql-server/
+# 1. https://db.rstudio.com/databases/microsoft-sql-server/
+# 2. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
+# 3. https://db.rstudio.com/best-practices/drivers/#linux-debian-ubuntu
