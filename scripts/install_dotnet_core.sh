@@ -18,5 +18,10 @@ apt update
 apt install dotnet-runtime-3.1
 
 
+# Validate
+dotnet new console
+dotnet run
+
+
 # References ----
 # 1. https://docs.microsoft.com/ru-ru/dotnet/core/install/linux-package-manager-ubuntu-1804
