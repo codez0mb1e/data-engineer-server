@@ -6,7 +6,7 @@
 
 
 # Set params ----
-OS="ubuntu1804" ; readonly OS
+OS="ubuntu1804"; readonly OS
 
 
 # Check hardware ----

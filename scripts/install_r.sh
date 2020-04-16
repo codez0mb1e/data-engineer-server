@@ -15,14 +15,15 @@ RSTUDIO_SERVER_VERSION="1.2.5033"; readonly RSTUDIO_SERVER_VERSION
 apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
 
 
-# Install Microsoft R Open ----
-wget https://mran.blob.core.windows.net/install/mro/${R_VERSION}/ubuntu/microsoft-r-open-${R_VERSION}.tar.gz
-tar -xf microsoft-r-open-${R_VERSION}.tar.gz
-cd microsoft-r-open
-./install.sh -a -u
-cd ~
+# Install R CRAN ----
+# add the CRAN gpg key
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'
 
-# validate R Open installation
+apt-get update
+apt-get install r-base
+
+# validate R installation
 R --version 
 
 

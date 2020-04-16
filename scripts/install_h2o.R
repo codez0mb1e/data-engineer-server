@@ -25,6 +25,5 @@ library(h2o)
 h2o.init()
 
 
-
-# References
+# References ----
 # 1. http://h2o-release.s3.amazonaws.com/h2o/latest_stable.html

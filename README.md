@@ -15,7 +15,7 @@ Installing software/frameworks:
   - [x] LightGBM (with GPU support)
   - [x] H2O Open
   - [x] .NET Core
-- [x] Microsoft R Open 
+- [x] R CRAN 
   - [x] with pre-installed basic R-packages
 - [x] RStudio Server
   - [x] with Azure Database connector

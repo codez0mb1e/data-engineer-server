@@ -4,29 +4,23 @@
 #'
 
 
-# Execute script: 
-#$ Rscript install_packages.R > logs/install_r_packages.logs
-
 
 #' Install packages if its not installed yet
 #'
 #' @param x A character vector of installing packages
 #' @param repos A repositories to use
 #' @return The result of installation
-packages.install <- function(x, repos = getOption("repos")) {
-  stopifnot(
-    is.character(x),
-    is.character(repos) && 
-      ("https://mran.microsoft.com/snapshot/2018-08-01" %in% repos | "https://cran.r-project.org/" %in% repos)
-  )
+packages_install <- function(x, repos = getOption("repos")) {
+  stopifnot(is.character(x))
   
   packages.missing <- x[!(x %in% installed.packages()[, "Package"])]
-  if (length(packages.missing))
+  
+  if (length(packages.missing) > 0)
   {
     install.packages(packages.missing, repos = repos)
     print(paste("Successfully installed packages:", paste(packages.missing, collapse = ", ")))
   } else {
-    print("All packages have already installed")
+    print("All packages have already installed.")
   }
 }
 
@@ -34,21 +28,33 @@ packages.install <- function(x, repos = getOption("repos")) {
 local({
   # packages list
   packages <- c("odbc", # data retrive
-                "data.table", "dplyr", "purrr", "tidyr", "reshape2", # data transform
+                "data.table", "dplyr", "purrr", "tidyr", "magrittr", # data transform
                 "scales", "stringr", "lubridate", # data processing
-                "recipes", # feature engineering
                 "microbenchmark", "testthat", # tests and benchmarks
-                "glimpse", "skimr", # descriptive stats
-                "ggplot2", "knitr", # vizualization and reports
-                "zoo", "xts", "Quandl", # time-series and finacial
-                "foreach", "doParallel", # parallel computing
+                "skimr", # descriptive stats
+                "ggplot2", "corrplot", "knitr", # vizualization and reports
                 "PRROC", "caret", # ML algos
-                "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2" # tools
+                "tensorflow", "keras", # DL frameworks
+                "foreach", "doParallel", # parallel computing
+                "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", "jsonlite", # tools
+                "zoo", "xts", "forecast", "TTR", # time-series
+                "Quandl", "quantmod", "quadprog", "tseries", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics", # finacial
+                # "pso", "GenSA", "Rglpk", "ROI", "ROI.plugin.glpk", "ROI.plugin.quadprog", "corpcor" # PortfolioAnalytics dependencies
   )
   
+  # view packages repository 
+  getOption("repos")
+  
   # install packages
-  # for install CRAN version package print:
-  # > packages.install("lubridate", "https://cran.r-project.org/")
-  # for install MRAN version package
-  packages.install(packages) 
+  packages_install(packages)
+  
+  # install Facebook Prophet
+  install.packages("prophet", type = "source")
+  
+  # install H2O Open
+  install.packages("h2o", type = "source", repos = "http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R")
 })
+
+
+gc()
+

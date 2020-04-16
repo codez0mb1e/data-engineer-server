@@ -22,5 +22,5 @@ java -jar h2o.jar
 Rscript script/install_r_packages.R
 
 
-# References
+# References ----
 # 1. http://h2o-release.s3.amazonaws.com/h2o/latest_stable.html
