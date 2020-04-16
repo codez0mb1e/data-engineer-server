@@ -6,9 +6,9 @@
 
 
 # 1. Download and unpack
-H2O_VERSION="3.28.0.1"; readonly H2O_VERSION
+H2O_VERSION="3.30.0.1"; readonly H2O_VERSION
 
-wget http://h2o-release.s3.amazonaws.com/h2o/rel-yu/1/h2o-${H2O_VERSION}.zip
+wget http://h2o-release.s3.amazonaws.com/h2o/rel-zahradnik/1/h2o-${H2O_VERSION}.zip
 unzip h2o-${H2O_VERSION}.zip
 
 cd h2o-${H2O_VERSION}
