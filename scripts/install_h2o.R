@@ -20,4 +20,5 @@ library(h2o)
 h2o.init()
 
 
-# Source: http://h2o-release.s3.amazonaws.com/h2o/rel-yu/2/index.html
+# References
+# 1. http://h2o-release.s3.amazonaws.com/h2o/rel-yu/2/index.html
