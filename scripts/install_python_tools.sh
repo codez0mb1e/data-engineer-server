@@ -4,7 +4,7 @@
 # Install python tools
 #
 
-apt-get install python3-tk 
+apt install python3-tk 
 
 
 # Set correct reticalte version in RStudio
