@@ -18,6 +18,9 @@ java -jar h2o.jar
 
 # 3. Point your browser to http://localhost:54321
 
+# 4. Install H2O R-package
+Rscript script/install_r_packages.R
 
-# References ----
+
+# References
 # 1. http://h2o-release.s3.amazonaws.com/h2o/latest_stable.html
