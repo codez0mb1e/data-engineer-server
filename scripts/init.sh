@@ -15,6 +15,11 @@ apt upgrade -y
 apt install -y build-essential libssl-dev cmake
 
 
+# PyPI issues ----
+pip --version
+pip install --upgrade pip
+
+
 # Install utils ----
 apt install -y htop ncdu
 
