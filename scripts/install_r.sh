@@ -7,7 +7,7 @@
 
 # Set params ----
 USR="<user_name>"; readonly USR
-RSTUDIO_SERVER_VERSION="1.2.5033"; readonly RSTUDIO_SERVER_VERSION
+RSTUDIO_SERVER_VERSION="1.2.5042"; readonly RSTUDIO_SERVER_VERSION
 
 
 # R-packages dependencies ----
@@ -31,6 +31,7 @@ R --version
 adduser $USR
 
 apt install -y gdebi-core
+
 wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 
