@@ -7,7 +7,6 @@
 
 # Set params ----
 USR="<user_name>"; readonly USR
-R_VERSION="3.5.3"; readonly R_VERSION
 RSTUDIO_SERVER_VERSION="1.2.5033"; readonly RSTUDIO_SERVER_VERSION
 
 
@@ -18,7 +17,7 @@ apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
 # Install R CRAN ----
 # add the CRAN gpg key
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'
+add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu/bionic-cran40/'
 
 apt-get update
 apt-get install r-base
