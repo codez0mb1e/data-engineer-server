@@ -1,13 +1,19 @@
 #!/bin/bash
 
 #
-# Install python tools
+# Install python development tools
 #
 
+
+# Core libs ----
 apt install python3-tk 
 
 
-#! warn: set correct reticalte version in RStudio
+# Jupyter lab ----
+pip install jupyterlab
+
+
+#! warn: set correct reticulate version in RStudio
 #> library(reticulate)
 #> use_python(python = Sys.which("python3"), required = TRUE)
 #> py_config()
