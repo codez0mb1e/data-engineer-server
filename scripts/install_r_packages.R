@@ -32,9 +32,10 @@ local({
                 "scales", "stringr", "lubridate", # data processing
                 "microbenchmark", "testthat", # tests and benchmarks
                 "skimr", # descriptive stats
-                "ggplot2", "corrplot", "knitr", # vizualization and reports
-                "PRROC", "caret", # ML algos
+                "ggplot2", "ggsci", "corrplot", # vizualization
+                "knitr",  # documentation
                 "tensorflow", "keras", # DL frameworks
+                "PRROC", "Metrics", # ML metrics
                 "foreach", "doParallel", # parallel computing
                 "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", "jsonlite", # tools
                 "zoo", "xts", "forecast", "TTR", # time-series
