@@ -7,7 +7,7 @@
 
 # Set params ----
 USR="<user_name>"; readonly USR
-RSTUDIO_SERVER_VERSION="1.2.5042"; readonly RSTUDIO_SERVER_VERSION
+RSTUDIO_SERVER_VERSION="1.3.959"; readonly RSTUDIO_SERVER_VERSION
 
 
 # R-packages dependencies ----
