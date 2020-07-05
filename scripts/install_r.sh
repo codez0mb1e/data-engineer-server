@@ -17,13 +17,13 @@ apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
 # Install R CRAN ----
 # add the CRAN gpg key
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu/bionic-cran40/'
+add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
 
-apt-get update
-apt-get install r-base
+apt update
+apt install -y r-base
 
 # validate R installation
-R --version 
+R --version
 
 
 # Install RStudio Server ----
