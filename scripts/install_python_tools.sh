@@ -6,11 +6,19 @@
 
 
 # Core libs ----
-apt install python3-tk 
+
+# apt install python3-tk
 
 
 # Jupyter lab ----
-pip install jupyterlab
+
+apt install -y nodejs
+nodejs -v
+
+pip install --upgrade pip --user <user>
+pip install jupyterlab --user <user>
+
+jupyter lab --version
 
 
 #! warn: set correct reticulate version in RStudio

@@ -14,13 +14,15 @@ Installing software/frameworks:
   - [x] Keras (with GPU support)
   - [x] LightGBM (with GPU support)
   - [x] H2O Open
-  - [x] .NET Core
 - [x] R CRAN 
   - [x] with pre-installed basic R-packages
 - [x] RStudio Server
   - [x] with Azure Database connector
+- [x] JupyterLab
+- [x] .NET Core
 - [x] Docker
 - [x] Git configure
+- [x] Kaggle configure
 
 
 ## Instructions
@@ -49,7 +51,7 @@ Installing software/frameworks:
 
 <sup>1</sup> Install under RStudio user
 
-#### Test installations
+#### Tests
 
 1. [keras_install_tests.R](/tests/keras_install_tests.R)
 1. [lightgbm_install_tests.R](/tests/lightgbm_install_tests.R)
