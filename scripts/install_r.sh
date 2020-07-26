@@ -7,7 +7,7 @@
 
 # Set params ----
 USR="<user_name>"; readonly USR
-RSTUDIO_SERVER_VERSION="1.3.959"; readonly RSTUDIO_SERVER_VERSION
+RSTUDIO_SERVER_VERSION="1.3.1056"; readonly RSTUDIO_SERVER_VERSION
 
 
 # R-packages dependencies ----
@@ -20,7 +20,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB
 add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
 
 apt update
-apt install -y r-base
+apt install -y r-base # note: consider installing r-base-dev or r-recommended packages instead of r-base
 
 # validate R installation
 R --version
