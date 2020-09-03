@@ -25,10 +25,13 @@ apt install -y htop ncdu
 
 
 # Other  ----
+
 # mount data disc (optional)
 sudo mount /dev/sdc1 /datadrive
 df - Th
 
+
 # add users (optional)
-adduser <user_name>
-usermod -aG sudo <user_name>
+USER_NAME="<user_name>"; readonly USER_NAME 
+adduser $USER_NAME
+usermod -aG sudo $USER_NAME
