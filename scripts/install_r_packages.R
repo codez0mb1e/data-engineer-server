@@ -9,16 +9,18 @@
 #'
 #' @param x A character vector of installing packages
 #' @param repos A repositories to use
+#' 
 #' @return The result of installation
+#' 
 packages_install <- function(x, repos = getOption("repos")) {
   stopifnot(is.character(x))
   
-  packages.missing <- x[!(x %in% installed.packages()[, "Package"])]
+  missing_packages <- x[!(x %in% installed.packages()[, "Package"])]
   
-  if (length(packages.missing) > 0)
+  if (length(missing_packages) > 0)
   {
-    install.packages(packages.missing, repos = repos)
-    print(paste("Successfully installed packages:", paste(packages.missing, collapse = ", ")))
+    install.packages(missing_packages, repos = repos)
+    print(paste("Successfully installed packages:", paste(missing_packages, collapse = ", ")))
   } else {
     print("All packages have already installed.")
   }
@@ -27,20 +29,21 @@ packages_install <- function(x, repos = getOption("repos")) {
 
 local({
   # packages list
-  packages <- c("odbc", # data retrive
-                "data.table", "dplyr", "purrr", "tidyr", "magrittr", # data transform
-                "scales", "stringr", "lubridate", # data processing
-                "microbenchmark", "testthat", # tests and benchmarks
-                "skimr", # descriptive stats
-                "ggplot2", "ggsci", "corrplot", # vizualization
-                "knitr",  # documentation
-                "tensorflow", "keras", # DL frameworks
-                "PRROC", "Metrics", # ML metrics
-                "foreach", "doParallel", # parallel computing
-                "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", "jsonlite", # tools
-                "zoo", "xts", "forecast", "TTR", # time-series
-                "Quandl", "quantmod", "quadprog", "tseries", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics", # finacial
-                # "pso", "GenSA", "Rglpk", "ROI", "ROI.plugin.glpk", "ROI.plugin.quadprog", "corpcor" # PortfolioAnalytics dependencies
+  packages <- c(
+    "odbc", # data retrieve
+    "data.table", "dplyr", "purrr", "tidyr", "magrittr", # data transform
+    "scales", "stringr", "lubridate", # data processing
+    "microbenchmark", "tictoc", "testthat", # tests and benchmarks
+    "skimr", "inspectdf", "DataExplorer", # descriptive stats and EDA
+    "ggplot2", "ggsci", "corrplot", # visualization
+    "knitr", "kableExtra",  # documentation
+    "tensorflow", "keras", # DL frameworks
+    "PRROC", "Metrics", # ML metrics
+    "foreach", "doParallel", "furrr", # parallel computing
+    "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", "jsonlite", # tools
+    "zoo", "xts", "forecast", "TTR", # time-series
+    "Quandl", "quantmod", "quadprog", "tseries", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics" # financial
+    # "pso", "GenSA", "Rglpk", "ROI", "ROI.plugin.glpk", "ROI.plugin.quadprog", "corpcor" # PortfolioAnalytics dependencies
   )
   
   # view packages repository 
@@ -51,9 +54,6 @@ local({
   
   # install Facebook Prophet
   install.packages("prophet", type = "source")
-  
-  # install H2O Open
-  install.packages("h2o", type = "source", repos = "http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R")
 })
 
 

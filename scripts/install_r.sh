@@ -7,7 +7,7 @@
 
 # Set params ----
 USR="<user_name>"; readonly USR
-RSTUDIO_SERVER_VERSION="1.3.1056"; readonly RSTUDIO_SERVER_VERSION
+RSTUDIO_SERVER_VERSION="1.3.1073"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [1]
 
 
 # R-packages dependencies ----
@@ -20,7 +20,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB
 add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
 
 apt update
-apt install -y r-base # note: consider installing r-base-dev or r-recommended packages instead of r-base
+apt install -y r-base
 
 # validate R installation
 R --version
@@ -40,11 +40,16 @@ rstudio-server status
 
 
 # SQL Server drivers  ----
-# For SQL Server connection support see [1]
+# For SQL Server connection support see [2-4]
 
+
+
+# Python development support ----
+Rscript -e "install.packages('reticulate'); library(reticulate); use_python(python = Sys.which('python3'), required = TRUE); py_config()"
 
 
 # References ----
-# 1. https://db.rstudio.com/databases/microsoft-sql-server/
-# 2. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
-# 3. https://db.rstudio.com/best-practices/drivers/#linux-debian-ubuntu
+# 1. https://rstudio.com/products/rstudio/download-server/
+# 2. https://db.rstudio.com/databases/microsoft-sql-server/
+# 3. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
+# 4. https://db.rstudio.com/best-practices/drivers/#linux-debian-ubuntu
