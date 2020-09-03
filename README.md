@@ -19,7 +19,7 @@ Installing software/frameworks:
 - [x] RStudio Server
   - [x] with Azure Database connector
 - [x] JupyterLab
-- [x] .NET Core
+- [x] .NET Core and Powershell Core
 - [x] Docker
 - [x] Git configure
 - [x] Kaggle configure
@@ -39,14 +39,14 @@ Installing software/frameworks:
 #### Installation scripts
 
 1. sudo [init.sh](/scripts/init.sh) > logs/init.log
-1. sudo [install_cuda_drivers.v10.0.sh](/scripts/install_cuda_drivers.v10.0.sh) > logs/install_cuda_drivers.log
-1. sudo [install_tensorflow.sh](/scripts/install_tensorflow.sh) > logs/install_tensorflow.log
-1. sudo [install_r.sh](/scripts/install_r.sh) > logs/install_r.log
+1. sudo [install_cuda_drivers.sh](/scripts/install_cuda_drivers.v10.0.sh) > logs/install_cuda_drivers.log
+1. sudo [install_deep_learning.sh](/scripts/install_tensorflow.sh) > logs/install_tensorflow.log
+1. sudo [install_r_env.sh](/scripts/install_r.sh) > logs/install_r.log
 1. Rscript [install_r_packages.R](/scripts/install_r_packages.R) > logs/install_r_packages.log <sup>1</sup>
 1. sudo [install_lightgbm.sh](/scripts/install_lightgbm.sh) > logs/install_lightgbm.log <sup>1</sup>
 1. sudo [git_configure.sh](/scripts/git_configure.sh) > logs/git_configure.log <sup>1</sup>
 1. sudo [kaggle_configure.sh](/scripts/kaggle_configure.sh) > logs/kaggle_configure.log <sup>1</sup>
-1. sudo [install_dotnet_core.sh](/scripts/install_dotnet_core.sh) > logs/install_dotnet_core.log
+1. sudo [install_dotnet_tools.sh](/scripts/install_dotnet_core.sh) > logs/install_dotnet_core.log
 1. sudo [install_docker.sh](/scripts/install_docker.sh) > logs/install_docker.log
 
 <sup>1</sup> Install under RStudio user
