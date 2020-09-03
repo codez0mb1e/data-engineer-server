@@ -9,7 +9,7 @@ USR="dp"; readonly USR
 
 
 # install
-pip3 install --user $USR kaggle
+pip install --user $USR kaggle
 # now upload kaggle.json to ~/.kaggle/kaggle.json
 
 

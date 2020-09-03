@@ -32,6 +32,6 @@ df - Th
 
 
 # add users (optional)
-USER_NAME="<user_name>"; readonly USER_NAME 
-adduser $USER_NAME
-usermod -aG sudo $USER_NAME
+$USR="<user_name>"; readonly $USR 
+adduser $USR
+usermod -aG sudo $USR

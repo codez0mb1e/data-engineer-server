@@ -18,12 +18,12 @@ alias python=python3
 
 # Jupyter lab ----
 
-USER_NAME="<user_name>"; readonly USER_NAME 
+$USR="<user_name>"; readonly $USR 
 
 apt install -y nodejs
 nodejs -v
 
-pip install --upgrade pip --user $USER_NAME
-pip install jupyterlab --user $USER_NAME
+pip install --upgrade pip --user $USR
+pip install jupyterlab --user $USR
 
 jupyter lab --version
