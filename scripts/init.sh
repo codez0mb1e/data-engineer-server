@@ -28,7 +28,7 @@ apt install -y htop ncdu
 
 # mount data disc (optional)
 sudo mount /dev/sdc1 /datadrive
-df - Th
+df -Th
 
 
 # add users (optional)
