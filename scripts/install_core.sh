@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install core libs and tools
+# Install core packages and tools
 #
 
 
@@ -11,8 +11,8 @@ apt list --upgradable
 apt upgrade -y 
 
 
-# Install core libs ----
-apt install -y build-essential libssl-dev cmake
+# Install core packages ----
+apt install -y build-essential libssl-dev cmake apt-transport-https
 
 
 # PyPI issues ----
