@@ -6,7 +6,7 @@
 
 
 # 1. Download and unpack
-H2O_VERSION="3.30.1.1"; readonly H2O_VERSION  # note: check number of latest version [1]
+H2O_VERSION="3.32.0.1"; readonly H2O_VERSION  # note: check number of latest version [1]
 
 
 wget http://h2o-release.s3.amazonaws.com/h2o/rel-zahradnik/1/h2o-${H2O_VERSION}.zip
