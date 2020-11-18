@@ -36,21 +36,27 @@ local({
     "microbenchmark", "tictoc", "testthat", # tests and benchmarks
     "skimr", "inspectdf", "DataExplorer", # descriptive stats and EDA
     "ggplot2", "ggsci", "corrplot", # visualization
-    "knitr", "kableExtra",  # documentation
+    "knitr", "gt",  # markdown and documentations
     "tensorflow", "keras", # DL frameworks
     "PRROC", "Metrics", # ML metrics
     "foreach", "doParallel", "furrr", # parallel computing
     "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", "jsonlite", # tools
     "zoo", "xts", "forecast", "TTR", # time-series
-    "Quandl", "quantmod", "quadprog", "tseries", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics" # financial
+    "Quandl", "quantmod", "quadprog", "tseries", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics", # financial
     # "pso", "GenSA", "Rglpk", "ROI", "ROI.plugin.glpk", "ROI.plugin.quadprog", "corpcor" # PortfolioAnalytics dependencies
+    "reticulate", # python tools
+    "azuremlsdk" # cloud SDK
   )
   
   # view packages repository 
-  getOption("repos")
+  print(getOption("repos"))
   
   # install packages
   packages_install(packages)
+  
+  # set python version for reticulate 
+  reticulate::use_python(python = Sys.which("python3"), required = TRUE)
+  reticulate::py_config()
   
   # install Facebook Prophet
   install.packages("prophet", type = "source")

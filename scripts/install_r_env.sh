@@ -43,11 +43,6 @@ rstudio-server status
 # For SQL Server connection support see [2-4]
 
 
-
-# Python development support ----
-Rscript -e "install.packages('reticulate'); library(reticulate); use_python(python = Sys.which('python3'), required = TRUE); py_config()"
-
-
 # References ----
 # 1. https://rstudio.com/products/rstudio/download-server/
 # 2. https://db.rstudio.com/databases/microsoft-sql-server/
