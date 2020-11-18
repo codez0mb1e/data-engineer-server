@@ -34,11 +34,9 @@ apt install -y nodejs
 nodejs -v
 
 pip install jupyterlab --user $USR
-
 jupyter lab --version
 
 
-# References
-#
+# References ----
+
 # 1. https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html
-#

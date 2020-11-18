@@ -4,6 +4,7 @@
 # Install Tensorflow and Keras
 #
 
+# TODO: python3 -> python, pip3 -> pip
 
 # Install Python, pip, and virtualenv ----
 python3 --version
