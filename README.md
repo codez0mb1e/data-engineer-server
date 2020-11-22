@@ -17,7 +17,7 @@ Installing software/frameworks:
 - [x] R CRAN 
   - [x] with pre-installed basic R-packages
 - [x] RStudio Server
-  - [x] with Azure Database connector
+  - [x] with Azure Database Service connector
 - [x] JupyterLab
 - [x] .NET Core and Powershell Core
 - [x] Docker
@@ -38,9 +38,10 @@ Installing software/frameworks:
 
 #### Installation scripts
 
-1. sudo [init.sh](/scripts/init.sh) > logs/init.log
+1. sudo [install_core.sh](/scripts/install_core.sh) > logs/install_core.log
 1. sudo [install_cuda_drivers.sh](/scripts/install_cuda_drivers.v10.0.sh) > logs/install_cuda_drivers.log
 1. sudo [install_deep_learning.sh](/scripts/install_tensorflow.sh) > logs/install_tensorflow.log
+1. sudo [install_ml_python.sh](/scripts/install_ml_python.sh) > log/install_ml_python.log
 1. sudo [install_r_env.sh](/scripts/install_r.sh) > logs/install_r.log
 1. Rscript [install_r_packages.R](/scripts/install_r_packages.R) > logs/install_r_packages.log <sup>1</sup>
 1. sudo [install_lightgbm.sh](/scripts/install_lightgbm.sh) > logs/install_lightgbm.log <sup>1</sup>
