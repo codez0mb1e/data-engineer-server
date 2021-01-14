@@ -23,6 +23,7 @@ pip3 install --upgrade tensorflow-gpu
 python3 -c "import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))"
 
 
+
 # Install Keras ----
 
 # install HDF5. It will allow you to save your Keras models to disk quickly and efficiently [3]
@@ -32,7 +33,14 @@ apt install -y libhdf5-serial-dev python-h5py
 pip3 install keras
 
 # install for R
-Rscript -e "install.packages('keras');library(keras);install_keras()" #! print install_keras(tensorflow='gpu') for using GPU 
+Rscript -e "install.packages('keras');library(keras);install_keras()" #! print install_keras(tensorflow='gpu') for using GPU
+
+
+# Install PyTorch  ----
+conda install pytorch torchvision torchaudio cpuonly -c pytorch
+python3 -c "import torch;x = torch.rand(5, 3);print(x)"
+
+conda install pytorch-forecasting pytorch>=1.7 -c pytorch -c conda-forge
 
 
 
@@ -41,3 +49,6 @@ Rscript -e "install.packages('keras');library(keras);install_keras()" #! print i
 # 2. https://www.tensorflow.org/install/pip?lang=python3
 # 3. https://keras.io/#installation
 # 4. https://livebook.manning.com/#!/book/deep-learning-with-r/appendix-a/1
+# 5. https://pytorch.org/get-started/locally/#start-locally
+# 6. https://pytorch-forecasting.readthedocs.io/en/latest/getting-started.html#installation
+
