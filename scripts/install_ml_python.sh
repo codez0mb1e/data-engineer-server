@@ -37,6 +37,13 @@ pip install jupyterlab --user $USR
 jupyter lab --version
 
 
+
+# Azure ML ----
+
+pip install azureml-sdk
+
+
+
 # References ----
 
 # 1. https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html
