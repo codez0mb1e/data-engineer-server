@@ -31,9 +31,9 @@ local({
   # packages list
   packages <- c(
     "odbc", # data retrieve
-    "data.table", "dplyr", "purrr", "tidyr", "magrittr", # data transform
+    "data.table", "dplyr", "tidyr", "purrr", "magrittr", # data transform
     "scales", "stringr", "lubridate", # data processing
-    "microbenchmark", "tictoc", "testthat", # tests and benchmarks
+    "microbenchmark", "tictoc", "testthat", "checkmate", # validates, tests, and benchmarks
     "skimr", "inspectdf", "DataExplorer", # descriptive stats and EDA
     "ggplot2", "ggsci", "corrplot", # visualization
     "knitr", "gt",  # markdown and documentations
@@ -43,9 +43,10 @@ local({
     "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", "jsonlite", # tools
     "zoo", "xts", "forecast", "TTR", # time-series
     "Quandl", "quantmod", "quadprog", "tseries", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics", # financial
-    # "pso", "GenSA", "Rglpk", "ROI", "ROI.plugin.glpk", "ROI.plugin.quadprog", "corpcor" # PortfolioAnalytics dependencies
+    # PortfolioAnalytics dependencies: "pso", "GenSA", "Rglpk", "ROI", "ROI.plugin.glpk", "ROI.plugin.quadprog", "corpcor" 
     "reticulate", # python tools
-    "azuremlsdk" # cloud SDK
+    "azuremlsdk", # Cloud SDKs
+    "R6" # OOP
   )
   
   # view packages repository 
@@ -64,4 +65,4 @@ local({
 
 
 gc()
-
+print("Completed.")
