@@ -41,6 +41,13 @@ jupyter lab --version
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
 
 
+
+# Azure ML ----
+
+pip install azureml-sdk
+
+
+
 # References ----
 
 # 1. https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html

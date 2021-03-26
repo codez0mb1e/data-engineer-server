@@ -7,7 +7,7 @@
 
 # Set params ----
 USR="<user_name>"; readonly USR
-RSTUDIO_SERVER_VERSION="1.3.1093"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [1]
+RSTUDIO_SERVER_VERSION="1.4.1106"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [1]
 
 
 # R-packages dependencies ----
@@ -20,16 +20,14 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB
 add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
 
 apt update
-apt install -y r-base
+# R with OpenBLAS
+apt install -y libopenblas-base r-base
 
 # validate R installation
 R --version
 
 
 # Install RStudio Server ----
-# add user for RStudio
-adduser $USR
-
 apt install -y gdebi-core
 
 wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
@@ -38,6 +36,8 @@ gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 # validate RStudio installation
 rstudio-server status
 
+# add user for RStudio ssh connection
+adduser $USR
 
 # SQL Server drivers  ----
 # For SQL Server connection support see [2-4]
