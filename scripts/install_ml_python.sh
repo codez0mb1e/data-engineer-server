@@ -30,11 +30,15 @@ conda list
 
 $USR="<user_name>"; readonly $USR 
 
-apt install -y nodejs
+curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+apt-get install -y nodejs
+
 nodejs -v
 
 pip install jupyterlab --user $USR
 jupyter lab --version
+
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
 
 
 # References ----
