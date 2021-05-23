@@ -1,39 +1,39 @@
 #!/bin/bash
 
 #
-# Install .NET Core 3.1 and Powershell Core
+# Install .NET 5.0 and Powershell Core
 #
 
 
-# .NET Core ----
+# Prepare ----
 
-# 1. Download 
-
-# Download Microsoft repository GPG keys
-wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb
-# Register the Microsoft repository GPG keys
+# Download and regiter Microsoft repository GPG keys
+wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 dpkg -i packages-microsoft-prod.deb
 
-
-# 2. Install
+apt install -y wget apt-transport-https software-properties-common
 apt update
-apt install -y dotnet-sdk-3.1
 
 
-# 3. Validate
+# .NET 5.0 ----
+
+# Install
+apt install -y dotnet-sdk-5.0
+
+# Validate
 dotnet new console
 dotnet run
 
 
 # PowerShell Core ----
 
-# 1. Enable the "universe" repositories
+# Enable the "universe" repositories
 add-apt-repository universe
 
-# 2. Install
+# Install
 apt install -y powershell
 
-# 3. Validate
+# Validate
 pwsh
 
 
