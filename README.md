@@ -57,14 +57,3 @@ Installing software/frameworks:
 1. [keras_install_tests.R](/tests/keras_install_tests.R)
 1. [lightgbm_install_tests.R](/tests/lightgbm_install_tests.R)
 
-
-
-## ARM Templates (depricated)
-
-Azure Resource Manager (ARM) templates allow automatic deployment Azure VM with:
-
-- [x] GPU instance VM
-- [ ] OS Ubuntu Server 18.04
-- [x] Login only via SSH public key
-- [x] Network security settings for specified subset
-- [x] DNS name
