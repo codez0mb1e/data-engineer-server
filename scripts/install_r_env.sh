@@ -6,8 +6,7 @@
 
 
 # Set params ----
-USR="<user_name>"; readonly USR
-RSTUDIO_SERVER_VERSION="1.4.1106"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [1]
+RSTUDIO_SERVER_VERSION="1.4.1717"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [1]
 
 
 # R-packages dependencies ----
@@ -15,13 +14,16 @@ apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
 
 
 # Install R CRAN ----
-# add the CRAN gpg key
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
+# update indices
+apt update -qq
+# install two helper packages we need
+apt install --no-install-recommends software-properties-common dirmngr
+# add the signing key (by Michael Rutter) for these repos
+wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+# add the R 4.0 repo from CRAN
+add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
-apt update
-# R with OpenBLAS
-apt install -y libopenblas-base r-base
+apt install --no-install-recommends -y r-base
 
 # validate R installation
 R --version
@@ -29,22 +31,23 @@ R --version
 
 # Install RStudio Server ----
 apt install -y gdebi-core
-
 wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 
 # validate RStudio installation
 rstudio-server status
 
-# add user for RStudio ssh connection
-adduser $USR
+# add user for connection with RStudio via SSH tunnel  (if not yet)
+adduser "<user_name>"
+
 
 # SQL Server drivers  ----
 # For SQL Server connection support see [2-4]
 
 
 # References ----
-# 1. https://rstudio.com/products/rstudio/download-server/
-# 2. https://db.rstudio.com/databases/microsoft-sql-server/
-# 3. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
-# 4. https://db.rstudio.com/best-practices/drivers/#linux-debian-ubuntu
+# 1. https://cran.r-project.org/
+# 2. https://rstudio.com/products/rstudio/download-server/
+# 3. https://db.rstudio.com/databases/microsoft-sql-server/
+# 4. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
+# 5. https://db.rstudio.com/best-practices/drivers/#linux-debian-ubuntu
