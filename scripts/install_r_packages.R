@@ -44,8 +44,6 @@ local({
     "zoo", "xts", "forecast", "TTR", # time-series
     "Quandl", "quantmod", "quadprog", "tseries", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics", # financial
     # PortfolioAnalytics dependencies: "pso", "GenSA", "Rglpk", "ROI", "ROI.plugin.glpk", "ROI.plugin.quadprog", "corpcor" 
-    "reticulate", # python tools
-    "azuremlsdk", # Cloud SDKs
     "R6" # OOP
   )
   
