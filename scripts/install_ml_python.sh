@@ -5,14 +5,6 @@
 #
 
 
-# Core libs ----
-
-python -V
-python3 -V
-
-alias python=python3 #! WARN: may be it is not the best idea
-
-
 # Conda ----
 
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
