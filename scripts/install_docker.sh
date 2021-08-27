@@ -5,29 +5,28 @@
 #
 
 
-## 0. Prepare ----
+# Prepare ----
+apt update
+apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
-apt install -y ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-
-# verify that you now have the key with the fingerprint 9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
-apt-key fingerprint 0EBFCD88
-
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 
-## 1. Install ----
-
+# Install ----
+# install packages
 apt update
 apt install -y docker-ce docker-ce-cli containerd.io
 
-groupadd docker
+# create group
 usermod -aG docker $USER
+newgrp docker
 
 
-## 3. Verify ----
-
+# Verify ----
 systemctl status docker
 docker run hello-world
 
