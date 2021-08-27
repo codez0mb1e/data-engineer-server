@@ -6,20 +6,14 @@
 
 
 # Conda ----
-
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 sh Miniconda3-latest-Linux-x86_64.sh
 
-conda update -n base conda
 conda update conda
-
-conda info
-conda list
-
+conda --version
 
 
 # Jupyter lab ----
-
 $USR="<user_name>"; readonly $USR 
 
 curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
@@ -34,11 +28,9 @@ pip install ipywidgets
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
 
 
-
-# Azure ML ----
-
-pip install azureml-sdk
-
+# Install packages ----
+cat requirements.txt
+pip install -r requirements.txt
 
 
 # References ----
