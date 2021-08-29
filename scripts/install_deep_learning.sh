@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install Tensorflow and Keras
+# Install Tensorflow and PyTorch
 #
 
 
@@ -13,7 +13,6 @@ apt install -y python3-dev python3-pip python3-virtualenv
 virtualenv --version
 
 
-
 # Install Tensorflow ---- 
 pip install tensorflow-gpu
 
@@ -22,12 +21,9 @@ python3 -c "import tensorflow as tf; print(tf.math.reduce_sum(tf.random.normal([
 python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU')); print(tf.__version__)" 
 
 
-
-# Install PyTorch  ----
-conda install pytorch torchvision torchaudio cpuonly -c pytorch
-python3 -c "import torch;x = torch.rand(5, 3);print(x)"
-
-conda install pytorch-forecasting pytorch>=1.7 -c pytorch -c conda-forge
+# Install PyTorch ----
+pip install -y torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+python3 -c "import torch; print(torch.cuda.is_available()); x = torch.rand(5, 3); print(x)"
 
 
 
