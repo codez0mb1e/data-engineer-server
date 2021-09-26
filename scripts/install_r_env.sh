@@ -41,7 +41,9 @@ rstudio-server status
 adduser "<user_name>"
 
 
-# SQL Server drivers  ----
+# Install dependencies for R packages  ----
+# Reticulate
+apt install -y libpng-dev
 # For SQL Server connection support see [2-4]
 
 
