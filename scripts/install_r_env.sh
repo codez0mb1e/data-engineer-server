@@ -43,8 +43,16 @@ adduser "<user_name>"
 
 # Install dependencies for R packages  ----
 # Reticulate
-apt install -y libpng-dev
+apt install -y libpng-dev 
+
 # For SQL Server connection support see [2-4]
+# apt install -y unixodbc-dev
+# apt install -y r-cran-odbc
+
+
+# Set R package binaries source https://launchpad.net/~c2d4u.team/+archive/ubuntu/c2d4u4.0+
+add-apt-repository ppa:c2d4u.team/c2d4u4.0+
+apt update
 
 
 # References ----
@@ -53,3 +61,4 @@ apt install -y libpng-dev
 # 3. https://db.rstudio.com/databases/microsoft-sql-server/
 # 4. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
 # 5. https://db.rstudio.com/best-practices/drivers/#linux-debian-ubuntu
+# 6. https://rtask.thinkr.fr/installation-of-r-4-0-on-ubuntu-20-04-lts-and-tips-for-spatial-packages/
