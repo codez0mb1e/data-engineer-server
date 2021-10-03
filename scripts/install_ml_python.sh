@@ -12,6 +12,30 @@ sh Miniconda3-latest-Linux-x86_64.sh
 conda update conda
 conda --version
 
+# get list of existing conda environments
+conda env list
+
+# config conda
+conda config --add channels conda-forge
+conda config --add channel_priroty strict
+
+# add new conda environment and install packages
+$NEW_CONDA_ENV="<env_name>"; readonly $NEW_CONDA_ENV
+conda create -n $NEW_CONDA_ENV python=3.8.8
+
+conda install -n $NEW_CONDA_ENV scipy conda-tree # add required python packages here
+
+# activate new environment
+conda activate $NEW_CONDA_ENV
+
+conda info
+conda list
+conda-tree whoneeds -t scipy
+
+# export new environment
+conda env export --no-builds > environment.yml
+nano environment.yml
+
 
 # Jupyter lab ----
 $USR="<user_name>"; readonly $USR 
