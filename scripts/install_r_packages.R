@@ -41,8 +41,8 @@ local({
     "PRROC", "Metrics", # ML metrics
     "foreach", "doParallel", "furrr", # parallel computing
     "config", "curl", "RCurl", "httr", "devtools", "reticulate", "roxygen2", "jsonlite", # tools
-    "zoo", "xts", "forecast", "TTR", # time-series
-    "Quandl", "quantmod", "quadprog", "tseries", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics", # financial
+    "zoo", "xts", "forecast", "TTR", "tseries", "tsibble", "timetk". # time-series and forecast
+    "Quandl", "quantmod", "quadprog", "DEoptim", "PerformanceAnalytics", "PortfolioAnalytics", "tidyquant", # financial
     # PortfolioAnalytics dependencies: "pso", "GenSA", "Rglpk", "ROI", "ROI.plugin.glpk", "ROI.plugin.quadprog", "corpcor" 
     "R6" # OOP
   )
@@ -52,7 +52,8 @@ local({
   
   # install packages
   packages_install(packages)
-  
+  devtools::install_github("r-dbi/odbc")
+
   # set python version for reticulate 
   reticulate::use_python(python = Sys.which("python3"), required = TRUE)
   reticulate::py_config()
