@@ -17,7 +17,7 @@ conda env list
 
 # config conda
 conda config --add channels conda-forge
-conda config --add channel_priroty strict
+conda config --set channel_priority strict
 
 # add new conda environment and install packages
 $NEW_CONDA_ENV="<env_name>"; readonly $NEW_CONDA_ENV
