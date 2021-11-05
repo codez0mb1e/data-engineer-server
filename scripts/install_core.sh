@@ -37,3 +37,8 @@ df -Th
 USR="<user_name>"; readonly USR
 adduser $USR
 usermod -aG sudo $USR
+
+# (optional, and not recommended) Allow authorization without public key
+ nano /etc/ssh/sshd_config
+ # uncomment this line:
+ #> PasswordAuthentication yes
