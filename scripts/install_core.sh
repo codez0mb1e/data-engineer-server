@@ -42,3 +42,7 @@ usermod -aG sudo $USR
  nano /etc/ssh/sshd_config
  # uncomment this line:
  #> PasswordAuthentication yes
+
+ # Save changes and reload service
+ service sshd restart
+ 
