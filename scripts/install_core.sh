@@ -39,10 +39,9 @@ adduser $USR
 usermod -aG sudo $USR
 
 # (optional, and not recommended) Allow authorization without public key
- nano /etc/ssh/sshd_config
- # uncomment this line:
- #> PasswordAuthentication yes
+nano /etc/ssh/sshd_config
+# uncomment this line:
+#> PasswordAuthentication yes
 
- # Save changes and reload service
- service sshd restart
- 
+# Save changes and reload service
+service sshd restart
