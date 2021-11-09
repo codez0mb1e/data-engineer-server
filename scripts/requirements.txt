@@ -1,9 +1,20 @@
-joblib
-importlib
+# data science core
 pandas
 numpy
-matplotlib
+scipy
+# machine learning
 scikit-learn
 optuna
-pyyaml
+# visualization
+matplotlib
+plotnine
+# parallel processing, benckmarks, progress tracking
+multiprocess
+tqdm
+# teest
 pytest
+# tools
+joblib
+importlib
+pyyaml
+requests
