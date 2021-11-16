@@ -23,7 +23,7 @@ apt install -y python3-pip
 
 
 # Install utils ----
-apt install -y htop ncdu
+apt install -y htop iftop ncdu
 
 
 # Other  ----
@@ -38,7 +38,7 @@ USR="<user_name>"; readonly USR
 adduser $USR
 usermod -aG sudo $USR
 
-# (optional, and not recommended) Allow authorization without public key
+# (optional, but not recommended) Allow authorization without public key
 nano /etc/ssh/sshd_config
 # uncomment this line:
 #> PasswordAuthentication yes
