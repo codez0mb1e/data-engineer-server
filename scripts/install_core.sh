@@ -23,7 +23,7 @@ apt install -y python3-pip
 
 
 # Install utils ----
-apt install -y htop iftop ncdu
+apt install -y htop iftop iotop ncdu
 
 
 # Other  ----
