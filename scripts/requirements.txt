@@ -11,10 +11,12 @@ plotnine
 # parallel processing, benckmarks, progress tracking
 multiprocess
 tqdm
-# teest
+# tests
 pytest
 # tools
 joblib
 importlib
 pyyaml
 requests
+# benchmarks
+tqdm
