@@ -18,5 +18,3 @@ joblib
 importlib
 pyyaml
 requests
-# benchmarks
-tqdm
