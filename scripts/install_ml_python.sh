@@ -9,7 +9,9 @@
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 sh Miniconda3-latest-Linux-x86_64.sh
 
-conda update conda
+conda update conda 
+# or for existing conda env:
+#> conda update --all --yes
 conda --version
 
 # get list of existing conda environments
@@ -17,11 +19,12 @@ conda env list
 
 # config conda
 conda config --add channels conda-forge
+conda config --add channels "Microsoft"
 conda config --set channel_priority strict
 
 # add new conda environment and install packages
 NEW_CONDA_ENV="<your_data_science_env>"; readonly NEW_CONDA_ENV
-conda create -n $NEW_CONDA_ENV python=3.8.10
+conda create -n $NEW_CONDA_ENV python=3.10
 
 conda install -n $NEW_CONDA_ENV conda-tree # NOTE: add required python packages here
 
