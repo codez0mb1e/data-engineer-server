@@ -1,3 +1,6 @@
+# models
+pandera
+pydantic
 # data science core
 pandas
 numpy
@@ -8,13 +11,23 @@ optuna
 # visualization
 matplotlib
 plotnine
+# https clients
+urllib3
+requests
+httpx
+backoff
+# DBs
+pyodbc
+sqlalchemy
+# azure
+azure-identity
+azure-keyvault-keys
 # parallel processing, benckmarks, progress tracking
 multiprocess
 tqdm
-# tests
-pytest
 # tools
 joblib
 importlib
 pyyaml
-requests
+# tests
+pytest
