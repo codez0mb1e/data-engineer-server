@@ -74,6 +74,7 @@ apt update
 # 1. https://cran.r-project.org/
 # 2. https://rstudio.com/products/rstudio/download-server/
 # 3. https://db.rstudio.com/databases/microsoft-sql-server/
-# 4. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17# 5. https://db.rstudio.com/best-practices/drivers/#linux-debian-ubuntu
+# 4. https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
+# 5. https://db.rstudio.com/best-practices/drivers/#linux-debian-ubuntu
 # 5. https://db.rstudio.com/best-practices/drivers/
 # 6. https://rtask.thinkr.fr/installation-of-r-4-0-on-ubuntu-20-04-lts-and-tips-for-spatial-packages/
