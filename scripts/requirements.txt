@@ -22,6 +22,7 @@ sqlalchemy
 # azure
 azure-identity
 azure-keyvault-keys
+azureml-sdk
 # parallel processing, benckmarks, progress tracking
 multiprocess
 tqdm
