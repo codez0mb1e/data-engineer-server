@@ -20,9 +20,7 @@ backoff
 pyodbc
 sqlalchemy
 # azure
-azure-identity
-azure-keyvault-keys
-azureml-sdk
+#> See install_azure.sh script
 # parallel processing, benckmarks, progress tracking
 multiprocess
 tqdm

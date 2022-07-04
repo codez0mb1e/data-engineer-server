@@ -45,7 +45,11 @@ cat requirements.txt
 pip install -r requirements.txt
 
 
-# Jupyter lab ----
+# Dev tools ----
+# Linters
+pip install -U flake8 mypy
+
+# Jupyter
 USR="<user_name>"; readonly USR 
 
 curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
