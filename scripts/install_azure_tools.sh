@@ -25,13 +25,24 @@ sudo apt update
 sudo apt install -y azure-cli
 
 
-# 2. Login in Azure ----
-az login
-
-
-# 3. Install Azure Services SDKs ----
+# 2. Azure Core
 pip install azure-identity
+
+
+# 3. Azure Key Vault
 pip install azure-keyvault-secrets
+
+az ad sp create-for-rbac --name http://0xcode.in --skip-assignment
+#> {
+#>   "appId": "xxx",
+#>   "displayName": "http://0xcode.in",
+#>   "password": "****",
+#>   "tenant": yyyy"
+#> }
+
+set KEY_VAULT_NAME="<key_vault_name>"
+set AZURE_CLIENT_ID="<appId>"
+az keyvault set-policy --name $KEY_VAULT_NAME --spn $AZURE_CLIENT_ID --key-permissions get list # other permissons: create update decrypt encrypt
 
 
 # References ----
