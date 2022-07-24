@@ -5,14 +5,6 @@
 #
 
 
-# Check Python, pip, and virtualenv versions ----
-python3 --version
-pip --version
-
-apt install -y python3-dev python3-pip python3-virtualenv
-virtualenv --version
-
-
 # Install Tensorflow ---- 
 pip install tensorflow-gpu
 

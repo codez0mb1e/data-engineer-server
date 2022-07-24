@@ -15,16 +15,6 @@ sudo apt upgrade -y
 sudo apt install -y build-essential libssl-dev cmake apt-transport-https ca-certificates curl  lsb-release gnupg
 
 
-# PyPI issues ----
-
-# for new installation
-sudo apt install python3-pip
-# or if already installed
-pip install --upgrade pip
-
-pip -V
-
-
 # Install utils ----
 sudo apt install -y htop iftop iotop ncdu
 
