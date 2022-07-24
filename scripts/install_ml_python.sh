@@ -9,9 +9,10 @@
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 sh Miniconda3-latest-Linux-x86_64.sh
 
-conda update conda 
+conda update conda
 # or for existing conda env:
 #> conda update --all --yes
+
 conda --version
 
 # get list of existing conda environments
@@ -26,14 +27,12 @@ conda config --set channel_priority strict
 NEW_CONDA_ENV="<your_data_science_env>"; readonly NEW_CONDA_ENV
 conda create -n $NEW_CONDA_ENV python=3.10
 
-conda install -n $NEW_CONDA_ENV conda-tree # NOTE: add required python packages here
-
 # activate new environment
 conda activate $NEW_CONDA_ENV
 
 conda info
 conda list
-conda-tree whoneeds -t scipy
+
 
 # export new environment
 conda env export --no-builds > environment.yml
@@ -46,8 +45,8 @@ pip install -r requirements.txt
 
 
 # Dev tools ----
-# Linters
-pip install -U flake8 mypy
+# Tests and linters
+pip install --upgrade -r requirements.dev.txt
 
 # Jupyter
 USR="<user_name>"; readonly USR 

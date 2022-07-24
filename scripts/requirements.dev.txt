@@ -1,0 +1,10 @@
+# tests
+pytest
+pytest-azurepipelines
+pytest-cov
+# linters
+types-pkg_resources
+mypy
+isort
+black
+flake8
