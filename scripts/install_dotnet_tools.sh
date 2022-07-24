@@ -5,34 +5,32 @@
 #
 
 
-# Prepare ----
+# 0. Prepare ----
 
 # Download and register Microsoft repository GPG keys
-wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-dpkg -i packages-microsoft-prod.deb
+wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 
-apt install -y apt-transport-https
-apt update
 
-
-# Install .NET 5 and 6 ----
+# 1. Install .NET 6 ----
 
 # Install
-apt install -y dotnet-sdk-5.0 dotnet-sdk-6.0
+sudo apt install -y dotnet-sdk-6.0
 
 # Validate
+mkdir hello_dotnet && cd hello_dotnet
+
 dotnet new console
 dotnet run
 
+rm hello_dotnet
 
-# PowerShell Core ----
 
-# Enable the "universe" repositories
-add-apt-repository universe
+# 2. PowerShell Core ----
 
 # Install
-apt install -y powershell
+sudo apt install -y powershell
 
 # Validate
 pwsh

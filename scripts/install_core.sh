@@ -6,24 +6,27 @@
 
 
 # Install updates ----
-apt update
+sudo apt update
 apt list --upgradable
-apt upgrade -y 
+sudo apt upgrade -y 
 
 
 # Install core packages ----
-apt install -y build-essential libssl-dev cmake apt-transport-https
+sudo apt install -y build-essential libssl-dev cmake apt-transport-https ca-certificates curl  lsb-release gnupg
 
 
 # PyPI issues ----
-pip -V
+
+# for new installation
+sudo apt install python3-pip
+# or if already installed
 pip install --upgrade pip
-# or
-apt install -y python3-pip
+
+pip -V
 
 
 # Install utils ----
-apt install -y htop iftop iotop ncdu
+sudo apt install -y htop iftop iotop ncdu
 
 
 # Other  ----
@@ -35,8 +38,8 @@ df -Th
 
 # add users (optional)
 USR="<user_name>"; readonly USR
-adduser $USR
-usermod -aG sudo $USR
+sudo adduser $USR
+sudo usermod -aG sudo $USR
 
 # (optional, but not recommended) Allow authorization without public key
 nano /etc/ssh/sshd_config
