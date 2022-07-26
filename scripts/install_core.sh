@@ -5,6 +5,11 @@
 #
 
 
+# Discover yourself ----
+whoami
+groups | grep sudo
+
+
 # Install updates ----
 sudo apt update
 apt list --upgradable
@@ -12,7 +17,7 @@ sudo apt upgrade -y
 
 
 # Install core packages ----
-sudo apt install -y build-essential libssl-dev cmake apt-transport-https ca-certificates curl  lsb-release gnupg
+sudo apt install -y build-essential libssl-dev cmake apt-transport-https ca-certificates curl lsb-release gnupg
 
 
 # Install utils ----
@@ -38,3 +43,8 @@ nano /etc/ssh/sshd_config
 
 # Save changes and reload service
 service sshd restart
+
+
+# Refernces
+# 1. https://devconnected.com/how-to-install-and-enable-ssh-server-on-ubuntu-20-04/
+ 

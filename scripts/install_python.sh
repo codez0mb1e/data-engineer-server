@@ -30,7 +30,7 @@ conda env list
 
 # config conda
 conda config --add channels conda-forge
-conda config --add channels "Microsoft"
+#conda config --add channels "Microsoft"
 conda config --set channel_priority strict
 
 # add new conda environment and install packages

@@ -27,12 +27,19 @@ az version
 
 # 2. Azure Core ----
 pip install azure-identity
+az login
 
 
 # 3. Azure Key Vault ----
+# install
 pip install azure-keyvault-secrets
 
-az ad sp create-for-rbac --name http://0xcode.in --skip-assignment
+# set up permissions
+APP_ID="<application_id>"; readonly APP_ID
+KEY_VAULT_NAME="<key_vault_name>"; readonly KEY_VAULT_NAME
+AZURE_CLIENT_ID="<appId>"; readonly AZURE_CLIENT_ID
+
+az ad sp create-for-rbac --name $APP_ID --skip-assignment
 #> {
 #>   "appId": "xxx",
 #>   "displayName": "http://0xcode.in",
@@ -40,9 +47,11 @@ az ad sp create-for-rbac --name http://0xcode.in --skip-assignment
 #>   "tenant": yyyy"
 #> }
 
-set KEY_VAULT_NAME="<key_vault_name>"
-set AZURE_CLIENT_ID="<appId>"
 az keyvault set-policy --name $KEY_VAULT_NAME --spn $AZURE_CLIENT_ID --key-permissions get list # other permissons: create update decrypt encrypt
+
+# validate
+az keyvault list --vault-name $KEY_VAULT_NAME
+
 
 
 # References ----
