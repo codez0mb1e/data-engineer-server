@@ -6,44 +6,38 @@
 
 
 # Set params ----
-RSTUDIO_SERVER_VERSION="1.4.1717"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [1]
-
+RSTUDIO_SERVER_VERSION="2022.07.1-554"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [2]
 
 # R-packages dependencies ----
-apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
+sudo apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
 
 
-# Install R CRAN ----
+# Install R CRAN [1] ----
 # update indices
-apt update -qq
+sudo apt update -qq
 # install two helper packages we need
-apt install --no-install-recommends software-properties-common dirmngr
+sudo apt install --no-install-recommends software-properties-common dirmngr
 # add the signing key (by Michael Rutter) for these repos
 wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 # add the R 4.0 repo from CRAN
-add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
-apt install --no-install-recommends -y r-base
+sudo apt install --no-install-recommends -y r-base
 
 # validate R installation
 R --version
 
 
 # Install RStudio Server ----
-apt install -y gdebi-core
+sudo apt install -y gdebi-core
 wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
-gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
+sudo gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 
 # validate RStudio installation
 rstudio-server status
 
-# add user for connection with RStudio via SSH tunnel  (if not yet)
-adduser "<user_name>"
-
 
 # Install dependencies for R packages  ----
-# Reticulate
-apt install -y libpng-dev 
 
 # SQL Server connection support
 # Install drivers [4]
@@ -60,14 +54,14 @@ source ~/.bashrc
 
 # Install ODBC packages [5]
 # - for OS
-apt install -y unixodbc unixodbc-dev --install-suggests
+sudo apt install --install-suggests -y unixodbc unixodbc-dev
 # - for R (run as R-script)
 #> devtools::install_github("rstats-db/odbc")
 
 
 # Set R package binaries source https://launchpad.net/~c2d4u.team/+archive/ubuntu/c2d4u4.0+
-add-apt-repository ppa:c2d4u.team/c2d4u4.0+
-apt update
+sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
+sudo apt update
 
 
 # References ----
