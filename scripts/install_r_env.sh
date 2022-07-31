@@ -64,6 +64,13 @@ sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
 sudo apt update
 
 
+# Install other dependencies ----
+# devtools package dependencies
+sudo apt install -y libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+# finacial packages dependencies
+sudo apt install -y libblas-dev liblapack-dev
+
+
 # References ----
 # 1. https://cran.r-project.org/
 # 2. https://rstudio.com/products/rstudio/download-server/

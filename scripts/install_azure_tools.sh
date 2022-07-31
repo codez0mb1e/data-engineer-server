@@ -41,16 +41,16 @@ AZURE_CLIENT_ID="<appId>"; readonly AZURE_CLIENT_ID
 
 az ad sp create-for-rbac --name $APP_ID --skip-assignment
 #> {
-#>   "appId": "xxx",
-#>   "displayName": "http://0xcode.in",
+#>   "appId": "<application_id>",
+#>   "displayName": "Cloud deep learning server",
 #>   "password": "****",
-#>   "tenant": yyyy"
+#>   "tenant": "<tenant_id>"
 #> }
 
 az keyvault set-policy --name $KEY_VAULT_NAME --spn $AZURE_CLIENT_ID --key-permissions get list # other permissons: create update decrypt encrypt
 
 # validate
-az keyvault list --vault-name $KEY_VAULT_NAME
+az keyvault secret list --vault-name $KEY_VAULT_NAME
 
 
 
