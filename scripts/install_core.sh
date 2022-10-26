@@ -6,8 +6,9 @@
 
 
 # Discover yourself ----
+# OS info
+uname -a
 whoami
-groups | grep sudo
 
 
 # Install updates ----
@@ -25,14 +26,26 @@ sudo apt install -y htop iftop iotop ncdu
 
 
 # Other  ----
+# disks stuff
+ls /mnt
 # mount data disc (optional)
 mkdir /datadrive
 mount /dev/sda1 /datadrive
 df -Th
 
+# network stuff
+ifconfig 
+# or
+ip addr show eth0
+# or
+itfop
+
+netstat -tulpn
 
 # add users (optional)
-USR="<user_name>"; readonly USR
+groups | grep sudo
+
+USR="<user_name>" readonly USR
 sudo adduser $USR
 sudo usermod -aG sudo $USR
 
@@ -41,10 +54,15 @@ nano /etc/ssh/sshd_config
 # uncomment this line:
 #> PasswordAuthentication yes
 
-# Save changes and reload service
+# save changes and reload service
 service sshd restart
 
 
-# Refernces
+# Cookies ----
+apt install cmatrix
+cmatrix
+
+
+# References
 # 1. https://devconnected.com/how-to-install-and-enable-ssh-server-on-ubuntu-20-04/
  
