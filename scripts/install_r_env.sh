@@ -6,7 +6,7 @@
 
 
 # Set params ----
-RSTUDIO_SERVER_VERSION="2022.07.1-554"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [2]
+RSTUDIO_SERVER_VERSION="2022.07.2-576"; readonly RSTUDIO_SERVER_VERSION # note: check number of latest version [2]
 
 # R-packages dependencies ----
 sudo apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
@@ -29,6 +29,7 @@ R --version
 
 
 # Install RStudio Server ----
+# upload and install
 sudo apt install -y gdebi-core
 wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 sudo gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
@@ -36,6 +37,8 @@ sudo gdebi --quiet rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 # validate RStudio installation
 rstudio-server status
 
+# gc
+rm rstudio-server-${RSTUDIO_SERVER_VERSION}-amd64.deb
 
 # Install dependencies for R packages  ----
 
