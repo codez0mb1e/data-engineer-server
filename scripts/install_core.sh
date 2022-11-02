@@ -38,14 +38,14 @@ ifconfig
 # or
 ip addr show eth0
 # or
-itfop
+iftop
 
 netstat -tulpn
 
 # add users (optional)
 groups | grep sudo
 
-USR="<user_name>" readonly USR
+USR="<user_name>"; readonly USR
 sudo adduser $USR
 sudo usermod -aG sudo $USR
 
