@@ -12,6 +12,8 @@ whoami
 
 
 # Install updates ----
+sudo add-apt-repository universe
+
 sudo apt update
 apt list --upgradable
 sudo apt upgrade -y 
@@ -28,9 +30,10 @@ sudo apt install -y htop iftop iotop ncdu
 # Other  ----
 # disks stuff
 ls /mnt
+lsblk -f
 # mount data disc (optional)
-mkdir /datadrive
-mount /dev/sda1 /datadrive
+mkdir /mnt/datadrive
+mount /dev/sdb1 /mnt/datadrive
 df -Th
 
 # network stuff
