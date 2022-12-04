@@ -32,6 +32,15 @@ systemctl status docker
 docker run hello-world
 
 
+# 2. Tools
+
+# Install Portainer [3]
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+# see result in https://localhost:9443
+
+
 # References ----
 # 1. https://docs.docker.com/install/linux/docker-ce/ubuntu/
 # 2. https://stackoverflow.com/questions/47854463/docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socke
+# 3. https://docs.portainer.io/start/install/server/docker/linux
