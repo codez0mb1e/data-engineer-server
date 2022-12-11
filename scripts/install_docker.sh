@@ -75,5 +75,3 @@ docker system prune -f
 # References ----
 # 1. https://docs.docker.com/install/linux/docker-ce/ubuntu/
 # 2. https://stackoverflow.com/questions/47854463/docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socke
-# 3. https://docs.portainer.io/start/install/server/docker/linux
-# 4. https://github.com/eon01/DockerCheatSheet
