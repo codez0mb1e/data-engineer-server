@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install docker 
+# Install docker and containers management
 #
 
 
@@ -27,11 +27,53 @@ grep docker /etc/group
 newgrp docker
 
 
-# Verify ----
+# Verify
 systemctl status docker
 docker run hello-world
+
+
+# 2. Management ----
+
+docker ps -a
+
+# Install Portainer [3]
+docker volume create portainer_data
+
+docker run -d -p 8000:8000 -p 9443:9443 \
+  --name=portainer --restart=always \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data \
+  portainer/portainer-ce:latest
+  
+# see result in https://localhost:9443
+
+docker logs portainer
+
+
+# 3. ACR ----
+az login
+az acr login -n <acr_name>
+
+docker run -it --rm -p 80:80 -p 443:443 \
+  --name=<name> \
+  <acr_name>.azurecr.io/<name>:<tag>
+
+
+# 4. Networks ----
+docker network ls
+docker network inspect host
+
+
+# 5. GC ----
+# removing all unused (containers, images, networks and volumes)
+docker system prune -f
+
+#! clean all
+# docker system prune -a
 
 
 # References ----
 # 1. https://docs.docker.com/install/linux/docker-ce/ubuntu/
 # 2. https://stackoverflow.com/questions/47854463/docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socke
+# 3. https://docs.portainer.io/start/install/server/docker/linux
+# 4. https://github.com/eon01/DockerCheatSheet
