@@ -16,7 +16,7 @@ rm packages-microsoft-prod.deb
 # 1. Install .NET 6 ----
 
 # Install
-sudo apt install -y dotnet-sdk-6.0
+sudo apt install -y dotnet-sdk-7.0
 
 # Validate
 mkdir hello_dotnet && cd hello_dotnet
