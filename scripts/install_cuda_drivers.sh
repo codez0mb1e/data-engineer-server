@@ -34,7 +34,7 @@ reboot
 
 
 # Validate installation ----
-cat /usr/local/cuda/version.json
+cat /usr/local/cuda/version.json # or /usr/local/cuda/version.txt
 
 nvcc -V
 nvidia-smi

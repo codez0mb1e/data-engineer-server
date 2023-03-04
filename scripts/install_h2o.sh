@@ -5,7 +5,7 @@
 #
 
 
-# 1. Download and unpack
+# 1. Download and unpack ----
 H2O_VERSION="3.32.0.1"; readonly H2O_VERSION  # note: check number of latest version [1]
 
 
@@ -15,7 +15,7 @@ unzip h2o-${H2O_VERSION}.zip
 cd h2o-${H2O_VERSION}
 
 
-# 2. Install
+# 2. Install ----
 java -jar h2o.jar
 
 
@@ -29,7 +29,7 @@ Rscript -e "install.packages(c('RCurl', 'jsonlite'))"
 R CMD INSTALL h2o_${H2O_VERSION}.tar.gz
 
 
-# 5. Test installation
+# 5. Test installation ----
 Rscript -e "library(h2o); h2o.init()"
 
 
