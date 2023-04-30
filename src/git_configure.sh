@@ -50,7 +50,7 @@ gpg --list-secret-keys --keyid-format=long
 gpg --full-generate-key
 
 # Export public key
-# Open https://github.com/settings/gpg/new and paste public key from:
+# Open https://github.com/settings/gpg/new and paste you GPG key id from:
 gpg --armor --export <gpg_key_id>
 
 # Configure git to use GPG key
