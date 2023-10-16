@@ -54,7 +54,9 @@ nano environment.yml
 
 
 # 3. Set up updates ----
+conda update -n base conda
 conda update --all --yes
+pip install --upgrade pip
 
 
 # References ----
