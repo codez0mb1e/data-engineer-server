@@ -22,7 +22,7 @@ sqlalchemy
 # azure
 #> See install_azure.sh script
 # parallel processing, benckmarks, progress tracking
-multiprocess
+mpire
 tqdm
 # tools
 joblib
