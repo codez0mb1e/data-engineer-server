@@ -8,7 +8,7 @@
 # 0. Set up python dev, pip, and virtualenv ----
 sudo apt install -y python3-dev python3-pip python3-virtualenv
 # or if already installed
-#> pip install --upgrade pip
+pip install --upgrade pip
 
 python3 -V
 pip -V
@@ -30,8 +30,9 @@ conda config --set channel_priority strict
 
 # 2. Set up DS environment ----
 NEW_CONDA_ENV="<your_data_science_env>"; readonly NEW_CONDA_ENV
-conda create -n $NEW_CONDA_ENV python=3.10
+PYTHON_VERSION=3.10; readonly PYTHON_VERSION
 
+conda create -n $NEW_CONDA_ENV python=$PYTHON_VERSION
 conda env list
 
 # activate new environment
@@ -57,6 +58,10 @@ nano environment.yml
 conda update -n base conda
 conda update --all --yes
 pip install --upgrade pip
+
+
+# 4. Linting ----
+pip install pylint
 
 
 # References ----
