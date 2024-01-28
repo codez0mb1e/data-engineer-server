@@ -37,20 +37,23 @@ docker run hello-world
 docker ps -a
 
 # Install Portainer [3]
-docker volume create portainer_data
-
-docker run -d -p 8000:8000 -p 9443:9443 \
-  --name=portainer --restart=always \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v portainer_data:/data \
+docker run -d \
+  -p 9443:9443 \
+  --restart unless-stopped \
+  -v /data/portainer:/data \
+  -v /var/run/docker.sock:/var/run/docker.sock
+  --name portainer \
   portainer/portainer-ce:latest
-  
-# see result in https://localhost:9443
 
+# see result in https://localhost:9443
 docker logs portainer
 
 
-# 3. ACR ----
+# 3. Connect to Docker registries ----
+# Docker Hub
+docker login -u <username> -p <password>
+
+# Azure Container Registry
 az login
 az acr login -n <acr_name>
 
@@ -64,14 +67,14 @@ docker network ls
 docker network inspect host
 
 
-# 5. GC ----
+# X. GC ----
 # removing all unused (containers, images, networks and volumes)
 docker system prune -f
-
-#! clean all
+# or (WARN) clean all
 # docker system prune -a
 
 
 # References ----
 # 1. https://docs.docker.com/install/linux/docker-ce/ubuntu/
 # 2. https://stackoverflow.com/questions/47854463/docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socke
+# 3. https://earthly.dev/blog/portainer-for-docker-container-management/

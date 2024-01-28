@@ -29,6 +29,8 @@ az version
 pip install azure-identity
 az login
 
+az account set --subscription <subscription_id>
+
 
 # 3. Azure Key Vault ----
 # install
@@ -52,6 +54,10 @@ az keyvault set-policy --name $KEY_VAULT_NAME --spn $AZURE_CLIENT_ID --key-permi
 # validate
 az keyvault secret list --vault-name $KEY_VAULT_NAME
 
+
+# 4. Azure ACR
+az acr list
+az acr login -n <registry_name>
 
 
 # References ----
