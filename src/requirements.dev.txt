@@ -1,14 +1,18 @@
 # core
 setuptools
-# tests
-pytest
-pytest-cov
-pytest-azurepipelines
-# linters
-types-pkg_resources
+wheel
+# code analysis
 mypy
+types-pkg_resources
+types-requests
+types-PyYAML
+# code formatting
 isort
 black
 flake8
 flake8-docstrings
+flake8-rst-docstrings
 pyproject-flake8
+# tests
+pytest
+pytest-cov
