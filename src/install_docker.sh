@@ -37,7 +37,8 @@ docker run hello-world
 docker ps -a
 
 # Install Portainer [3]
-docker run -d -p 9443:9443 \
+docker run -d \
+  -p 9443:9443 \
   --restart unless-stopped \
   -v /data/portainer:/data \
   -v /var/run/docker.sock:/var/run/docker.sock
@@ -48,7 +49,11 @@ docker run -d -p 9443:9443 \
 docker logs portainer
 
 
-# 3. ACR ----
+# 3. Connect to Docker registries ----
+# Docker Hub
+docker login -u <username> -p <password>
+
+# Azure Container Registry
 az login
 az acr login -n <acr_name>
 
@@ -62,10 +67,10 @@ docker network ls
 docker network inspect host
 
 
-# 5. GC ----
+# X. GC ----
 # removing all unused (containers, images, networks and volumes)
 docker system prune -f
-#! or clean all
+# or (WARN) clean all
 # docker system prune -a
 
 
