@@ -8,23 +8,19 @@
 # 0. Prepare ----
 
 # Download and register Microsoft repository GPG keys
-wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" -O packages-microsoft-prod.deb
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 
-
-# 1. Install .NET 6 ----
+# 1. Install .NET 8 ----
 
 # Install
-sudo apt install -y dotnet-sdk-7.0
+sudo apt-get update && \
+  sudo apt-get install -y dotnet-sdk-8.0
 
 # Validate
-mkdir hello_dotnet && cd hello_dotnet
+dotnet --version
 
-dotnet new console
-dotnet run
-
-rm hello_dotnet
 
 
 # 2. PowerShell Core ----
