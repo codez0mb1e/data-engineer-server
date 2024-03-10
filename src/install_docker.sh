@@ -7,6 +7,8 @@
 
 # 0. Prepare [1] ----
 
+# Install updates and core packages from install_core.sh
+
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | 
   sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
@@ -22,10 +24,12 @@ sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 
 # Create group [2]
+sudo groupadd docker
 sudo usermod -aG docker $USER
-grep docker /etc/group
+# activate changes
 newgrp docker
-
+# check
+grep docker /etc/group
 
 # Verify
 systemctl status docker
@@ -67,6 +71,12 @@ docker network ls
 docker network inspect host
 
 
+# 5. Docker Compose ----
+# Install [4]
+apt install docker-compose-plugin
+docker compose version
+
+
 # X. GC ----
 # removing all unused (containers, images, networks and volumes)
 docker system prune -f
@@ -78,3 +88,4 @@ docker system prune -f
 # 1. https://docs.docker.com/install/linux/docker-ce/ubuntu/
 # 2. https://stackoverflow.com/questions/47854463/docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socke
 # 3. https://earthly.dev/blog/portainer-for-docker-container-management/
+# 4. https://docs.docker.com/compose/install/linux/#install-using-the-repository
