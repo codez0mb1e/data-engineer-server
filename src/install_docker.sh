@@ -70,6 +70,10 @@ docker run -it --rm -p 80:80 -p 443:443 \
 docker network ls
 docker network inspect host
 
+# "port already in use" issue
+sudo lsof -i :80
+sudo systemctl stop nginx # or other service, e.g. apache2
+
 
 # 5. Docker Compose ----
 # Install [4]
@@ -82,6 +86,9 @@ docker compose version
 docker system prune -f
 # or (WARN) clean all
 # docker system prune -a
+
+# restarting
+sudo systemctl restart docker
 
 
 # References ----
