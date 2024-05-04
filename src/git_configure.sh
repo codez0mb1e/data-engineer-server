@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Configure git
+# Configure git and GPG signature
 #
 
 
@@ -11,46 +11,48 @@ USER_EMAIL="<email>"; readonly USER_EMAIL
 
 
 # 1. Config git ----
+git --version
+
 git config --global user.name $USER_NAME
 git config --global user.email $USER_EMAIL
-git config --global credential.helper cache
-git config --global credential.helper 'cache --timeout=3600'
+git config --global credential.helper 'cache --timeout=3600' # cache password for 1 hour
 
 git config --list
 
 
 # 2. Set SSH key to github ----
+cd ~/.ssh
 
 # check existing SSH keys and its permissions [3]
-ls -l ~/.ssh/*
-
+ls -l .
 # generate new keys pair (if nessary)
-ssh-keygen -C $USER_NAME
-
- # register public keys [2]
-cat ~/.ssh/id_rsa.pub
+ssh-keygen -t rsa -b 4096 -C $USER_NAME
+# register public keys [2]
+cat id_rsa.pub
 
 
 # 3. Validate ----
 # Prepare to clone repos
-mkdir ~/repos && cd ~/repos
+mkdir ~/apps && cd ~/apps
 
 # Now you can clone repo (for example this repo):
 git clone git@github.com:codez0mb1e/cloud-rstudio-server.git
 
 
 # 3. Commit signature verification [4] ----
-# Check GPG version
-gpg --version # shoul be >= 2.1
-echo "test" | gpg --clearsign
+# check GPG version
+gpg --version # should be >=2.1
 
-# Get list of existing keys
+# generate GPG key
+gpg --full-generate-key 
+# or import existing
 gpg --list-secret-keys --keyid-format=long
-# or generate new one
-gpg --full-generate-key
+# validate
+echo "test" | gpg --clearsign | gpg --verify
 
 # Export public key
 # Open https://github.com/settings/gpg/new and paste you GPG key id from:
+# (use second part of "sec" as gpg_key_id)
 gpg --armor --export <gpg_key_id>
 
 # Configure git to use GPG key
