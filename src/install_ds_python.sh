@@ -54,7 +54,7 @@ conda activate $NEW_ENV
 conda info
 
 # install dev tools
-cat requirements.dev.txt
+cat requirements-dev.txt
 pip install --upgrade -r requirements-dev.txt
 
 # install DS tools
