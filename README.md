@@ -37,16 +37,17 @@ Installing software/frameworks:
 ### Installation scripts
 
 1. sudo sh [install_core.sh](/src/install_core.sh) &>logs/install_core.log
-1. sudo sh [install_cuda_drivers.sh](/src/install_cuda_drivers.sh) &>logs/install_cuda_drivers.log
-1. sudo sh [install_deep_learning.sh](/src/install_deep_learning.sh) &>logs/install_deep_learning.log
-1. sudo sh [install_ml_python.sh](/src/install_ml_python.sh) > log/install_ml_python.log
-1. sudo sh [install_r_env.sh](/src/install_r_env.sh) &>logs/install_r.log
-1. Rscript [install_r_packages.R](/src/install_r_packages.R) &>logs/install_r_packages.log <sup>1</sup>
-1. sudo sh [install_lightgbm.sh](/src/install_lightgbm.sh) &>logs/install_lightgbm.log <sup>1</sup>
-1. sudo sh [git_configure.sh](/src/git_configure.sh) &>logs/git_configure.log <sup>1</sup>
-1. sudo sh [kaggle_configure.sh](/src/kaggle_configure.sh) &>logs/kaggle_configure.log <sup>1</sup>
-1. sudo sh [install_dotnet_tools.sh](/src/install_dotnet_tools.sh) &>logs/install_dotnet_core.log
-1. sudo sh [install_docker.sh](/src/install_docker.sh) &>logs/install_docker.log
+2. sudo sh [install_docker.sh](/src/install_docker.sh) &>logs/install_docker.log
+3. sudo sh [install_cuda_drivers.sh](/src/install_cuda_drivers.sh) &>logs/install_cuda_drivers.log
+4. sudo sh [install_deep_learning.sh](/src/install_deep_learning.sh) &>logs/install_deep_learning.log
+5. sudo sh [install_ml_python.sh](/src/install_ml_python.sh) > log/install_ml_python.log
+6. sudo sh [install_r_env.sh](/src/install_r_env.sh) &>logs/install_r.log
+7. Rscript [install_r_packages.R](/src/install_r_packages.R) &>logs/install_r_packages.log <sup>1</sup>
+8. sudo sh [install_lightgbm.sh](/src/install_lightgbm.sh) &>logs/install_lightgbm.log <sup>1</sup>
+9. sudo sh [git_configure.sh](/src/git_configure.sh) &>logs/git_configure.log <sup>1</sup>
+10. sudo sh [kaggle_configure.sh](/src/kaggle_configure.sh) &>logs/kaggle_configure.log <sup>1</sup>
+11. sudo sh [install_dotnet_tools.sh](/src/install_dotnet_tools.sh) &>logs/install_dotnet_core.log
+
 
 <sup>1</sup> Install under RStudio user
 
