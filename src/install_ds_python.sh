@@ -73,6 +73,8 @@ conda update -n base conda
 conda update --all --yes
 pip install --upgrade pip
 
+# remove conda env
+conda remove -n $NEW_CONDA_ENV -all
 
 # 4. Linting ----
 pip install pylint
