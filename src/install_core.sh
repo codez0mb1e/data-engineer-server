@@ -8,6 +8,14 @@
 # Discover yourself ----
 # OS info
 uname -a
+
+# Hardware info
+lscpu | grep "Model name" # CPU
+free -h # RAM
+lsblk -f # Disks
+ip a # Network
+
+# User info
 whoami
 
 
@@ -27,24 +35,21 @@ sudo apt install -y build-essential libssl-dev cmake apt-transport-https ca-cert
 sudo apt install -y htop iftop iotop ncdu
 
 
-# Other  ----
+# Disk and network ----
 # disks stuff
 ls /mnt
-lsblk -f
 # mount data disc (optional)
 mkdir /mnt/datadrive
 mount /dev/sdb1 /mnt/datadrive
 df -Th
+# IO
+sudo iotop -o
 
 # network stuff
-ifconfig 
-# or
-ip addr show eth0
-# or
-iftop
+sudo iftop
 
-netstat -tulpn
 
+# New user ----
 # add users (optional)
 groups | grep sudo
 
@@ -53,19 +58,15 @@ sudo adduser $USR
 sudo usermod -aG sudo $USR
 
 # (optional, but not recommended) Allow authorization without public key
-nano /etc/ssh/sshd_config
+sudo nano /etc/ssh/sshd_config
 # uncomment this line:
 #> PasswordAuthentication yes
 
 # save changes and reload service
-service sshd restart
+sudo service ssh restart
+systemctl status ssh
 
 
 # Cookies ----
-apt install cmatrix
+sudo apt install -y cmatrix
 cmatrix
-
-
-# References
-# 1. https://devconnected.com/how-to-install-and-enable-ssh-server-on-ubuntu-20-04/
- 

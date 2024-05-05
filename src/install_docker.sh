@@ -6,41 +6,38 @@
 
 
 # 0. Prepare [1] ----
+# add Docker's official GPG key:
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Install updates and core packages from install_core.sh
-
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | 
-  sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
+# add the repository to Apt sources:
 echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | 
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-
 # 1. Install ----
+# install packages
+sudo apt -y update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# Install packages
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io
-
-# Create group [2]
-sudo groupadd docker
+# create group [2]
 sudo usermod -aG docker $USER
 # activate changes
 newgrp docker
 # check
 grep docker /etc/group
 
-# Verify
+# verify
 systemctl status docker
-docker run hello-world
+docker compose version
 
 
-# 2. Management ----
-
+# 2. Containers management ----
 docker ps -a
 
-# Install Portainer [3]
+# install Portainer [3]
 docker run -d \
   -p 9443:9443 \
   --restart unless-stopped \
@@ -75,12 +72,6 @@ sudo lsof -i :80
 sudo systemctl stop nginx # or other service, e.g. apache2
 
 
-# 5. Docker Compose ----
-# Install [4]
-apt install docker-compose-plugin
-docker compose version
-
-
 # X. GC ----
 # removing all unused (containers, images, networks and volumes)
 docker system prune -f
@@ -95,4 +86,3 @@ sudo systemctl restart docker
 # 1. https://docs.docker.com/install/linux/docker-ce/ubuntu/
 # 2. https://stackoverflow.com/questions/47854463/docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socke
 # 3. https://earthly.dev/blog/portainer-for-docker-container-management/
-# 4. https://docs.docker.com/compose/install/linux/#install-using-the-repository

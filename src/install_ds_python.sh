@@ -10,38 +10,52 @@ sudo apt install -y python3-dev python3-pip python3-virtualenv
 # or if already installed
 pip install --upgrade pip
 
-python3 -V
-pip -V
-virtualenv -V
+python3 --version
+pip --version
+virtualenv --version
 
 
 # 1. Set up Conda ----
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-sh Miniconda3-latest-Linux-x86_64.sh
+# install [2]
+mkdir -p ~/miniconda3
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 
+~/miniconda3/bin/conda init bash
+
+# validate
 conda update conda
-conda -V
+conda --version
 
-# config conda
+# config conda and channels
+conda config --set auto_activate_base false
+
+conda config --add channels defaults
+conda config --add channels bioconda
 conda config --add channels conda-forge
-#conda config --add channels "Microsoft"
-conda config --set channel_priority strict
+conda config --add channels Microsoft # if you like Azure :)
+
+conda config --set show_channel_urls true
+conda config --set channel_priority flexible
+
+# show all configs
+conda config --show
 
 
 # 2. Set up DS environment ----
-NEW_CONDA_ENV="<your_data_science_env>"; readonly NEW_CONDA_ENV
-PYTHON_VERSION=3.10; readonly PYTHON_VERSION
+NEW_ENV="nrmln_py12"; readonly NEW_ENV
+PYTHON_VERSION=3.12; readonly PYTHON_VERSION
 
-conda create -n $NEW_CONDA_ENV python=$PYTHON_VERSION
+conda create -n $NEW_ENV python=$PYTHON_VERSION
 conda env list
 
 # activate new environment
-conda activate $NEW_CONDA_ENV
+conda activate $NEW_ENV
 conda info
 
 # install dev tools
-cat requirements.dev.txt
-pip install --upgrade -r requirements.dev.txt
+cat requirements-dev.txt
+pip install --upgrade -r requirements-dev.txt
 
 # install DS tools
 cat requirements.txt
@@ -59,6 +73,8 @@ conda update -n base conda
 conda update --all --yes
 pip install --upgrade pip
 
+# remove conda env
+conda remove -n $NEW_CONDA_ENV -all
 
 # 4. Linting ----
 pip install pylint
@@ -66,3 +82,4 @@ pip install pylint
 
 # References ----
 # 1. https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html
+# 2. https://docs.anaconda.com/free/miniconda/

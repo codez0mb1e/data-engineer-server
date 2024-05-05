@@ -6,4 +6,4 @@
 
 
 # PlantUML extension for VS Code
-apt install default-jdk graphviz
+sudo apt install default-jdk graphviz

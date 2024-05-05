@@ -6,6 +6,7 @@ mypy
 types-pkg_resources
 types-requests
 types-PyYAML
+pandas-stubs
 # code formatting
 isort
 black
