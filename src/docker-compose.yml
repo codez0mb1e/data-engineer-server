@@ -1,0 +1,54 @@
+services:
+
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    command:
+      #- --log.level=DEBUG
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entryPoints.web.address=:80
+      # health check ----
+      - --ping=true
+      - --ping.entrypoint=ping
+      - --entryPoints.ping.address=:8888
+      # https settings ----
+      # - --entrypoints.websecure.address=:443
+      # - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+      # - --certificatesresolvers.letsencrypt.acme.email=${SSL_EMAIL}
+      # - --certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json
+    ports:
+      - 80:80
+      # - 443:443
+      - 8080:8080
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:8888/ping", "--spider"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./traefik/acme.json:/etc/traefik/acme/acme.json
+    networks:
+      - frontend
+
+  whoami:
+    image: traefik/whoami
+    container_name: whoami-service
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`byte.${PRIMARY_DOMAIN}`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    external: true
