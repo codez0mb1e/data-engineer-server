@@ -7,6 +7,7 @@ services:
     security_opt:
       - no-new-privileges:true
     command:
+      # general settings ----
       #- --log.level=DEBUG
       - --api.insecure=false
       - --api.dashboard=true
@@ -36,6 +37,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt/acme.json:/letsencrypt/acme.json
+      #- ./traefik.yml:/traefik.yml:ro
     networks:
       - frontend
     labels:
@@ -44,24 +46,45 @@ services:
     - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_AUTH}"
     - "traefik.http.routers.traefik.rule=Host(`dev.${PRIMARY_DOMAIN}`)"
     - "traefik.http.routers.traefik.entrypoints=websecure"
-    - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
     - "traefik.http.routers.traefik.service=api@internal"
+    - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
     - "traefik.http.routers.traefik.middlewares=traefik-compress" # add auth middleware when ready
 
   whoami:
     container_name: whoami
     image: traefik/whoami
     restart: unless-stopped
+    networks:
+      - frontend
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`byte.${PRIMARY_DOMAIN}`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls.certresolver=letsencrypt"
+  
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:2.20.3
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
     networks:
       - frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.dev.${PRIMARY_DOMAIN}`)"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.tls.certresolver=letsencrypt"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+    depends_on:
+      traefik:
+        condition: service_healthy
 
-#volumes:
-#  letsencrypt:
+volumes:
+  portainer_data:
 
 networks:
   frontend:
