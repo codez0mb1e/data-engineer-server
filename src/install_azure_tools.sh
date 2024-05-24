@@ -5,7 +5,11 @@
 #
 
 
-# 0. Prepare ----
+# 0. Prepare [1] ----
+sudo mkdir -p /etc/apt/keyrings
+curl -sLS https://packages.microsoft.com/keys/microsoft.asc |
+  sudo gpg --dearmor -o /etc/apt/keyrings/microsoft.gpg
+sudo chmod go+r /etc/apt/keyrings/microsoft.gpg
 
 curl -sL https://packages.microsoft.com/keys/microsoft.asc |
     gpg --dearmor |
@@ -17,8 +21,7 @@ echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO 
     sudo tee /etc/apt/sources.list.d/azure-cli.list
 
 
-# 1. Install Azure CLI [1] ----
-
+# 1. Install Azure CLI ----
 sudo apt update
 sudo apt install -y azure-cli
 
@@ -27,9 +30,9 @@ az version
 
 # 2. Azure Core ----
 pip install azure-identity
-az login
+az login --use-device-code
 
-az account set --subscription <subscription_id>
+az account set --subscription <subscription_name>
 
 
 # 3. Azure Key Vault ----
@@ -61,4 +64,4 @@ az acr login -n <registry_name>
 
 
 # References ----
-# 1. https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
+# 1. https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
