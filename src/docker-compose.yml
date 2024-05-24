@@ -1,14 +1,15 @@
 services:
 
   traefik:
-    image: traefik:v3.0
     container_name: traefik
+    image: traefik:v3.0
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
     command:
       #- --log.level=DEBUG
-      - --api.insecure=true
+      - --api.insecure=false
+      - --api.dashboard=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entryPoints.web.address=:80
@@ -26,7 +27,6 @@ services:
     ports:
       - 80:80
       - 443:443
-      - 8080:8080
     healthcheck:
       test: ["CMD", "wget", "http://localhost:8888/ping", "--spider"]
       interval: 10s
@@ -42,23 +42,21 @@ services:
     - "traefik.enable=true"
     - "traefik.http.middlewares.traefik-compress.compress=true"
     - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_AUTH}"
-    #- "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
     - "traefik.http.routers.traefik.rule=Host(`dev.${PRIMARY_DOMAIN}`)"
     - "traefik.http.routers.traefik.entrypoints=websecure"
     - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
     - "traefik.http.routers.traefik.service=api@internal"
-    - "traefik.http.routers.traefik.middlewares=traefik-compress"
+    - "traefik.http.routers.traefik.middlewares=traefik-compress" # add auth middleware when ready
 
   whoami:
-    image: traefik/whoami
     container_name: whoami
+    image: traefik/whoami
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`byte.${PRIMARY_DOMAIN}`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls.certresolver=letsencrypt"
-      #- "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
     networks:
       - frontend
 
