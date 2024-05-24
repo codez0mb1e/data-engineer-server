@@ -12,18 +12,20 @@ services:
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entryPoints.web.address=:80
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
       # health check ----
       - --ping=true
       - --ping.entrypoint=ping
       - --entryPoints.ping.address=:8888
       # https settings ----
-      # - --entrypoints.websecure.address=:443
-      # - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
-      # - --certificatesresolvers.letsencrypt.acme.email=${SSL_EMAIL}
-      # - --certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.letsencrypt.acme.email=${SSL_EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
     ports:
       - 80:80
-      # - 443:443
+      - 443:443
       - 8080:8080
     healthcheck:
       test: ["CMD", "wget", "http://localhost:8888/ping", "--spider"]
@@ -33,21 +35,35 @@ services:
       start_period: 5s
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # - ./traefik/acme.json:/etc/traefik/acme/acme.json
+      - ./letsencrypt/acme.json:/letsencrypt/acme.json
     networks:
       - frontend
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.middlewares.traefik-compress.compress=true"
+    - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_AUTH}"
+    #- "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    - "traefik.http.routers.traefik.rule=Host(`dev.${PRIMARY_DOMAIN}`)"
+    - "traefik.http.routers.traefik.entrypoints=websecure"
+    - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+    - "traefik.http.routers.traefik.service=api@internal"
+    - "traefik.http.routers.traefik.middlewares=traefik-compress"
 
   whoami:
     image: traefik/whoami
-    container_name: whoami-service
+    container_name: whoami
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`byte.${PRIMARY_DOMAIN}`)"
-      - "traefik.http.routers.whoami.entrypoints=web"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=letsencrypt"
+      #- "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
     networks:
       - frontend
+
+#volumes:
+#  letsencrypt:
 
 networks:
   frontend:
