@@ -33,6 +33,9 @@ grep docker /etc/group
 systemctl status docker
 docker compose version
 
+# more info
+docker info
+
 
 # 2. Containers management ----
 docker ps -a
