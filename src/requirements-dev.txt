@@ -3,7 +3,6 @@ setuptools
 wheel
 # code analysis
 mypy
-types-pkg_resources
 types-requests
 types-PyYAML
 pandas-stubs
