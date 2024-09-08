@@ -35,19 +35,38 @@ sudo apt install -y build-essential libssl-dev cmake apt-transport-https ca-cert
 sudo apt install -y htop iftop iotop ncdu
 
 
-# Disk and network ----
+# Disks and network ----
+# Attach new Azure disk
+# https://learn.microsoft.com/en-us/azure/virtual-machines/linux/attach-disk-portal
+
+# list of disks
+lsblk -o NAME,HCTL,SIZE,MOUNTPOINT | grep -i "sd"
+
+sudo parted /dev/sdb --script mklabel gpt mkpart xfspart xfs 0% 100%
+sudo mkfs.xfs /dev/sdb1
+sudo partprobe /dev/sdb1
+
 # disks stuff
 ls /mnt
 # mount data disc (optional)
-mkdir /mnt/datadrive
-mount /dev/sdb1 /mnt/datadrive
+sudo mkdir /mnt/datadrive
+sudo mount /dev/sdb1 /mnt/datadrive
 df -Th
+
+# remount disk on reboot
+sudo blkid # get UUID, e.g. 000000-6389-4c96-872c-55ec08863bff
+sudo nano /etc/fstab
+# UUID=000000-6389-4c96-872c-55ec08863bff   /mnt/datadrive   xfs   defaults,nofail   1   2
+
+# verify results
+sudo reboot
+lsblk -o NAME,HCTL,SIZE,MOUNTPOINT | grep -i "sd"
+
 # IO
 sudo iotop -o
 
 # network stuff
-sudo iftop
-
+sudo iftop -i eth0
 
 # New user ----
 # add users (optional)
