@@ -19,7 +19,7 @@ backoff
 # DBs
 pyodbc
 sqlalchemy
-# azure
+# Cloud
 #> See install_azure.sh script
 # parallel processing, benckmarks, progress tracking
 mpire
