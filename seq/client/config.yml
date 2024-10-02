@@ -1,0 +1,19 @@
+logger_settings:
+  level: 'INFO'
+  message_format: '%(asctime)s | %(service_name)s (%(env_type)s env) | [%(levelname)s] %(message)s'
+  handlers:
+    console:
+      stream_type: 'stdout'
+    file:
+      filename: './logs/service.log'
+      when: 'midnight'
+      interval: 1
+      utc: True
+      backup_count: 30
+      encoding: utf-8
+    seq:
+      server_url: 'https://logs.<your_host>.io/'
+      api_key: '******'
+      batch_size: 10
+      auto_flush_timeout: 1
+      json_encoder_class: json.encoder.JSONEncoder
