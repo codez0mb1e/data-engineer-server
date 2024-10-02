@@ -1,0 +1,29 @@
+services:
+
+  seq:
+    container_name: seq
+    image: datalust/seq:2024.3
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - seq_data:/data
+    networks:
+      - backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.seq.rule=Host(`dev.${PRIMARY_DOMAIN}`) && PathPrefix(`/logs/`)"
+      - "traefik.http.middlewares.seqpathstrip.stripprefix.prefixes=/logs"
+      - "traefik.http.routers.seq.middlewares=seqpathstrip@docker"
+      - "traefik.http.routers.seq.entrypoints=websecure"
+      - "traefik.http.routers.seq.tls.certresolver=letsencrypt"
+      - "traefik.http.services.seq.loadbalancer.server.port=80"
+
+volumes:
+  seq_data:
+
+networks:
+  backend:
+    external: true
