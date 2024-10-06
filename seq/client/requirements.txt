@@ -1,0 +1,5 @@
+# data models
+pydantic>=2.7.4,<2.8
+pydantic-settings>=2.3.3,<2.4
+# logging
+seqlog>=0.3.31,<0.4

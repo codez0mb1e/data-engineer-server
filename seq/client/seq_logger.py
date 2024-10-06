@@ -16,7 +16,7 @@ import seqlog.structured_logging
 from seqlog.structured_logging import SeqLogHandler
 
 
-# %% Logger Settings ----
+# %% Logger settings ----
 class LoggerSettings(BaseSettings):
     """Logging settings for the application."""
 
