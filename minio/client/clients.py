@@ -4,14 +4,39 @@ from logging import Logger
 import pandas as pd
 import polars as pl
 
+from pydantic import BaseModel, HttpUrl
+from pydantic_settings import BaseSettings
+
 from minio import Minio, S3Error
 from minio.commonconfig import Tags
 from minio.helpers import ObjectWriteResult
 
-from .configurations import MinIoSettings
-from .primitives import ObjectMetadata
+
+# %% Configurations and primitives ----
+class ObjectMetadata(BaseModel):
+    """MinIO object metadata.
+
+    Responsibilities:
+    * Encapsulate MinIO object metadata
+    """
+
+    bucket_name: str
+    object_name: str
+    version: str
+    tags: dict
+    is_data_frame: bool = True
 
 
+class MinIoSettings(BaseSettings):
+    """MinIO settings."""
+
+    endpoint: HttpUrl
+    api_key: str
+    secret_key: str
+    request_timeout: int = 60
+
+
+# %% MinIO Client ----
 class MinIoClient:
     """MinIO client.
 
