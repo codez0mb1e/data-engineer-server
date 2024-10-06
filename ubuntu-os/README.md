@@ -1,41 +1,69 @@
-#!/bin/bash
+# Ubuntu 24.04: core commands, packages and tools
 
-#
-# Install core packages and tools
-#
+- [Discover](#discover)
+- [Install updates](#install-updates)
+- [Core packages/utils](#core-packagesutils)
+- [Disks and network](#disks-and-network)
+- [New user](#new-user)
+- [Cookies](#cookies)
 
 
-# Discover yourself ----
-# OS info
+## Discover
+
+OS info:
+
+```bash
 uname -a
+```
 
-# Hardware info
+Hardware info:
+    
+```bash
 lscpu | grep "Model name" # CPU
 free -h # RAM
 lsblk -f # Disks
 ip a # Network
+```
 
-# User info
+User info/permissions:
+
+```bash
 whoami
+groups | grep sudo
+```
 
+## Install updates
 
-# Install updates ----
+```bash
 sudo add-apt-repository universe
 
 sudo apt update
 apt list --upgradable
-sudo apt upgrade -y 
+sudo apt upgrade -y
+```
 
+## Core packages/utils
 
-# Install core packages ----
-sudo apt install -y build-essential libssl-dev cmake apt-transport-https ca-certificates curl lsb-release gnupg
+Packages:
 
+```bash
+sudo apt install -y \
+    build-essential \
+    libssl-dev \
+    cmake \
+    apt-transport-https \
+    curl
+```
 
-# Install utils ----
-sudo apt install -y htop iftop iotop ncdu
+Utils:
 
+```bash
+sudo apt install -y htop iftop iotop ncdu tree 
+```
 
-# Disks and network ----
+## Disks and network
+
+```bash
 # Attach new Azure disk
 # https://learn.microsoft.com/en-us/azure/virtual-machines/linux/attach-disk-portal
 
@@ -67,8 +95,11 @@ sudo iotop -o
 
 # network stuff
 sudo iftop -i eth0
+```
 
-# New user ----
+## New user
+
+```
 # add users (optional)
 groups | grep sudo
 
@@ -84,8 +115,13 @@ sudo nano /etc/ssh/sshd_config
 # save changes and reload service
 sudo service ssh restart
 systemctl status ssh
+```
 
+## Cookies
 
-# Cookies ----
+Matrix screensaver:
+
+```bash
 sudo apt install -y cmatrix
 cmatrix
+```
