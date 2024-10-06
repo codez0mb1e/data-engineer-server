@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # read env vars
 source .env
 
