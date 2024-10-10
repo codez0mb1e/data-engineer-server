@@ -22,7 +22,7 @@ wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sud
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
 # install R base
-sudo apt-get install r-base
+sudo apt install r-base
 
 # get 5000+ CRAN packages
 sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
@@ -73,11 +73,20 @@ sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
 sudo apt update
 
 
-#5.  Install other dependencies ----
+# 5. Install other dependencies ----
 # devtools package dependencies
 sudo apt install -y libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
 # finacial packages dependencies
 sudo apt install -y libblas-dev liblapack-dev
+
+
+# 6. R Studio IDE in Docker
+
+# TODO
+docker start -i rserverx
+
+# Open rstudio http://localhost:8787/
+
 
 
 # References ----
