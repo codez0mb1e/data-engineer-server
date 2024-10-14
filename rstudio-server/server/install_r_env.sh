@@ -80,14 +80,6 @@ sudo apt install -y libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetyp
 sudo apt install -y libblas-dev liblapack-dev
 
 
-# 6. R Studio IDE in Docker
-
-# TODO
-docker start -i rserverx
-
-# Open rstudio http://localhost:8787/
-
-
 
 # References ----
 # 1. https://cran.r-project.org/
