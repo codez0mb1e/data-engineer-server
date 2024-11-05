@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install R: dependencies, runtime, IDE, tools
+# Install R Studio Server via deb package
 #
 
 
