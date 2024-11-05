@@ -21,14 +21,8 @@ git config --list
 
 
 # 2. Set SSH key to github ----
-cd ~/.ssh
-
-# check existing SSH keys and its permissions [3]
-ls -l .
-# generate new keys pair (if nessary)
-ssh-keygen -t rsa -b 4096 -C $USER_NAME
+# Generate SSH key (see unbuntu-os/README.md#new-ssh-key)
 # register public keys [2]
-cat id_rsa.pub
 
 
 # 3. Validate ----

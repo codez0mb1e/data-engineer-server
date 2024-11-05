@@ -4,8 +4,11 @@
 - [Install updates](#install-updates)
 - [Core packages/utils](#core-packagesutils)
 - [Disks and network](#disks-and-network)
-- [New user](#new-user)
+- [User](#user)
+  - [New SSH key](#new-ssh-key)
+  - [New user](#new-user)
 - [Cookies](#cookies)
+- [References](#references)
 
 
 ## Discover
@@ -97,13 +100,33 @@ sudo iotop -o
 sudo iftop -i eth0
 ```
 
-## New user
+## User
 
+### New SSH key
+
+```bash
+USR="<user_name>"; readonly USR
+KEY_NAME="id_rsa"; readonly KEY_NAME
+
+# check existing SSH keys and its permissions [1]
+cd ~/.ssh
+ls -l .
+
+# generate new keys pair (if necessary)
+ssh-keygen -t rsa -b 4096 -f $KEY_NAME -C $USR
+
+# View public key
+cat $KEY_NAME.pub
+# or generate it from private key in OpenSSH format
+ssh-keygen -y -f $KEY_NAME > $KEY_NAME.pub
 ```
+
+### New user
+
+```bash
 # add users (optional)
 groups | grep sudo
 
-USR="<user_name>"; readonly USR
 sudo adduser $USR
 sudo usermod -aG sudo $USR
 
@@ -125,3 +148,8 @@ Matrix screensaver:
 sudo apt install -y cmatrix
 cmatrix
 ```
+
+
+## References
+
+1. https://superuser.com/questions/215504/permissions-on-private-key-in-ssh-folder
