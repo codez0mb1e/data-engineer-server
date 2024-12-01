@@ -43,8 +43,8 @@ conda config --show
 
 
 # 2. Set up DS environment ----
-NEW_ENV="nrmln_py12"; readonly NEW_ENV
-PYTHON_VERSION=3.12; readonly PYTHON_VERSION
+NEW_ENV="<env_name>"; readonly NEW_ENV
+PYTHON_VERSION=3.13; readonly PYTHON_VERSION
 
 conda create -n $NEW_ENV python=$PYTHON_VERSION
 conda env list
