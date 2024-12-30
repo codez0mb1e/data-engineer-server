@@ -140,6 +140,19 @@ sudo service ssh restart
 systemctl status ssh
 ```
 
+Register SSH authorized keys for new user (remote server):
+
+```bash
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
+```
+
+Copy public key to authorized keys (local machine):
+
+```bash
+ssh-keygen -y -f $KEY_NAME | ssh $USR@$HOST 'cat >> .ssh/authorized_keys'
+```
+
 ## Cookies
 
 Matrix screensaver:
