@@ -1,0 +1,90 @@
+@startyaml automl_config
+title AutoML Pipeline Configuration
+
+pipeline_settings:
+    name: AutoMLPipeline Example
+    description: An example of an AutoML pipeline
+
+    experiment_settings:
+        name: AutoML Experiment
+        dir: '/path/to/experiment_dir'
+        version: 'feature/newfeatures'
+    
+    model:
+        name: AutoML Model Example
+        version: '1.0.0'
+        model_type: 'classification'
+        estimators: ['catboost', 'lgbm', 'random_forest']
+        metrics: ['accuracy', 'f1', 'roc_auc']
+    
+    datasets:
+        historical_trx:
+            name: Historical transactions
+            version: '20250101'
+            features_list: ['feature1', 'feature2', 'feature3']
+            target: 'target'
+            unique_id: 'id'
+            extra: ['created_at', 'updated_at']
+
+    stages:
+        data_ingestion:
+            repositories: ['data_repository']
+            batch_size: 1000000
+            threads_n: 32
+        
+        feature_engineering:
+            repositories: ['data_repository', 'feature_repository']
+        
+        feature_selection:
+            repositories: ['feature_repository']
+        
+        model_training:
+            stage_label: 'model training'
+            repositories: ['feature_repository', 'model_repository']
+            top_n_models: 10
+            search_space:
+                policy: 'Bayesian Search'
+                learning_rate: [0.01, 0.1]
+                n_estimators: [10, 100, 1000]
+                max_depth: [8, 16, 32]
+            resources:
+                threads_n: 32
+                max_duration_sec: 3600
+                max_models_n: 100
+                max_memory_gb: 64
+            splitting:
+                policy: 'stratified'
+                split_ratio: [0.7, 0.2, 0.1]
+            early_stopping:
+                metric: 'roc_auc'
+                patience: 5
+                min_delta: 0.01
+
+        model_evaluation:
+            repositories: ['feature_repository', 'model_repository']
+            metrics: ['accuracy', 'f1', 'roc_auc']
+            resources:
+                threads_n: 32
+                max_duration_sec: 7200
+                max_memory_gb: 128
+            splitting:
+                policy: 'StratifiedKFold'
+                folds_n: 10
+                split_ratio: [0.7, 0.2, 0.1]
+            early_stopping:
+                metric: 'roc_auc'
+                patience: 10
+                min_delta: 0.001
+
+        release_model:
+            repositories: ['feature_repository', 'model_repository']
+        
+        deploy_model:
+            repository: model_repository
+
+    misc:
+        random_seed: 0xDECAF
+        cache_dir: '/path/to/cache_dir'
+        verbosity: 1
+
+@endyaml
