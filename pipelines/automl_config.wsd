@@ -1,90 +1,121 @@
 @startyaml automl_config
 title AutoML Pipeline Configuration
 
-pipeline_settings:
-    name: AutoMLPipeline Example
-    description: An example of an AutoML pipeline
 
-    experiment_settings:
-        name: AutoML Experiment
-        dir: '/path/to/experiment_dir'
-        version: 'feature/newfeatures'
-    
-    model:
-        name: AutoML Model Example
-        version: '1.0.0'
-        model_type: 'classification'
-        estimators: ['catboost', 'lgbm', 'random_forest']
-        metrics: ['accuracy', 'f1', 'roc_auc']
-    
-    datasets:
-        historical_trx:
-            name: Historical transactions
-            version: '20250101'
-            features_list: ['feature1', 'feature2', 'feature3']
-            target: 'target'
-            unique_id: 'id'
-            extra: ['created_at', 'updated_at']
+experiment_settings:
+    name: AutoML Experiment
+    dir: '/experiments/automl'
+    version: '20250101'
 
-    stages:
-        data_ingestion:
-            repositories: ['data_repository']
-            batch_size: 1000000
+stages:
+    data_ingestion:
+        resources:
             threads_n: 32
-        
-        feature_engineering:
-            repositories: ['data_repository', 'feature_repository']
-        
-        feature_selection:
-            repositories: ['feature_repository']
-        
-        model_training:
-            stage_label: 'model training'
-            repositories: ['feature_repository', 'model_repository']
+
+    data_preprocessing:
+        missing_values_policy: 'fill_with_mean'
+        categorical_encoding: 'one_hot'
+        scaling: 'standard'
+
+    feature_engineering:
+        columns:
+            unique_id: 'trx_id'
+            target: 'is_fraud'
+            extra: ['created_at', 'updated_at']
+    
+    feature_selection:
+        selection_methods: ['correlation', 'mutual_info', 'chi2']
+        correlation_threshold: 0.85
+        max_features_n: 128
+
+    model_training:
+        columns:
+            unique_id: 'trx_id'
+            features_list: ['from_account', 'to_account', 'amount_log']
+            target: 'is_fraud'
+            extra: ['created_at', 'updated_at']
+        search_space:
+            policy: 'Bayesian Search'
+            learning_rate: [0.01, 0.1]
+            n_estimators: [10, 100, 1000]
+            max_depth: [8, 16, 32]
             top_n_models: 10
-            search_space:
-                policy: 'Bayesian Search'
-                learning_rate: [0.01, 0.1]
-                n_estimators: [10, 100, 1000]
-                max_depth: [8, 16, 32]
-            resources:
-                threads_n: 32
-                max_duration_sec: 3600
-                max_models_n: 100
-                max_memory_gb: 64
-            splitting:
-                policy: 'stratified'
-                split_ratio: [0.7, 0.2, 0.1]
-            early_stopping:
-                metric: 'roc_auc'
-                patience: 5
-                min_delta: 0.01
-
-        model_evaluation:
-            repositories: ['feature_repository', 'model_repository']
-            metrics: ['accuracy', 'f1', 'roc_auc']
-            resources:
-                threads_n: 32
-                max_duration_sec: 7200
-                max_memory_gb: 128
-            splitting:
-                policy: 'StratifiedKFold'
-                folds_n: 10
-                split_ratio: [0.7, 0.2, 0.1]
-            early_stopping:
-                metric: 'roc_auc'
-                patience: 10
-                min_delta: 0.001
-
-        release_model:
-            repositories: ['feature_repository', 'model_repository']
-        
-        deploy_model:
-            repository: model_repository
+        resources:
+            threads_n: 32
+            max_duration_sec: 3600
+            max_models_n: 100
+            max_memory_gb: 64
+        splitting:
+            policy: 'stratified'
+            split_ratio: [0.7, 0.2, 0.1]
+        early_stopping:
+            metric: 'roc_auc'
+            patience: 5
+            min_delta: 0.01
+    
+    model_evaluation:
+        metrics: ['f1', 'roc_auc']
+        resources:
+            threads_n: 32
+            max_duration_sec: 7200
+            max_memory_gb: 128
+        splitting:
+            policy: 'StratifiedKFold'
+            folds_n: 10
+            split_ratio: [0.7, 0.2, 0.1]
+        early_stopping:
+            metric: 'roc_auc'
+            patience: 10
+            min_delta: 0.001
+    
+    release_model:
+    deploy_model:
 
     misc:
         random_seed: 0xDECAF
         cache_dir: '/path/to/cache_dir'
         verbosity: 1
+
+model:
+    name: AutoML Model Example
+    version: '1.0.0'
+    model_type: 'classification'
+    estimators: ['catboost', 'lgbm', 'random_forest']
+    metrics: ['f1', 'roc_auc']
+
+
+datasets:
+    historical_trx:
+        # Historical transactions log
+        bucket: 'new_model_data'
+        level: 'raw'
+        version: '20250101'
+        only_objects_with_tags: ['source:P2P', 'source:ecomm']
+        batch_size: 1000000
+    trx_features:
+        # Transaction features dataset
+        bucket: 'new_model_data'
+        use_last_version: true
+        level: 'features'
+        only_objects_with_tags: ['version:stable', 'status:reviewed']
+        batch_size: 100000
+    models:
+        bucket: 'new_model_data'
+        level: 'models'
+
+
+sinks:
+    minio:
+        endpoint: 'http://minio:9000'
+        access_key: 'm1nI0123'
+        secret: '********'
+
+
+logger_settings:
+    level: 'INFO'
+    handlers: ['console', 'file']
+    console:
+        level: 'INFO'
+        format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 @endyaml

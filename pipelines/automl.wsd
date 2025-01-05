@@ -1,0 +1,186 @@
+@startuml automl_pipeline_design
+title AutoML Pipeline Design
+caption © 2025, Dmitry Petukhov. MIT License.
+footer Last updated at 2024-12-27
+scale 2
+
+
+namespace configurations {
+    entity PipelineSettings { }
+}
+
+
+namespace models {
+
+    entity Model {
+        Supervised Model Entity
+        ==
+        +id: str!
+        +version: str
+        +estimator: Any
+        +hyper_params: dict[str, Any]
+        +metrics: ModelPerformance
+        +tags: dict[str, Any]?
+    }
+
+    entity ModelPerformance {
+        Supervised Model Performance
+        ==
+        +accuracy: float
+        +f1: float
+        +roc_auc: float
+        +precision: float
+        +recall: float
+    }
+    ModelPerformance *.. Model    
+}
+
+
+namespace abstracts {
+
+    abstract class BasePipeline {
+        Base Pipeline
+        --
+        Responsibilities:
+        [x] Run the pipeline
+        ==
+        .. Ctor args ..
+        -settings: PipelineSettings
+        -logger: Logger
+        .. Methods ..
+        +{abstract} run() -> ModelPerformance
+    }
+    BasePipeline *.. configurations.PipelineSettings
+
+
+    abstract class BaseMinIoRepository {
+        Abstract Repository
+        --
+        Responsibilities:
+        [x] Define the contract for getting and putting data
+        [x] Compose the path to the data container
+        [x] Encapsulate logic for reading/writing batching
+        [x] Memory-consumption diagnostics
+        [x] Optimizations via caching
+        ==
+        .. Ctor args ..
+        -client: MinioClient
+        -logger: Logger
+        .. Methods ..
+        +{abstract} get(**kwargs) -> DataFrame
+        +{abstract} put(data: DataFrame, **kwargs) -> None
+        #_get_container_path(bucket_name, entity_type: str, level: str, version: str) -> URI
+    }
+
+
+    abstract class BasePipelineStage {
+        Base Pipeline Stage
+        --
+        Responsibilities:
+        [x] Run the stage of the pipeline
+        [x] Encapsulate the logic for input preparation
+        [x] Encapsulate the logic for output preparation
+        [x] Implement the stage execution logic using Template method pattern
+        [x] Time and memory consumption diagnostics
+        ==
+        .. Ctor args ..
+        -settings: StageSettings
+        -in_repo: BaseMinIoRepository
+        -out_repo: BaseMinIoRepository
+        -logger: Logger
+        .. Methods ..
+        +run() -> DataFrame
+        #{abstract} execute() -> None
+    }
+    BasePipelineStage *.. configurations.StageSettings
+    BasePipelineStage o.. BaseMinIoRepository
+}
+
+
+namespace data {
+
+    class TrxLogRepository {
+        Transactions Log Repository
+        -- 
+        Responsibilities:
+        [x] Get transactions log for specific period/transaction range
+        [x] Encapsulate logic for filtering by tags
+        [x] Put transactions log data with specific tags
+        ==
+        .. Ctor args ..
+        -settings
+        .. Methods ..
+        +get(from_id: int64, to_id: int64, only_with_tags: dict[str, Any]?) -> DataFrame
+        +put(data: DataFrame, tags: dict[str, Any]) -> None
+    }
+    BaseMinIoRepository <|-- TrxLogRepository
+
+
+    class TrxFeaturesRepository {
+        Transactions Features Repository
+        -- 
+        Responsibilities:
+        [x] Get transactions features
+        [x] Put transactions features
+        ==
+        .. Ctor args ..
+        -settings
+    }
+    BaseMinIoRepository <|-- TrxFeaturesRepository
+    
+
+    class ModelRepository {
+        Model Repository
+        --
+        Responsibilities:
+        [x] Get model and hyper-parameters
+        [x] Put model with its artifacts (hyper-parameters, metrics, etc.)
+        ==
+        .. Ctor args ..
+        -minio_client
+        .. Methods ..
+        +get_model(model_id: str, hyperparams_only: bool = False) -> Model
+        +put_model(model: Model, with_artifacts: bool = True) -> None
+    }
+    BaseMinIoRepository <|-- ModelRepository
+    ModelRepository *.. models.Model
+
+
+    class Splitter {
+        Splitter
+        --
+        Responsibilities:
+        [x] Split the data applying the specific strategy
+        ==
+        .. Ctor ..
+        -settings
+        .. Methods ..
+        +split(data: DataFrame) -> Tuple[DataFrame, DataFrame]
+    }
+}
+
+
+namespace pipelines {
+
+    class AutoMLPipeline {
+        AutoML Pipeline
+        ==
+        + run() -> ModelPerformance
+    }
+    BasePipeline <|-- AutoMLPipeline
+
+
+    class TrainingStage {
+        Training Stage
+        ==
+        .. Ctor ..
+        -splitter: Splitter
+        .. Methods ..
+        +execute() -> None
+    }
+    BasePipelineStage <|-- TrainingStage
+    Splitter o-- TrainingStage
+}
+
+
+@enduml
