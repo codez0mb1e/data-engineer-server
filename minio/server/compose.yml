@@ -1,4 +1,27 @@
 services:
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_ROOT_PASSWORD}
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
   minio:
     image: minio/minio:RELEASE.2024-08-03T04-33-23Z
     container_name: minio
@@ -10,6 +33,24 @@ services:
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - MINIO_NOTIFY_AMQP_ENABLE=on   
+      #- MINIO_NOTIFY_AMQP_URL='amqp://guest:guest@192.168.1.2:15672'
+      #- MINIO_NOTIFY_AMQP_EXCHANGE=events
+      #- MINIO_NOTIFY_AMQP_EXCHANGE_DURABLE=true
+      #- MINIO_NOTIFY_AMQP_EXCHANGE_INTERNAL=false
+      #- MINIO_NOTIFY_AMQP_ROUTING_KEY=events
+      #- MINIO_NOTIFY_AMQP_ROUTING_KEY_PREFIX=prefix
+      #- MINIO_NOTIFY_AMQP_DELIVERY_MODE=2
+      #- MINIO_NOTIFY_AMQP_MANDATORY=false
+      #- MINIO_NOTIFY_AMQP_IMMEDIATE=false
+      #- MINIO_NOTIFY_AMQP_CONTENT_TYPE=application/json
+      #- MINIO_NOTIFY_AMQP_AUTO_DELETED=false
+      #- MINIO_NOTIFY_AMQP_INTERNAL=false
+      #- MINIO_NOTIFY_AMQP_NO_WAIT=false
+      #- MINIO_NOTIFY_AMQP_CONSUMER_TAG=consumer
+      #- MINIO_NOTIFY_AMQP_CONSUMER_EXCLUSIVE=false
+      #- MINIO_NOTIFY_AMQP_CONSUMER_NO_LOCAL=false
+
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
@@ -27,10 +68,12 @@ services:
       timeout: 5s
       retries: 3
       start_period: 5s
+    depends_on:
+      - rabbitmq
 
 volumes:
   minio_data:
-    external: true
+  rabbitmq_data:
 
 networks:
   backend:
