@@ -8,7 +8,7 @@
 # 1. GitHub Actions (self-hosted agent) ----
 # Set up
 # Go to the repository settings -> Actions -> Add runner
-# https://github.com/codez0mb1e/<your_repo>/settings/actions/runners/new?arch=x64&os=linux
+# https://github.com/<your_account>/<your_repo>/settings/actions/runners/new?arch=x64&os=linux
 # and follow the instructions
 
 # Run as a service [1]

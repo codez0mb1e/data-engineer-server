@@ -30,7 +30,7 @@ git config --list
 mkdir ~/apps && cd ~/apps
 
 # Now you can clone repo (for example this repo):
-git clone git@github.com:codez0mb1e/cloud-rstudio-server.git
+git clone git@github.com:codez0mb1e/data-engineer-server.git
 
 
 # 3. Commit signature verification [4] ----
