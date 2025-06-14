@@ -1,0 +1,136 @@
+@startyaml automl_config
+title AutoML Pipeline Configuration
+
+
+experiment_settings:
+    name: AutoML Experiment
+    dir: '/experiments/automl'
+    version: '20250101'
+
+stages:
+    data_ingestion:
+        resources:
+            threads_n: 32
+
+    data_preprocessing:
+        missing_values_policy: 'fill_with_mean'
+        categorical_encoding: 'one_hot'
+        scaling: 'standard'
+
+    feature_engineering:
+        columns:
+            unique_id: 'trx_id'
+            target: 'is_fraud'
+            extra: ['created_at', 'updated_at']
+    
+    feature_selection:
+        selection_methods: ['correlation', 'mutual_info', 'chi2']
+        correlation_threshold: 0.85
+        max_features_n: 128
+
+    model_training:
+        columns:
+            unique_id: 'trx_id'
+            features_list: ['from_account', 'to_account', 'amount_log']
+            target: 'is_fraud'
+            extra: ['created_at', 'updated_at']
+        search_space:
+            policy: 'Bayesian Search'
+            learning_rate: [0.01, 0.1]
+            n_estimators: [10, 100, 1000]
+            max_depth: [8, 16, 32]
+            top_n_models: 10
+        resources:
+            threads_n: 32
+            max_duration_sec: 3600
+            max_models_n: 100
+            max_memory_gb: 64
+        splitting:
+            policy: 'stratified'
+            split_ratio: [0.7, 0.2, 0.1]
+        early_stopping:
+            metric: 'roc_auc'
+            patience: 5
+            min_delta: 0.01
+    
+    model_evaluation:
+        metrics: ['f1', 'roc_auc']
+        resources:
+            threads_n: 32
+            max_duration_sec: 7200
+            max_memory_gb: 128
+        splitting:
+            policy: 'StratifiedKFold'
+            folds_n: 10
+            split_ratio: [0.7, 0.2, 0.1]
+        early_stopping:
+            metric: 'roc_auc'
+            patience: 10
+            min_delta: 0.001
+    
+    release_model:
+        # Placeholder for model release configuration.
+        # Define details such as versioning, storage location, and metadata.
+        versioning: true
+        storage_location: '/models/released'
+        metadata: 
+            author: 'team_name'
+            description: 'Released model for production use'
+
+    deploy_model:
+        # Placeholder for model deployment configuration.
+        # Define details such as target environment, deployment strategy, and resources.
+        target_environment: 'production'
+        deployment_strategy: 'rolling_update'
+        resources:
+            cpu_cores: 4
+            memory_gb: 16
+
+    misc:
+        random_seed: 0xDECAF
+        cache_dir: '/path/to/cache_dir'
+        verbosity: 1
+
+model:
+    name: AutoML Model Example
+    version: '1.0.0'
+    model_type: 'classification'
+    estimators: ['catboost', 'lgbm', 'random_forest']
+    metrics: ['f1', 'roc_auc']
+
+
+datasets:
+    historical_trx:
+        # Historical transactions log
+        bucket: 'new_model_data'
+        level: 'raw'
+        version: '20250101'
+        only_objects_with_tags: ['source:P2P', 'source:ecomm']
+        batch_size: 1000000
+    trx_features:
+        # Transaction features dataset
+        bucket: 'new_model_data'
+        use_last_version: true
+        level: 'features'
+        only_objects_with_tags: ['version:stable', 'status:reviewed']
+        batch_size: 100000
+    models:
+        bucket: 'new_model_data'
+        level: 'models'
+
+
+sinks:
+    minio:
+        endpoint: 'http://minio:9000'
+        access_key: 'm1nI0123'
+        secret: '********'
+
+
+logger_settings:
+    level: 'INFO'
+    handlers: ['console', 'file']
+    console:
+        level: 'INFO'
+        format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+@endyaml
