@@ -69,7 +69,22 @@ stages:
             min_delta: 0.001
     
     release_model:
+        # Placeholder for model release configuration.
+        # Define details such as versioning, storage location, and metadata.
+        versioning: true
+        storage_location: '/models/released'
+        metadata: 
+            author: 'team_name'
+            description: 'Released model for production use'
+
     deploy_model:
+        # Placeholder for model deployment configuration.
+        # Define details such as target environment, deployment strategy, and resources.
+        target_environment: 'production'
+        deployment_strategy: 'rolling_update'
+        resources:
+            cpu_cores: 4
+            memory_gb: 16
 
     misc:
         random_seed: 0xDECAF
