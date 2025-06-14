@@ -12,7 +12,7 @@ ENV_TYPE = EnvType.Prod
 ROW_IDS_RANGE = RowIdsRange(from_=0, to=int(1e6))
 
 # Initialize components
-config = СonfigFactory.from_yaml(ENV_TYPE)
+config = ConfigFactory.from_yaml(ENV_TYPE)
 logger = LoggerFactory.from_config(config.logger_settings)
 
 # Data access layer
