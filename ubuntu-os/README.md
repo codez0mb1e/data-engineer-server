@@ -10,7 +10,6 @@
 - [Cookies](#cookies)
 - [References](#references)
 
-
 ## Discover
 
 OS info:
@@ -20,6 +19,7 @@ uname -a
 ```
 
 Hardware info:
+
     
 ```bash
 lscpu | grep "Model name" # CPU
@@ -113,7 +113,7 @@ cd ~/.ssh
 ls -l .
 
 # generate new keys pair (if necessary)
-ssh-keygen -t rsa -b 4096 -f $KEY_NAME -C $USR
+ssh-keygen -t ed25519 -f $KEY_NAME -C $USR
 
 # View public key
 cat $KEY_NAME.pub
