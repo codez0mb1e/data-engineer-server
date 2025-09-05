@@ -42,7 +42,7 @@ uv add ruff # if not installed globally yet
 uv lock
 
 
-# 2. Configure ruff for Python projects ----
+# 3. Configure ruff for Python projects ----
 mkdir -p ~/.config/ruff
 cat <<EOF > ~/.config/ruff/config.toml
 [tool.ruff]
