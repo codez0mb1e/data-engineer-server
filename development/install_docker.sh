@@ -17,6 +17,7 @@ echo \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
+
 # 1. Install ----
 # install packages
 sudo apt -y update
@@ -56,6 +57,9 @@ docker logs portainer
 # 3. Connect to Docker registries ----
 # Docker Hub
 docker login -u <username> -p <password>
+
+# GitHub Container Registry
+echo <gh_token> | docker login ghcr.io -u <username> --password-stdin
 
 # Azure Container Registry
 az login
