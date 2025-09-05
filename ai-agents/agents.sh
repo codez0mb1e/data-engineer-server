@@ -47,7 +47,7 @@ uv add "autogen-ext[web-surfer,openai,ollama,azure]"
 
 
 # 2. Install Playwright ----
-playwright install 
+playwright install
 
 
 # References:
