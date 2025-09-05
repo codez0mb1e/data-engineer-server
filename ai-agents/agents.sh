@@ -40,10 +40,10 @@ docker run -d --network ollama-net -p 3000:8080 \
 
 
 # 1. Install AutoGen ----
-uv sync --all-extras
 
 uv add "autogen-core" "autogen-agentchat"
 uv add "autogen-ext[web-surfer,openai,ollama,azure]"
+uv sync --all-extras
 
 
 # 2. Install Playwright ----
