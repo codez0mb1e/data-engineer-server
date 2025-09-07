@@ -1,0 +1,89 @@
+networks:
+  ai-agents-net:
+    driver: bridge
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - ai-agents-net
+    restart: unless-stopped
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_NUM_PARALLEL=2
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '7.0'
+          memory: 32G
+        reservations:
+          cpus: '4.0'
+          memory: 16G
+
+  model-downloader:
+    image: ollama/ollama:latest
+    container_name: model-downloader
+    volumes:
+      - ollama:/root/.ollama
+      - ./download_models.sh:/download_models.sh
+    networks:
+      - ai-agents-net
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: ["bash"]
+    command: ["/download_models.sh"]
+    restart: "no"
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    networks:
+      - ai-agents-net
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
+      - WEBUI_AUTH=False  # Set to True for authentication
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+volumes:
+  ollama:
+    driver: local
+  open-webui:
+    driver: local
