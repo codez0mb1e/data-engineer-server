@@ -23,7 +23,7 @@ ollama pull llama3.2:3b
 echo "✅ Downloaded llama3.2"
 
 ollama pull gpt-oss:20b
-echo "✅ Downloaded gpt-4o"
+echo "✅ Downloaded gpt-oss:20b"
 
 ollama pull deepseek-coder:6.7b
 echo "✅ Downloaded deepseek-coder"
