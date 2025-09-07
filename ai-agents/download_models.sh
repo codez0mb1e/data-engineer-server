@@ -8,7 +8,7 @@ echo "🤖 Starting Ollama models download..."
 
 # Wait for Ollama service to be ready
 echo "⏳ Waiting for Ollama service to be ready..."
-until curl -f http://localhost:11434/api/health >/dev/null 2>&1; do
+until ollama list >/dev/null 2>&1; do
     echo "   Waiting for Ollama..."
     sleep 3
 done
