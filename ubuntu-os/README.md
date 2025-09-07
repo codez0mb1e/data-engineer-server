@@ -155,6 +155,12 @@ ssh-keygen -y -f $KEY_NAME | ssh $USR@$HOST 'cat >> .ssh/authorized_keys'
 
 ## Cookies
 
+Generate random password:
+
+```bash
+openssl rand -hex 32
+```
+
 Matrix screensaver:
 
 ```bash
