@@ -3,18 +3,11 @@
 #
 # AI agents development environment setup
 #
-# This script sets up:
-# - Infra
-# - Frameworks
-# - Tools
-#
-# Note: will be decomposed into separate scripts later
-# Usage: ./agents.sh
-#
 
 
 # 0. Install Ollama [1]
-# install
+# See compose.yml to run Ollama server in Docker
+# or install
 cd ~
 curl -fsSL https://ollama.com/install.sh | sh
 
@@ -24,6 +17,9 @@ ollama -v
 # load LLMs
 ollama run llama3.2
 ollama run deepseek-coder
+
+# unistall Ollama
+# https://medium.com/@heartonbit/uninstalling-ollama-db78dd9545fa
 
 
 # Connect Ollama to Open-WebUI [2]
@@ -47,6 +43,7 @@ uv sync --all-extras
 
 
 # 2. Install Playwright ----
+
 playwright install
 
 
