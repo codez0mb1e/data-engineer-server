@@ -18,7 +18,7 @@ ollama -v
 ollama run llama3.2
 ollama run deepseek-coder
 
-# unistall Ollama
+# uninstall Ollama
 # https://medium.com/@heartonbit/uninstalling-ollama-db78dd9545fa
 
 
