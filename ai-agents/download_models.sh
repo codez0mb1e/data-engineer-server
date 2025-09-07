@@ -10,7 +10,7 @@ echo "🤖 Starting Ollama models download..."
 echo "⏳ Waiting for Ollama service to be ready..."
 until curl -f http://localhost:11434/api/health >/dev/null 2>&1; do
     echo "   Waiting for Ollama..."
-    sleep 5
+    sleep 3
 done
 
 echo "✅ Ollama service is ready!"
@@ -19,14 +19,14 @@ echo "✅ Ollama service is ready!"
 echo "📥 Downloading models..."
 
 # Core models for development
-ollama pull llama3.2:latest
+ollama pull llama3.2:3b
 echo "✅ Downloaded llama3.2"
 
-ollama pull deepseek-coder:latest
-echo "✅ Downloaded deepseek-coder"
+ollama pull gpt-oss:20b
+echo "✅ Downloaded gpt-4o"
 
-ollama pull codellama:7b
-echo "✅ Downloaded codellama:7b"
+ollama pull deepseek-coder:6.7b
+echo "✅ Downloaded deepseek-coder"
 
 
 echo "🎉 All models downloaded successfully!"
