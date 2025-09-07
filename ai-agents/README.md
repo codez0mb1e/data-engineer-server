@@ -4,8 +4,8 @@ Scripts for local AI development.
 
 - [Quick Start](#quick-start)
 - [Services](#services)
-- [Models Included](#models-included)
-  - [Monitor Download Progress](#monitor-download-progress)
+- [Models](#models)
+  - [Monitoring download](#monitoring-download)
 - [Configuration](#configuration)
 
 
@@ -27,7 +27,7 @@ open http://localhost:3000
 - **Ollama**: http://localhost:11434 (LLM inference)
 - **Open WebUI**: http://localhost:3000 (Chat interface)
 
-## Models Included
+## Models
 
 The `download_models.sh` script automatically downloads:
 
@@ -37,7 +37,7 @@ The `download_models.sh` script automatically downloads:
 
 See all available models at [ollama.com/models](https://ollama.com/models).
 
-### Monitor Download Progress
+### Monitoring download
 
 ```bash
 # Watch model download progress
