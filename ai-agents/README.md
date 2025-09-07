@@ -31,7 +31,7 @@ open http://localhost:3000
 
 The `download_models.sh` script automatically downloads:
 
-- `llama3.2`: light-weighted general purpose chat model
+- `llama3.2`: lightweight general purpose chat model
 - `deepseek-coder`: code generation and assistance
 - `gpt-oss`: SotA reasoning model
 
