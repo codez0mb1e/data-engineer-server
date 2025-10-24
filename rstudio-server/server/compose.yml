@@ -1,0 +1,22 @@
+services:
+  rstudio-server:
+    image: rocker/tidyverse:4.5
+    container_name: rserver
+    ports:
+      - "127.0.0.1:8787:8787"
+    restart: unless-stopped
+    environment:
+      - USER=${RSTUDIO_USER:-rstudio}
+      - PASSWORD=${RSTUDIO_PASSWORD}
+      - DISABLE_AUTH=false
+      - USERID=${RSTUDIO_USERID:-1000}
+      - GROUPID=${RSTUDIO_GROUPID:-1000}
+      - ROOT=TRUE
+      - LANG=en_US.UTF-8
+      - TZ=${TZ:-UTC}
+    volumes:
+      - /home/${USER}/:/home/rstudio/
+
+volumes:
+  rstudio-data:
+    driver: local
