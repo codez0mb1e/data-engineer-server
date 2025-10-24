@@ -2,8 +2,8 @@
 
 #
 # Install R Studio Server via deb package
+# Note: deprecated, use rstudio/server/compose.yml instead
 #
-
 
 # 0. R-packages dependencies ----
 sudo apt install -y gfortran libxml2-dev libssl-dev libcurl4-openssl-dev
