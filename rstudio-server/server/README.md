@@ -105,7 +105,7 @@ RStudio Server is connected to the `ai-agents-net` network, allowing it to commu
 - Open WebUI (http://open-webui:8080)
 - Other MCP servers.
 
-:note: Use `chattr` package for dialog with OpenAI, Anthropic, or other remote LLMs.
+> **Note:** Use `chattr` package for dialog with OpenAI, Anthropic, or other remote LLMs.
 
 ## References
 
