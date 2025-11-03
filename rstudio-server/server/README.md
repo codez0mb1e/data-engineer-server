@@ -7,7 +7,6 @@
   - [Troubleshooting](#troubleshooting)
 - [Integration with AI Agents](#integration-with-ai-agents)
   - [Remote LLMs](#remote-llms)
-  - [Local LLM](#local-llm)
 - [References](#references)
 
 ## Docker Compose Configuration
@@ -41,10 +40,8 @@ Environment variables:
 Volumes:
 - `./data`: Persistent data storage
 - `./projects`: R projects directory
-- `/home/${USER}/apps`: Read-only mount of your apps directory
+- `./apps`: Read-only mount of your apps directory
 
-Network:
-- Connected to `ai-agents-net` for integration with [local Ollama services](../ai-agents/).
 
 ### Commands
 
@@ -97,15 +94,7 @@ Add the line:
 
 And then restart RStudio Server and follow the [instructions to setup Copilot in RStudio](https://docs.posit.co/ide/user/ide/guide/tools/copilot.html).
 
-### Local LLM
-
-RStudio Server is connected to the `ai-agents-net` network, allowing it to communicate with:
-
-- Ollama (http://ollama:11434)
-- Open WebUI (http://open-webui:8080)
-- Other MCP servers.
-
-> **Note:** Use `chattr` package for dialog with OpenAI, Anthropic, or other remote LLMs.
+*Note:* Use `chattr` package for dialog with OpenAI, Anthropic, or other remote LLMs, but not supported Copilot at November, 2025.
 
 ## References
 

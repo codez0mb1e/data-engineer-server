@@ -15,8 +15,7 @@ services:
       - LANG=en_US.UTF-8
       - TZ=${TZ:-UTC}
     volumes:
-      - /home/${USER}/:/home/rstudio/
-
-volumes:
-  rstudio-data:
-    driver: local
+      # note: change hosts paths as needed
+      - ./projects:/home/rstudio/projects
+      - ./data:/home/rstudio/data
+      - ./apps:/home/rstudio/apps:ro
