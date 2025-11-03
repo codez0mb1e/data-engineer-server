@@ -106,7 +106,7 @@ docker compose up -d
 
 Notes:
 - Port is bound to 127.0.0.1:8787 by default.
-- The compose file mounts `/home/${USER}/` into the container at `/home/rstudio/`.
+- The compose file mounts the relative directories `./projects`, `./data`, and `./apps` into the container at `/home/rstudio/`.
 - Extra tips and R package guidance live in `rstudio-server/ds-frameworks/README.md`.
 
 
