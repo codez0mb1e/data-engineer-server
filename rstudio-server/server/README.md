@@ -95,7 +95,7 @@ nano /etc/rstudio/rsession.conf
 Add the line:
 > copilot-enabled=1
 
-And than restart RStudio Server and follow the [instructions to setup Copilot in RStudio](https://docs.posit.co/ide/user/ide/guide/tools/copilot.html).
+And then restart RStudio Server and follow the [instructions to setup Copilot in RStudio](https://docs.posit.co/ide/user/ide/guide/tools/copilot.html).
 
 ### Local LLM
 
