@@ -7,8 +7,9 @@
 # 1. Install .NET 9 ----
 # install
 sudo add-apt-repository ppa:dotnet/backports
-sudo apt-get update && \
-  sudo apt-get install -y dotnet-sdk-9.0
+
+sudo apt update && \
+  sudo apt install -y dotnet-sdk-9.0
 # validate
 dotnet --info
 

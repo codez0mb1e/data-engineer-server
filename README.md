@@ -20,26 +20,27 @@
 - [Contributing](#contributing)
 
 
-Local-first data engineering and AI/DS workspace with dockerized services, helper scripts, and Python clients.
+Local-first Data engineering and AI workspace with dockerized services, helper scripts, and Python clients.
 
 - AI agents (Ollama + Open WebUI)
 - Object storage (MinIO) with event bus (RabbitMQ)
 - Centralized structured logging (Seq)
 - RStudio Server for R analytics
-- Ubuntu provisioning notes and developer setup scripts
+- Ubuntu provisioning notes and developer setup scripts.
 
 
 ## Repository structure
 
 ```
 |--.
-  | -- ai-agents/        # Local AI stack (Ollama + Open WebUI) and model bootstrap
-  | -- development/      # One-off scripts to set up dev tools on Ubuntu
-  | -- minio/            # MinIO object storage: server compose + Python client
-  | -- pipelines/        # AutoML pipeline docs and diagrams (conceptual)
-  | -- rstudio-server/   # RStudio Server via Docker Compose (+ R frameworks notes)
-  | -- seq/              # Seq logging: server compose + Python client
-  | -- ubuntu-os/        # Ubuntu 24.04 tips, packages, disks/network, users
+|  |-- ai-agents/        # Local AI stack (Ollama + Open WebUI) and model bootstrap
+|  |-- development/      # One-off scripts to set up dev tools on Ubuntu
+|  |-- minio/            # MinIO object storage: server compose + Python client
+|  |-- pipelines/        # AutoML pipeline docs and diagrams (conceptual)
+|  |-- rstudio-server/   # RStudio Server via Docker Compose (+ R frameworks notes)
+|  |-- seq/              # Seq logging: server compose + Python client
+|  |-- ubuntu-os/        # Ubuntu 24.04 tips, packages, disks/network, users
+|  `-- README.md
 ```
  
 
@@ -224,11 +225,11 @@ Most services read configuration from simple `.env` files or inline compose env.
 
 Folder: `development/` — curated scripts for setting up a workstation/server.
 
-- `install_docker.sh` — Docker Engine + Compose
-- `install_conda.sh` — Miniconda
+- `docker.sh` — Docker Engine + Compose
+- `conda.sh` — Miniconda
 - `uv_and_ruff.sh` — Python packaging (uv) and linting (ruff)
-- `install_dotnet_tools.sh` — .NET SDK
-- `install_azure_tools.sh` — Azure CLI/tools
+- `dotnet_tools.sh` — .NET SDK
+- `azure_tools.sh` — Azure CLI/tools
 - `git_configure.sh` — Git username/email and quality-of-life settings
 - plus others for CI/CD, system design, and optional tools
 
