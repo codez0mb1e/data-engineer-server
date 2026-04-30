@@ -1,5 +1,5 @@
 services:
-  rstudio-server:
+  rserver:
     image: rocker/tidyverse:4.5
     container_name: rserver
     ports:
@@ -8,7 +8,7 @@ services:
     environment:
       - USER=${RSTUDIO_USER:-rstudio}
       - PASSWORD=${RSTUDIO_PASSWORD}
-      - DISABLE_AUTH=false
+      - DISABLE_AUTH=false # default is false
       - USERID=${RSTUDIO_USERID:-1000}
       - GROUPID=${RSTUDIO_GROUPID:-1000}
       - ROOT=TRUE
@@ -19,3 +19,14 @@ services:
       - ./projects:/home/rstudio/projects
       - ./data:/home/rstudio/data
       - ./apps:/home/rstudio/apps:ro
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+          cpus: "4.0"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8787/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
