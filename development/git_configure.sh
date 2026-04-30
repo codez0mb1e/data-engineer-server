@@ -55,6 +55,18 @@ git config --global commit.gpgsign true
 
 [ -f ~/.bashrc ] && echo 'export GPG_TTY=$(tty)' >> ~/.bashrc
 
+# cache GPG passphrase for 1 hour
+echo "default-cache-ttl 3600" >> ~/.gnupg/gpg-agent.conf
+echo "max-cache-ttl 86400" >> ~/.gnupg/gpg-agent.conf
+gpgconf --reload gpg-agent
+
+# (optional) if you have issues with gpg
+# sudo install -d -m 755 /etc/gnupg && sudo touch /etc/gnupg/gpgconf.conf
+gpgconf --check-config
+
+# create alias to test gpg signature 
+grep -q "alias signme=" ~/.bashrc || echo "alias signme='echo \"test\" | gpg --clearsign | gpg --verify'" >> ~/.bashrc
+
 
 # References ----
 # 1. https://happygitwithr.com/push-pull-github.html
