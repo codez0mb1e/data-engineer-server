@@ -2,7 +2,7 @@
 
 #
 # Install R Studio Server via Docker
-# Note: deprecated, use rstudio/server/compose.yml instead
+# WARN: deprecated, use rstudio-server/server/compose.yml instead
 #
 
 USR="<username>"
@@ -14,7 +14,7 @@ docker run -d -p 8787:8787 -e PASSWORD=$PWD -v /home/$USR/apps/:/home/rstudio/ -
 
 docker start -i rserver
 
-ssh -i ~/.ssh/codez0mb1e -N -L 8787:localhost:8787 $USR@$HOST
+ssh -i ~/.ssh/$USR -N -L 8787:localhost:8787 $USR@$HOST
 # Open rstudio http://localhost:8787/
 
 
