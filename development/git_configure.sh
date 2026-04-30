@@ -68,6 +68,15 @@ gpgconf --check-config
 grep -q "alias signme=" ~/.bashrc || echo "alias signme='echo \"test\" | gpg --clearsign | gpg --verify'" >> ~/.bashrc
 
 
+# X. GitHub CLI ----
+# install
+sudo apt install -y gh 
+# check
+gh --version
+# auth
+gh auth login --web
+
+
 # References ----
 # 1. https://happygitwithr.com/push-pull-github.html
 # 2. https://github.com/settings/keys
