@@ -16,9 +16,8 @@ services:
       - TZ=${TZ:-UTC}
     volumes:
       # note: change hosts paths as needed
-      - ./projects:/home/rstudio/projects
-      - ./data:/home/rstudio/data
-      - ./apps:/home/rstudio/apps:ro
+      - ./projects:/home/rstudio/projects # projects directory
+      - ./data:/home/rstudio/data # data directory (make read-only if desired)
       - ./config.json:/home/rstudio/.config/rstudio/rstudio-prefs.json
     deploy:
       resources:
