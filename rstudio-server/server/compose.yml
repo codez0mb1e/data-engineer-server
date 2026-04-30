@@ -19,6 +19,7 @@ services:
       - ./projects:/home/rstudio/projects
       - ./data:/home/rstudio/data
       - ./apps:/home/rstudio/apps:ro
+      - ./config.json:/home/rstudio/.config/rstudio/rstudio-prefs.json
     deploy:
       resources:
         limits:
