@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install `uv` and `ruff` for Python development
+# Install `uv`, `ruff` and `pyrefly` for Python development
 #
 
 
@@ -24,6 +24,16 @@ uv python upgrade 3.13
 # Install ruff (globally)
 uv tool install ruff@latest
 ruff --version
+
+
+# Install pyrefly
+uv tool install pyrefly@latest
+pyrefly --version
+
+# add extension to VS Code
+# https://marketplace.visualstudio.com/items?itemName=meta.pyrefly
+
+pyrefly init
 
 
 # 2. Create a new project ----
@@ -50,3 +60,4 @@ uv tool upgrade ruff
 # References ----
 # 1. https://docs.astral.sh/uv/getting-started/features/
 # 2. https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff
+# 3. https://pyrefly.org/en/docs/installation/
