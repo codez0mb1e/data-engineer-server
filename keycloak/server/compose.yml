@@ -1,6 +1,6 @@
 # ============================================================
-# Keycloak + PostgreSQL — hardened Docker Compose
-# Environment: local dev with production-oriented settings
+# Keycloak + PostgreSQL + Traefik — hardened Docker Compose
+# Environment: production-oriented with Traefik reverse proxy
 #
 # Usage:
 #   cp .env.example .env   # then fill in secrets
@@ -9,9 +9,49 @@
 # IMPORTANT: KC_BOOTSTRAP_ADMIN_* creates a TEMPORARY admin.
 #   After first login, create a permanent admin user,
 #   then DELETE the bootstrap admin from the master realm.
+#
+# Traefik notes:
+#   - HTTP (80) redirects to HTTPS (443) automatically.
+#   - TLS certificates are issued via Let's Encrypt (ACME).
+#   - Set TRAEFIK_ACME_EMAIL and KC_HOSTNAME in .env before starting.
 # ============================================================
 
 services:
+  traefik:
+    image: traefik:v3.3
+    container_name: traefik
+    restart: unless-stopped
+    networks:
+      - keycloak-public
+    command:
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=keycloak-public
+      # ── Entrypoints ───────────────────────────────────────
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      # ── TLS / ACME (Let's Encrypt) ────────────────────────
+      - --certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_ACME_EMAIL:?TRAEFIK_ACME_EMAIL must be set}
+      - --certificatesresolvers.letsencrypt.acme.storage=/acme/acme.json
+      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+      # ── Observability ─────────────────────────────────────
+      - --accesslog=true
+      - --log.level=INFO
+      - --metrics.prometheus=true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_acme:/acme
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+
   postgres:
     image: postgres:16.3-alpine
     container_name: keycloak-postgres
@@ -48,7 +88,7 @@ services:
       postgres:
         condition: service_healthy
     command:
-      - start-dev          # ← change to `start` for real production (requires TLS or reverse proxy)
+      - start
     environment:
       # ── Database ──────────────────────────────────────────
       KC_DB: postgres
@@ -57,13 +97,12 @@ services:
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
 
       # ── Hostname ──────────────────────────────────────────
-      # For local dev: localhost. In production set to your public FQDN,
-      # e.g. https://sso.example.com
-      KC_HOSTNAME: ${KC_HOSTNAME:-http://localhost:8080}
+      # Set to your public FQDN, e.g. https://sso.example.com
+      KC_HOSTNAME: ${KC_HOSTNAME:?KC_HOSTNAME must be set}
       KC_HTTP_ENABLED: "true"
 
-      # ── Reverse proxy (uncomment when behind Nginx/Caddy/Traefik) ──
-      # KC_PROXY_HEADERS: xforwarded
+      # ── Reverse proxy — trust X-Forwarded-* headers from Traefik ──
+      KC_PROXY_HEADERS: xforwarded
 
       # ── Bootstrap admin (TEMPORARY — delete after first login) ──
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_ADMIN_USER:?KC_ADMIN_USER must be set}
@@ -77,10 +116,25 @@ services:
       # ── JVM heap (relative to container memory limit below) ──
       # MaxRAMPercentage=70 is the Keycloak default; tune as needed.
       JAVA_OPTS_KC_HEAP: "-XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=70"
-    ports:
-      # Only expose the main HTTP port to the host.
-      # Port 9000 (management/metrics) stays internal.
-      - "${KC_HTTP_PORT:-8080}:8080"
+    # No host port binding — Traefik routes traffic via Docker network.
+    expose:
+      - "8080"
+    labels:
+      - traefik.enable=true
+      # ── Router ────────────────────────────────────────────
+      - traefik.http.routers.keycloak.rule=Host(`${KC_HOSTNAME_BARE:?KC_HOSTNAME_BARE must be set}`)
+      - traefik.http.routers.keycloak.entrypoints=websecure
+      - traefik.http.routers.keycloak.tls=true
+      - traefik.http.routers.keycloak.tls.certresolver=letsencrypt
+      # ── Backend ───────────────────────────────────────────
+      - traefik.http.services.keycloak.loadbalancer.server.port=8080
+      # ── Middleware: security headers ──────────────────────
+      - traefik.http.middlewares.keycloak-headers.headers.stsSeconds=31536000
+      - traefik.http.middlewares.keycloak-headers.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.keycloak-headers.headers.forceSTSHeader=true
+      - traefik.http.middlewares.keycloak-headers.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.keycloak-headers.headers.browserXssFilter=true
+      - traefik.http.routers.keycloak.middlewares=keycloak-headers
     deploy:
       resources:
         limits:
@@ -94,9 +148,10 @@ networks:
     driver: bridge
     internal: true   # blocks external access to this network
 
-  # Public network: Keycloak is reachable from the host / reverse proxy.
+  # Public network: Traefik and Keycloak communicate here.
   keycloak-public:
     driver: bridge
 
 volumes:
   keycloak_postgres_data:
+  traefik_acme:
