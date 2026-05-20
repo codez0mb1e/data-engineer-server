@@ -56,8 +56,10 @@ git config --global commit.gpgsign true
 [ -f ~/.bashrc ] && echo 'export GPG_TTY=$(tty)' >> ~/.bashrc
 
 # cache GPG passphrase for 1 hour
-echo "default-cache-ttl 3600" >> ~/.gnupg/gpg-agent.conf
-echo "max-cache-ttl 86400" >> ~/.gnupg/gpg-agent.conf
+mkdir -p ~/.gnupg
+touch ~/.gnupg/gpg-agent.conf
+grep -qxF "default-cache-ttl 3600" ~/.gnupg/gpg-agent.conf || echo "default-cache-ttl 3600" >> ~/.gnupg/gpg-agent.conf
+grep -qxF "max-cache-ttl 86400" ~/.gnupg/gpg-agent.conf || echo "max-cache-ttl 86400" >> ~/.gnupg/gpg-agent.conf
 gpgconf --reload gpg-agent
 
 # (optional) if you have issues with gpg
