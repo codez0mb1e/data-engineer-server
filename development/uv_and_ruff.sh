@@ -33,13 +33,13 @@ pyrefly --version
 # add extension to VS Code
 # https://marketplace.visualstudio.com/items?itemName=meta.pyrefly
 
-pyrefly init
-
 
 # 2. Create a new project ----
 cd projects/
 uv init -n ai-agents
 cd ai-agents
+
+pyrefly init
 
 uv venv
 uv add ruff # if not installed globally yet
