@@ -1,0 +1,102 @@
+# ============================================================
+# Keycloak + PostgreSQL — hardened Docker Compose
+# Environment: local dev with production-oriented settings
+#
+# Usage:
+#   cp .env.example .env   # then fill in secrets
+#   docker compose up -d
+#
+# IMPORTANT: KC_BOOTSTRAP_ADMIN_* creates a TEMPORARY admin.
+#   After first login, create a permanent admin user,
+#   then DELETE the bootstrap admin from the master realm.
+# ============================================================
+
+services:
+  postgres:
+    image: postgres:16.3-alpine
+    container_name: keycloak-postgres
+    restart: unless-stopped
+    networks:
+      - keycloak-internal
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-keycloak}
+      POSTGRES_USER: ${POSTGRES_USER:-keycloak}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+    # ⚠️ Do NOT expose 5432 to the host in production.
+    # The DB is only reachable inside the keycloak-internal network.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-keycloak} -d ${POSTGRES_DB:-keycloak}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.4
+    container_name: keycloak
+    restart: unless-stopped
+    networks:
+      - keycloak-internal
+      - keycloak-public
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command:
+      - start-dev          # ← change to `start` for real production (requires TLS or reverse proxy)
+    environment:
+      # ── Database ──────────────────────────────────────────
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-keycloak}
+      KC_DB_USERNAME: ${POSTGRES_USER:-keycloak}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+
+      # ── Hostname ──────────────────────────────────────────
+      # For local dev: localhost. In production set to your public FQDN,
+      # e.g. https://sso.example.com
+      KC_HOSTNAME: ${KC_HOSTNAME:-http://localhost:8080}
+      KC_HTTP_ENABLED: "true"
+
+      # ── Reverse proxy (uncomment when behind Nginx/Caddy/Traefik) ──
+      # KC_PROXY_HEADERS: xforwarded
+
+      # ── Bootstrap admin (TEMPORARY — delete after first login) ──
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_ADMIN_USER:?KC_ADMIN_USER must be set}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_ADMIN_PASSWORD:?KC_ADMIN_PASSWORD must be set}
+
+      # ── Observability ─────────────────────────────────────
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
+      KC_LOG_LEVEL: "INFO"
+
+      # ── JVM heap (relative to container memory limit below) ──
+      # MaxRAMPercentage=70 is the Keycloak default; tune as needed.
+      JAVA_OPTS_KC_HEAP: "-XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=70"
+    ports:
+      # Only expose the main HTTP port to the host.
+      # Port 9000 (management/metrics) stays internal.
+      - "${KC_HTTP_PORT:-8080}:8080"
+    deploy:
+      resources:
+        limits:
+          # Keycloak docs recommend ≥ 750 MB; 2 GB for small prod workloads.
+          # JVM heap = MaxRAMPercentage % of this value.
+          memory: 1g
+
+networks:
+  # Internal network: only Keycloak and Postgres talk here.
+  keycloak-internal:
+    driver: bridge
+    internal: true   # blocks external access to this network
+
+  # Public network: Keycloak is reachable from the host / reverse proxy.
+  keycloak-public:
+    driver: bridge
+
+volumes:
+  keycloak_postgres_data:
