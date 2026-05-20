@@ -19,11 +19,8 @@ services:
       - ./projects:/home/rstudio/projects # projects directory
       - ./data:/home/rstudio/data # data directory (make read-only if desired)
       - ./config.json:/home/rstudio/.config/rstudio/rstudio-prefs.json
-    deploy:
-      resources:
-        limits:
-          memory: 8g
-          cpus: "4.0"
+    mem_limit: 8g
+    cpus: 4.0
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:8787/"]
       interval: 30s
