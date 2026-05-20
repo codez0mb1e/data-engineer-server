@@ -2,7 +2,7 @@
 
 #
 # Install R Studio Server via deb package
-# Note: deprecated, use rstudio/server/compose.yml instead
+# WARN: deprecated, use rstudio-server/server/compose.yml instead
 #
 
 # 0. R-packages dependencies ----

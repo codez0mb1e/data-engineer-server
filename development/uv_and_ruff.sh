@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Install `uv` and `ruff` for Python development
+# Install `uv`, `ruff` and `pyrefly` for Python development
 #
 
 
@@ -10,27 +10,28 @@
 curl -LsSf https://astral.sh/uv/install.sh | sh
 # check
 uv -V
-# turn on auto-updates
-uv self update
 
 
 # 1. Install Python tools for uv ----
-# Install Python 3.12
-uv python install 3.12
-uv python list 3.12
+# Install Python 3.13
+uv python install 3.13
+uv python list 3.13
 echo 'import platform; print(platform.python_version())' | uv run -
 
-uv python upgrade 3.12
-
-# Install venv
-uv venv
+uv python upgrade 3.13
 
 
 # Install ruff (globally)
 uv tool install ruff@latest
 ruff --version
 
-uv tool upgrade ruff
+
+# Install pyrefly
+uv tool install pyrefly@latest
+pyrefly --version
+
+# add extension to VS Code
+# https://marketplace.visualstudio.com/items?itemName=meta.pyrefly
 
 
 # 2. Create a new project ----
@@ -38,30 +39,25 @@ cd projects/
 uv init -n ai-agents
 cd ai-agents
 
+pyrefly init
+
+uv venv
 uv add ruff # if not installed globally yet
 uv lock
 
 
-# 3. Configure ruff for Python projects ----
-mkdir -p ~/.config/ruff
-cat <<EOF > ~/.config/ruff/config.toml
-[tool.ruff]
-line-length = 120
-select = ["E", "F", "W", "C90"]
-exclude = ["__pycache__", "venv", ".git", ".ruff_cache"]
-fix = true
-target-version = "py312"
+# 3. Run ruff ----
+# Check for linting issues in the current directory
+uv run ruff check --fix . # to auto-fix issues where possible
+uv run ruff format . # to reformat code according to ruff's rules
 
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
-EOF
 
-echo "Ruff configuration file created at ~/.config/ruff/config.toml"
-
-ruff check --config ~/.config/ruff/config.toml --fix --exit-zero
-echo "Ruff configuration validated successfully."
+# X. Update uv and ruff ----
+uv self update
+uv tool upgrade ruff
 
 
 # References ----
 # 1. https://docs.astral.sh/uv/getting-started/features/
 # 2. https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff
+# 3. https://pyrefly.org/en/docs/installation/

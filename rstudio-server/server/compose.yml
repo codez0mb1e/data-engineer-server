@@ -1,14 +1,14 @@
 services:
   rstudio-server:
     image: rocker/tidyverse:4.5
-    container_name: rserver
+    container_name: rstudio-server
     ports:
       - "127.0.0.1:8787:8787"
     restart: unless-stopped
     environment:
       - USER=${RSTUDIO_USER:-rstudio}
       - PASSWORD=${RSTUDIO_PASSWORD}
-      - DISABLE_AUTH=false
+      - DISABLE_AUTH=false # default is false
       - USERID=${RSTUDIO_USERID:-1000}
       - GROUPID=${RSTUDIO_GROUPID:-1000}
       - ROOT=TRUE
@@ -16,6 +16,14 @@ services:
       - TZ=${TZ:-UTC}
     volumes:
       # note: change hosts paths as needed
-      - ./projects:/home/rstudio/projects
-      - ./data:/home/rstudio/data
-      - ./apps:/home/rstudio/apps:ro
+      - ./projects:/home/rstudio/projects # projects directory
+      - ./data:/home/rstudio/data # data directory (make read-only if desired)
+      - ./config.json:/home/rstudio/.config/rstudio/rstudio-prefs.json
+    mem_limit: 8g
+    cpus: 4.0
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8787/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s

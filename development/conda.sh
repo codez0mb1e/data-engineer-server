@@ -2,6 +2,9 @@
 
 #
 # Install Python development tools
+# 
+# Deprecated: Consider using `uv` instead of conda for a more modern and streamlined Python development experience.
+# See `uv_and_ruff.sh` for details.
 #
 
 
