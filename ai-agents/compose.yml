@@ -4,10 +4,10 @@ networks:
 
 services:
   ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.30.0
     container_name: ollama
     ports:
-      - "11434:11434"
+      - "127.0.0.1:11434:11434"
     volumes:
       - ollama:/root/.ollama
     networks:
@@ -25,14 +25,14 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '7.0'
+          cpus: '8.0'
           memory: 32G
         reservations:
-          cpus: '4.0'
+          cpus: '8.0'
           memory: 16G
 
   model-downloader:
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.30.0
     container_name: model-downloader
     volumes:
       - ollama:/root/.ollama
@@ -49,10 +49,10 @@ services:
       - OLLAMA_HOST=http://ollama:11434
 
   open-webui:
-    image: ghcr.io/open-webui/open-webui:main
+    image: ghcr.io/open-webui/open-webui:v0.9.6
     container_name: open-webui
     ports:
-      - "3000:8080"
+      - "127.0.0.1:3000:8080"
     volumes:
       - open-webui:/app/backend/data
     networks:
@@ -66,7 +66,7 @@ services:
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
       - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
-      - WEBUI_AUTH=False  # Set to True for authentication
+      - WEBUI_AUTH=False  # WARNING: disables login — set to True if exposed beyond localhost
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
