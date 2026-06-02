@@ -15,11 +15,14 @@ services:
     restart: unless-stopped
     environment:
       - OLLAMA_HOST=0.0.0.0
-      - OLLAMA_NUM_THREADS=14
+      # Matches cpus: '12.0' limit below — no hyperthreading waste
+      - OLLAMA_NUM_THREADS=12
+      # Single parallel slot = best latency for a single-user CPU setup
       - OLLAMA_NUM_PARALLEL=1
-      - OLLAMA_CONTEXT_LENGTH=32768
+      # Corrected variable name (was OLLAMA_CONTEXT_LENGTH which is invalid)
+      - OLLAMA_NUM_CTX=8192
       - OLLAMA_FLASH_ATTENTION=1
-      - OLLAMA_KV_CACHE_TYPE=q8_0
+      # KV cache quantization removed — causes slow fallback paths on CPU
     healthcheck:
       test: ["CMD", "ollama", "list"]
       interval: 15s
@@ -29,10 +32,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '8.0'
+          cpus: '12.0'
           memory: 32G
         reservations:
-          cpus: '8.0'
+          cpus: '12.0'
           memory: 16G
 
   model-downloader:
