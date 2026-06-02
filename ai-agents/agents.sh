@@ -14,8 +14,8 @@ curl -fsSL https://ollama.com/install.sh | sh
 ollama -v
 
 # load LLMs
-ollama pull llama3.2
-ollama pull deepseek-coder
+ollama pull qwen3:14b
+ollama create qwen3-coder -f Modelfile
 
 # uninstall Ollama
 # https://medium.com/@heartonbit/uninstalling-ollama-db78dd9545fa

@@ -1,0 +1,17 @@
+FROM qwen3:14b
+
+PARAMETER num_ctx      32768
+PARAMETER num_predict  16384
+PARAMETER num_keep     1024
+
+PARAMETER temperature  0.25
+PARAMETER top_p        0.9
+PARAMETER top_k        40
+PARAMETER repeat_penalty 1.1
+
+SYSTEM """
+You are an expert Python engineer and data analyst.
+Prefer idiomatic, efficient code.
+Return complete, runnable Python with imports when asked for code.
+Use tools when available to inspect files, run queries, or fetch data.
+"""
