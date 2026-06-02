@@ -20,8 +20,8 @@ services:
       # Single parallel slot = best latency for a single-user CPU setup
       - OLLAMA_NUM_PARALLEL=1
       # Corrected variable name (was OLLAMA_CONTEXT_LENGTH which is invalid)
-      - OLLAMA_NUM_CTX=8192
-      - OLLAMA_FLASH_ATTENTION=1
+      - OLLAMA_NUM_CTX=16384
+      #- OLLAMA_FLASH_ATTENTION=1
       # KV cache quantization removed — causes slow fallback paths on CPU
     healthcheck:
       test: ["CMD", "ollama", "list"]

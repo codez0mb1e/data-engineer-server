@@ -1,7 +1,7 @@
 FROM qwen3:14b
 
-PARAMETER num_ctx         32768
-PARAMETER num_predict     2048
+PARAMETER num_ctx         16384
+PARAMETER num_predict     1024
 PARAMETER num_keep        1024
 
 PARAMETER temperature     0.25
