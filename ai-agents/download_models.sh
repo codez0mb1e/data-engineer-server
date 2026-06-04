@@ -19,12 +19,12 @@ echo "✅ Ollama service is ready!"
 # Download models
 echo "📥 Downloading models..."
 
-ollama pull qwen3:14b
-echo "✅ Downloaded qwen3:14b"
+ollama pull qwen3-coder:30b
+echo "✅ Downloaded qwen3-coder:30b"
 
 # Create custom coding-optimised model variant
-ollama create qwen3-coder -f /Modelfile
-echo "✅ Created qwen3-coder"
+ollama create qwen3-datascientist -f /Modelfile
+echo "✅ Created qwen3-datascientist"
 
 
 echo "🎉 All models downloaded successfully!"
