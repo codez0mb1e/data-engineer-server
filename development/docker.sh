@@ -46,12 +46,12 @@ docker run -d \
   -p 9443:9443 \
   --restart unless-stopped \
   -v /data/portainer:/data \
-  -v /var/run/docker.sock:/var/run/docker.sock
+  -v /var/run/docker.sock:/var/run/docker.sock \
   --name portainer \
   portainer/portainer-ce:latest
 
 # see result in https://localhost:9443
-docker logs portainer
+docker logs -f --tail 100 portainer
 
 
 # 3. Connect to Docker registries ----
