@@ -10,7 +10,6 @@ Scripts for local AI development.
   - [Prerequisites](#prerequisites)
   - [Add Ollama as a Copilot Chat model provider](#add-ollama-as-a-copilot-chat-model-provider)
   - [MCP servers (file access + persistent memory)](#mcp-servers-file-access--persistent-memory)
-  - [Thinking mode](#thinking-mode)
 - [Configuration](#configuration)
 
 
@@ -67,9 +66,9 @@ curl http://localhost:11434/api/tags
 1. Open the Copilot Chat panel (`Ctrl+Alt+I`)
 2. Click the model picker → **Manage Models...**
 3. Select provider **Ollama**, set base URL `http://localhost:11434`
-4. Click **Save**, then **Unhide** `qwen3-coder` and add it
+4. Click **Save**, then **Unhide** `qwen3-datascientist` and add it
 
-`qwen3-coder` will now appear in the model picker for all chat sessions.
+`qwen3-datascientist` will now appear in the model picker for all chat sessions.
 
 ### MCP servers (file access + persistent memory)
 
@@ -90,14 +89,6 @@ Start servers: **Ctrl+Shift+P → MCP: List Servers → Start**, or reload the w
 
 Verify: **Ctrl+Shift+P → MCP: List Servers** — both should show as **Running**.
 
-### Thinking mode
-
-By default `qwen3-coder` may use extended reasoning. Toggle per message:
-
-- Prefix with `/no_think` for fast responses (coding, completions)
-- Prefix with `/think` for deep reasoning (architecture, debugging)
-
-In Open WebUI the thinking toggle is available in the chat controls.
 
 ## Configuration
 

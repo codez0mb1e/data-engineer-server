@@ -3,9 +3,9 @@ FROM qwen3-coder:30b
 PARAMETER num_gpu          0
 PARAMETER num_thread       10
 
-PARAMETER num_ctx          8192
-PARAMETER num_predict      2048
-PARAMETER num_keep         1024
+PARAMETER num_ctx          16384
+PARAMETER num_predict      4096
+PARAMETER num_keep         2048
 
 PARAMETER temperature      0.20
 PARAMETER top_p            0.85

@@ -17,7 +17,8 @@ services:
       - OLLAMA_HOST=0.0.0.0
       - OLLAMA_NUM_THREADS=10
       - OLLAMA_NUM_PARALLEL=2
-      - OLLAMA_NUM_CTX=8192
+      - OLLAMA_NUM_CTX=16384
+      #- OLLAMA_DEBUG=2
     healthcheck:
       test: ["CMD", "ollama", "list"]
       interval: 15s
