@@ -25,7 +25,7 @@ Scripts for local AI development.
 docker compose up -d
 
 # 2. Monitor model downloading progress
-docker compose logs model-downloader -f
+docker compose logs -f model-downloader 
 
 # 3. Access Open WebUI (after models are downloaded)
 open http://localhost:3000
@@ -33,7 +33,7 @@ open http://localhost:3000
 
 ## Services
 
-- **Ollama**: http://localhost:11434 (LLM inference)
+- **Ollama**: http://localhost:11434/api/tags (LLM inference)
 - **Open WebUI**: http://localhost:3000 (Chat interface)
 
 ## Models
@@ -63,7 +63,9 @@ curl http://localhost:11434/api/tags
 Edit `.env` file:
 
 ```bash
-WEBUI_SECRET_KEY=your-secure-key-here
+docker logs -f --tail 100 ollama
+# save result to .env file in the following format:
+# WEBUI_SECRET_KEY=your-secure-key-here
 ```
 
 ## VS Code Integration
@@ -78,8 +80,8 @@ WEBUI_SECRET_KEY=your-secure-key-here
 
 1. Open the Copilot Chat panel (`Ctrl+Alt+I`)
 2. Click the model picker → **Manage Models...**
-3. Select provider **Ollama**, set base URL `http://localhost:11434`
-4. Click **Save**, then **Unhide** `qwen3-datascientist` and add it
+3. Select provider **Ollama**, set base URL `http://ollama:11434`
+4. Click **Save**, then **Unhide** `qwen3-datascientist` and add it/
 
 `qwen3-datascientist` will now appear in the model picker for all chat sessions.
 
@@ -89,7 +91,7 @@ MCP config is at `.vscode/mcp.json` (see [example](mcp.json)). Two servers are c
 
 | Server | Purpose |
 |---|---|
-| `filesystem` | Read/list files under `/home/dp/apps` |
+| `filesystem` | Read/list files under `/home/<user>/<repos_dir>` |
 | `memory` | Persistent key-value memory across sessions |
 
 Memory is stored at `~/.local/share/mcp-memory/memory.json`. Create the directory before first use:
