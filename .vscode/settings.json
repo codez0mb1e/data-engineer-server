@@ -1,0 +1,33 @@
+{
+  "chat.agent.enabled": true,
+  "chat.mcp.autoStart": false,
+
+  // Strict tool control — user must approve each tool call
+  "github.copilot.chat.agent.runTasks": false,
+  "chat.tools.autoApprove": false,       // never auto-approve tool execution
+
+  // Instruction files — enable for agent context
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "chat.useAgentsMdFile": false,         // keep agents.md off — noisy
+  "chat.useClaudeMdFile": false,
+  "chat.includeApplyingInstructions": false,
+
+  // Skills — stay off (built-in skills reset already done)
+  "chat.useAgentSkills": false,
+  "chat.experimental.useSkillAdherencePrompt": false,
+  "github.copilot.chat.skills": [],
+
+  // Org/cloud instructions — off
+  "github.copilot.chat.organizationInstructions.enabled": false,
+
+  // Token efficiency
+  "chat.tools.compressOutput.enabled": true,
+  "github.copilot.chat.summarizeAgentConversationHistory.enabled": true,
+
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false
+  },
+  "chat.mcp.access": "all"
+}
