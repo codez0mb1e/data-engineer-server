@@ -49,7 +49,7 @@ See all available models at [ollama.com/models](https://ollama.com/models).
 docker compose logs model-downloader -f
 
 # Check Ollama service status
-docker compose logs ollama -f
+docker logs -f --tail 100 ollama
 
 # List downloaded models
 docker exec -it ollama ollama list
@@ -132,7 +132,7 @@ Custom skills can be placed in `.github/skills/` at the repo root — each skill
 ### Check the logs of Ollama container
 
 ```bash
-docker logs -f ollama
+docker logs -f --since 12h ollama
 ```
 
 ### Check the logs of Copilot
