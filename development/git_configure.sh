@@ -21,19 +21,31 @@ git config --list
 
 
 # 2. Set SSH key to github ----
-# Generate SSH key (see unbuntu-os/README.md#new-ssh-key)
-# register public keys [2]
+# generate new if necessary
+ssh-keygen -t ed25519 -C $github-user
+# add to ssh-agent
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+# get pubkey and register https://github.com/settings/ssh/new [2]
+cat ~/.ssh/id_ed25519.pub
+# test connection
+ssh -T git@github.com
 
 
-# 3. Validate ----
-# Prepare to clone repos
+# 3. GitHub CLI ----
+# install
+sudo apt install -y gh 
+# check
+gh --version
+# auth
+gh auth login --web
+
+# clone smth (for example this repo)
 mkdir ~/apps && cd ~/apps
-
-# Now you can clone repo (for example this repo):
-git clone git@github.com:codez0mb1e/data-engineer-server.git
+gh repo clone codez0mb1e/data-engineer-server
 
 
-# 3. Commit signature verification [4] ----
+# 4. Commit signature verification [4] ----
 # check GPG version
 gpg --version # should be >=2.1
 
@@ -68,15 +80,6 @@ gpgconf --check-config
 
 # create alias to test gpg signature 
 grep -q "alias signme=" ~/.bashrc || echo "alias signme='echo \"test\" | gpg --clearsign | gpg --verify'" >> ~/.bashrc
-
-
-# X. GitHub CLI ----
-# install
-sudo apt install -y gh 
-# check
-gh --version
-# auth
-gh auth login --web
 
 
 # References ----
