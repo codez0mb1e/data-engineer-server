@@ -38,12 +38,17 @@ groups | grep sudo
 ## Install updates
 
 ```bash
-sudo add-apt-repository universe
-
 sudo apt update
 apt list --upgradable
+```
+
+```bash
+sudo apt install software-properties-common -y
+sudo add-apt-repository universe
+
 sudo apt upgrade -y
 ```
+
 
 ## Core packages/utils
 
@@ -104,6 +109,8 @@ sudo iftop -i eth0
 
 ### New SSH key
 
+On the client/laptop side:
+
 ```bash
 USR="<user_name>"; readonly USR
 KEY_NAME="id_rsa"; readonly KEY_NAME
@@ -115,13 +122,13 @@ ls -l .
 # generate new keys pair (if necessary)
 ssh-keygen -t ed25519 -f $KEY_NAME -C $USR
 
-# View public key
-cat $KEY_NAME.pub
-# or generate it from private key in OpenSSH format
-ssh-keygen -y -f $KEY_NAME > $KEY_NAME.pub
+# view public key
+ssh-keygen -y -f $KEY_NAME # > $KEY_NAME.pub : or write it to file
 ```
 
 ### New user
+
+On the remote server side:
 
 ```bash
 # add users (optional)
@@ -129,28 +136,37 @@ groups | grep sudo
 
 sudo adduser $USR
 sudo usermod -aG sudo $USR
-
-# (optional, but not recommended) Allow authorization without public key
-sudo nano /etc/ssh/sshd_config
-# uncomment this line:
-#> PasswordAuthentication yes
-
-# save changes and reload service
-sudo service ssh restart
-systemctl status ssh
 ```
 
-Register SSH authorized keys for new user (remote server):
+Re-login under new user (remote server):
 
 ```bash
+# Register SSH authorized keys for new user
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
 touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
+
+# run command below on the client/laptop side
+ssh-keygen -y -f $KEY_NAME | ssh $USR@$HOST 'cat >> .ssh/authorized_keys'
+
+# prohibit password auth
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+sudo nano /etc/ssh/sshd_config
 ```
 
-Copy public key to authorized keys (local machine):
+Set up the following values:
+
+```md
+PermitRootLogin prohibit-password
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+```
 
 ```bash
-ssh-keygen -y -f $KEY_NAME | ssh $USR@$HOST 'cat >> .ssh/authorized_keys'
+# save changes
+sudo service ssh restart
+# check status
+systemctl status ssh
 ```
 
 ## Cookies
