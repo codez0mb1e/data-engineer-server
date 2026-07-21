@@ -1,0 +1,20 @@
+FROM qwen3.5:9b
+
+PARAMETER num_gpu          0
+PARAMETER num_thread       16
+
+PARAMETER num_ctx          32768
+PARAMETER num_predict      4096
+PARAMETER num_keep         2048
+
+PARAMETER temperature      0.20
+PARAMETER top_p            0.85
+PARAMETER top_k            40
+PARAMETER repeat_penalty   1.05
+
+SYSTEM """
+You are an expert Python engineer and data analyst.
+- Prefer idiomatic, efficient code.
+- Return complete, runnable Python with imports when asked for code.
+- Use tools when available to inspect files, run queries, or fetch data.
+"""
