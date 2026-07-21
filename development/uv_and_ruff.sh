@@ -20,11 +20,9 @@ echo 'import platform; print(platform.python_version())' | uv run -
 
 uv python upgrade 3.13
 
-
 # Install ruff (globally)
 uv tool install ruff@latest
 ruff --version
-
 
 # Install pyrefly
 uv tool install pyrefly@latest
