@@ -1,4 +1,4 @@
-# Ubuntu 24.04: core commands, packages and tools
+# Ubuntu Server: Core
 
 - [Discover](#discover)
 - [Install updates](#install-updates)
@@ -20,7 +20,6 @@ uname -a
 
 Hardware info:
 
-    
 ```bash
 lscpu | grep "Model name" # CPU
 free -h # RAM
@@ -120,10 +119,10 @@ cd ~/.ssh
 ls -l .
 
 # generate new keys pair (if necessary)
-ssh-keygen -t ed25519 -f $KEY_NAME -C $USR
+ssh-keygen -t ed25519 -f "$KEY_NAME" -C "$USR"
 
 # view public key
-ssh-keygen -y -f $KEY_NAME # > $KEY_NAME.pub : or write it to file
+ssh-keygen -y -f "$KEY_NAME" # > $KEY_NAME.pub : or write it to file
 ```
 
 ### New user
@@ -134,8 +133,11 @@ On the remote server side:
 # add users (optional)
 groups | grep sudo
 
-sudo adduser $USR
-sudo usermod -aG sudo $USR
+sudo adduser "$USR"
+sudo usermod -aG sudo "$USR"
+
+# (optional) grants passwordless sudo access, less secure than requiring a password
+echo "$USR ALL=(ALL) NOPASSWD:ALL" | sudo tee "/etc/sudoers.d/$USR"
 ```
 
 Re-login under new user (remote server):
@@ -146,7 +148,7 @@ mkdir -p ~/.ssh && chmod 700 ~/.ssh
 touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
 
 # run command below on the client/laptop side
-ssh-keygen -y -f $KEY_NAME | ssh $USR@$HOST 'cat >> .ssh/authorized_keys'
+cd ./~ssh && ssh-keygen -y -f "$KEY_NAME" | ssh "$USR@$HOST" 'cat >> .ssh/authorized_keys'
 
 # prohibit password auth
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
@@ -156,7 +158,7 @@ sudo nano /etc/ssh/sshd_config
 Set up the following values:
 
 ```md
-PermitRootLogin prohibit-password
+PermitRootLogin prohibit-password # no
 PubkeyAuthentication yes
 PasswordAuthentication no
 PermitEmptyPasswords no
@@ -167,6 +169,9 @@ PermitEmptyPasswords no
 sudo service ssh restart
 # check status
 systemctl status ssh
+# audit authentication logs
+sudo grep -E "sshd|sudo|su" /var/log/auth.log | tail -n 100
+sudo grep "Failed password" /var/log/auth.log | tail -n 100
 ```
 
 ## Cookies

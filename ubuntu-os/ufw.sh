@@ -1,9 +1,10 @@
 #!/bin/bash
-set -euo pipefail
 
 #
 # UFW Installation and Configuration
 #
+
+set -euo pipefail
 
 # Configuration
 SSH_PORT=${SSH_PORT:-22}
