@@ -61,7 +61,8 @@ The script will:
 - Remove any broken Amnezia PPA entries (PPAs often lag behind new Ubuntu releases).
 - Build `amneziawg-go` and `amneziawg-tools` from source (no kernel module, no DKMS).
 - Place the client config at `/etc/amnezia/amneziawg/awg0.conf`.
-- Bring up the tunnel via `awg-quick up awg0` using the userspace backend.
+- Configure the systemd service template `awg-quick@.service` with `WG_QUICK_USERSPACE_IMPLEMENTATION=amneziawg-go`.
+- Enable and start the tunnel via `systemctl enable --now awg-quick@awg0` to persist across reboots.
 
 ### Known config quirk: I2–I5 parameters
 

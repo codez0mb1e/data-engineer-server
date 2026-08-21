@@ -40,6 +40,8 @@ apt install -y golang-go git make build-essential pkg-config libelf-dev curl
 
 echo "==> Building amneziawg-go (userspace backend)"
 WORKDIR=$(mktemp -d)
+trap 'rm -rf "$WORKDIR"' EXIT
+
 git clone https://github.com/amnezia-vpn/amneziawg-go.git "$WORKDIR/amneziawg-go"
 (cd "$WORKDIR/amneziawg-go" && make)
 install -m 755 "$WORKDIR/amneziawg-go/amneziawg-go" /usr/local/bin/amneziawg-go
@@ -50,17 +52,28 @@ git clone https://github.com/amnezia-vpn/amneziawg-tools.git "$WORKDIR/amneziawg
 install -m 755 "$WORKDIR/amneziawg-tools/src/wg" /usr/local/bin/awg
 install -m 755 "$WORKDIR/amneziawg-tools/src/wg-quick/linux.bash" /usr/local/bin/awg-quick
 
+echo "==> Configuring systemd service for awg-quick"
+install -m 644 "$WORKDIR/amneziawg-tools/src/systemd/wg-quick@.service" "/etc/systemd/system/awg-quick@.service"
+install -m 644 "$WORKDIR/amneziawg-tools/src/systemd/wg-quick.target" "/etc/systemd/system/awg-quick.target"
+sed -i 's|/usr/bin/awg-quick|/usr/local/bin/awg-quick|g' "/etc/systemd/system/awg-quick@.service"
+sed -i 's|/usr/bin/awg|/usr/local/bin/awg|g' "/etc/systemd/system/awg-quick@.service"
+mkdir -p /etc/systemd/system/awg-quick@.service.d
+cat > /etc/systemd/system/awg-quick@.service.d/override.conf <<'EOF'
+[Service]
+Environment=WG_QUICK_USERSPACE_IMPLEMENTATION=amneziawg-go
+EOF
+systemctl daemon-reload
+
 echo "==> Placing client config"
 mkdir -p /etc/amnezia/amneziawg
 cp "$CONF_SRC" "/etc/amnezia/amneziawg/${IFACE}.conf"
 chmod 600 "/etc/amnezia/amneziawg/${IFACE}.conf"
 
-echo "==> Bringing up interface via userspace backend"
-export WG_QUICK_USERSPACE_IMPLEMENTATION=amneziawg-go
-awg-quick up "${IFACE}"
+echo "==> Enabling and starting service via systemd"
+systemctl enable "awg-quick@${IFACE}"
+systemctl restart "awg-quick@${IFACE}"
 
 echo "==> Status:"
 awg show
 
-rm -rf "$WORKDIR"
-echo "Client interface '${IFACE}' is up (userspace, no kernel module, no PPA needed)."
+echo "Client interface '${IFACE}' is enabled and running (userspace, systemd autostart configured)."
