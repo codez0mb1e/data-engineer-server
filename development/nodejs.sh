@@ -8,7 +8,7 @@ set -e
 
 # Install Node.js 22 from NodeSource
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt install -y nodejs
 
 # Verify
 node --version

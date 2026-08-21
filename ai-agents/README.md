@@ -17,7 +17,6 @@ Scripts for local AI development.
   - [Check the logs of Copilot](#check-the-logs-of-copilot)
   - [Check the logs of Open WebUI container](#check-the-logs-of-open-webui-container)
 
-
 ## Quick Start
 
 ```bash
@@ -127,7 +126,6 @@ rm -rf "$PROMPTS_BIN/skills" && mv "$PROMPTS_BIN/skills_old" "$PROMPTS_BIN/skill
 Then restart the VS Code Server: `Ctrl+Shift+P` → `Remote: Restart Remote Server`.
 
 Custom skills can be placed in `.github/skills/` at the repo root — each skill is a subfolder containing a `SKILL.md` file.
-
 
 ## Debug LLM agents
 

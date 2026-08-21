@@ -13,16 +13,16 @@ USER_EMAIL="<email>"; readonly USER_EMAIL
 # 1. Config git ----
 git --version
 
-git config --global user.name $USER_NAME
-git config --global user.email $USER_EMAIL
-git config --global credential.helper 'cache --timeout=3600' # cache password for 1 hour
+git config --global user.name "$USER_NAME"
+git config --global user.email "$USER_EMAIL"
+git config --global credential.helper 'cache --timeout=3600' # (optional) cache password for 1 hour
 
 git config --list
 
 
 # 2. Set SSH key to github ----
 # generate new if necessary
-ssh-keygen -t ed25519 -C $github-user
+ssh-keygen -t ed25519 -C "$USER_NAME"
 # add to ssh-agent
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
