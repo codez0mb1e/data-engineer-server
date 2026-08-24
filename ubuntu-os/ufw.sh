@@ -3,6 +3,11 @@
 #
 # UFW + Fail2ban + SSH hardening for Ubuntu Server
 #
+# Example usage:
+#   sudo SSH_PORT=22 NEW_SSH_PORT=54321 DISABLE_ROOT_LOGIN=yes DISABLE_PASSWORD_AUTH=yes ./ufw.sh
+# or
+#   sudo ./ufw.sh
+#
 
 set -euo pipefail
 
@@ -16,7 +21,8 @@ fi
 # Tunables (override via environment variables)
 #
 SSH_PORT=${SSH_PORT:-22}                       # current SSH port; used by UFW
-NEW_SSH_PORT=${NEW_SSH_PORT:-}                 # set to e.g. 54321 to move SSH
+NEW_SSH_PORT=${NEW_SSH_PORT:-}
+WG_PORT=${WG_PORT:-51820}                      # WireGuard UDP port
 DISABLE_ROOT_LOGIN=${DISABLE_ROOT_LOGIN:-yes}  # yes|no
 DISABLE_PASSWORD_AUTH=${DISABLE_PASSWORD_AUTH:-yes}  # yes|no
 FAIL2BAN_SSH_MAXRETRY=${FAIL2BAN_SSH_MAXRETRY:-5}
@@ -52,48 +58,42 @@ fi
 
 # 3. Harden SSH configuration
 next_step "Hardening SSH configuration..."
-ensure_sshd_setting() {
-  local key="$1"
-  local value="$2"
-  local file="${3:-/etc/ssh/sshd_config}"
+# Drop-in survives openssh-server package updates; base sshd_config is not modified
+SSHD_HARDENING=/etc/ssh/sshd_config.d/99-hardening.conf
+mkdir -p /etc/ssh/sshd_config.d
 
-  if grep -Eq "^#?\s*${key}\s+" "$file"; then
-    sed -i "s/^#\?\s*${key}\s\+.*/${key} ${value}/" "$file"
-  else
-    echo "${key} ${value}" >> "$file"
-  fi
-}
+{
+  [ -n "$NEW_SSH_PORT" ] && [ "$NEW_SSH_PORT" != "$SSH_PORT" ] && echo "Port ${NEW_SSH_PORT}"
+  [ "$DISABLE_ROOT_LOGIN" = "yes" ]    && echo "PermitRootLogin no"
+  [ "$DISABLE_PASSWORD_AUTH" = "yes" ] && echo "PasswordAuthentication no"
+  [ "$DISABLE_PASSWORD_AUTH" = "yes" ] && echo "PubkeyAuthentication yes"
+} > "${SSHD_HARDENING}"
 
-if [ -n "$NEW_SSH_PORT" ] && [ "$NEW_SSH_PORT" != "$SSH_PORT" ]; then
-  ensure_sshd_setting Port "$NEW_SSH_PORT"
-  echo "SSH port changed from ${SSH_PORT} to ${NEW_SSH_PORT}"
-fi
-
-if [ "$DISABLE_ROOT_LOGIN" = "yes" ]; then
-  ensure_sshd_setting PermitRootLogin no
-  echo "Root login disabled"
-fi
-
-if [ "$DISABLE_PASSWORD_AUTH" = "yes" ]; then
-  ensure_sshd_setting PasswordAuthentication no
-  ensure_sshd_setting PubkeyAuthentication yes
-  echo "Password authentication disabled, key authentication enforced"
-fi
-
-# Remove duplicate Port directives (keep the last one)
-if grep -Eq "^Port\s+" /etc/ssh/sshd_config; then
-  awk '/^Port / {last=NR; line=$0; next} {a[NR]=$0} END {for(i=1;i<=NR;i++) {if(i==last){print line}else{print a[i]}}}' \
-    /etc/ssh/sshd_config > /etc/ssh/sshd_config.tmp && mv /etc/ssh/sshd_config.tmp /etc/ssh/sshd_config
-fi
+[ -n "$NEW_SSH_PORT" ] && [ "$NEW_SSH_PORT" != "$SSH_PORT" ] && echo "SSH port changed from ${SSH_PORT} to ${NEW_SSH_PORT}"
+[ "$DISABLE_ROOT_LOGIN" = "yes" ]    && echo "Root login disabled"
+[ "$DISABLE_PASSWORD_AUTH" = "yes" ] && echo "Password authentication disabled, key authentication enforced"
 
 # Validate SSH configuration before restarting
 if ! sshd -t; then
-  echo "Error: sshd configuration test failed. Restoring original config." >&2
-  cp /etc/ssh/sshd_config.orig /etc/ssh/sshd_config
+  echo "Error: sshd configuration test failed." >&2
+  rm -f "${SSHD_HARDENING}"
   exit 1
 fi
 
-systemctl restart sshd
+# On Ubuntu 24.04+ SSH uses socket activation; the socket unit overrides sshd_config Port
+if systemctl is-active --quiet ssh.socket 2>/dev/null; then
+  mkdir -p /etc/systemd/system/ssh.socket.d/
+  cat > /etc/systemd/system/ssh.socket.d/listen.conf <<EOF
+[Socket]
+ListenStream=
+ListenStream=0.0.0.0:${NEW_SSH_PORT:-$SSH_PORT}
+ListenStream=[::]:${NEW_SSH_PORT:-$SSH_PORT}
+EOF
+  systemctl daemon-reload
+  systemctl restart ssh.socket
+else
+  systemctl restart sshd
+fi
 
 # 4. Configure IPv6 support for UFW
 next_step "Configuring IPv6 support for UFW..."
@@ -119,6 +119,8 @@ next_step "Opening standard ports (SSH on port ${F2B_PORT}, HTTP, HTTPS)..."
 ufw limit "${F2B_PORT}/tcp" comment 'SSH rate-limited'
 ufw allow 80/tcp comment 'HTTP'
 ufw allow 443/tcp comment 'HTTPS'
+ufw allow 53 comment 'DNS'
+ufw allow "${WG_PORT}/udp" comment 'WireGuard'
 
 # 8. Enable UFW
 next_step "Enabling Firewall..."
@@ -133,7 +135,6 @@ cat > /etc/fail2ban/jail.d/ssh.local <<EOF
 enabled  = true
 port     = ${F2B_PORT}
 filter   = sshd
-logpath  = /var/log/auth.log
 maxretry = ${FAIL2BAN_SSH_MAXRETRY}
 bantime  = ${FAIL2BAN_SSH_BANTIME}
 findtime = ${FAIL2BAN_SSH_FINDTIME}
@@ -156,7 +157,7 @@ echo "--- Fail2ban sshd jail ---"
 fail2ban-client status sshd || true
 echo ""
 echo "--- SSH listening ports ---"
-ss -tlnp | grep -E "(State|sshd)" || true
+ss -tlnp | grep ":${F2B_PORT}" || true
 echo ""
 echo "--- Configuration Complete ---"
 echo ""
