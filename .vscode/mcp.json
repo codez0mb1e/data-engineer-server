@@ -6,7 +6,7 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "/home/dp/apps/codez0mb1e/data-engineer-server"  // narrowed scope — repo root only
+        "/home/<user>/apps"
       ]
     },
     "memory": {
@@ -17,7 +17,7 @@
         "@modelcontextprotocol/server-memory"
       ],
       "env": {
-        "MEMORY_FILE_PATH": "/home/dp/.local/share/mcp-memory/memory.json"
+        "MEMORY_FILE_PATH": "/home/<user>/.local/share/mcp-memory/memory.json"
       }
     }
   }
