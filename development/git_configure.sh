@@ -46,40 +46,59 @@ gh repo clone codez0mb1e/data-engineer-server
 
 
 # 4. Commit signature verification [4] ----
-# check GPG version
-gpg --version # should be >=2.1
+# check GPG version (Ubuntu 26.04 ships GnuPG >=2.4)
+gpg --version
 
-# generate GPG key
+# headless server: no GUI/X11, so gpg-agent needs a curses pinentry instead of the default graphical one
+sudo apt update && sudo apt install -y pinentry-curses
+mkdir -p ~/.gnupg && chmod 700 ~/.gnupg
+touch ~/.gnupg/gpg-agent.conf
+grep -qxF "pinentry-program $(command -v pinentry-curses)" ~/.gnupg/gpg-agent.conf \
+  || echo "pinentry-program $(command -v pinentry-curses)" >> ~/.gnupg/gpg-agent.conf
+
+# GPG_TTY must be set before pinentry is invoked over SSH
+export GPG_TTY=$(tty)
+[ -f ~/.bashrc ] && ! grep -qxF 'export GPG_TTY=$(tty)' ~/.bashrc && echo 'export GPG_TTY=$(tty)' >> ~/.bashrc
+gpgconf --reload gpg-agent
+
+# generate GPG key (prefer ECC/ed25519 with an expiration date over default RSA)
 gpg --full-generate-key 
+# or non-interactively: usage MUST include "sign" (bare "cert" makes a certify-only key git can't sign with)
+# 0 means never expires, or use 1y/2y/5y for expiration
+gpg --quick-generate-key "$USER_NAME <$USER_EMAIL>" ed25519 default 0
 # or import existing
 gpg --list-secret-keys --keyid-format=long
 # validate
-echo "test" | gpg --clearsign | gpg --verify
+echo "0xDECAF" | gpg --clearsign | gpg --verify
+
+# extract the long key id of the key matching USER_EMAIL (parses machine-readable --with-colons output)
+GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long --with-colons "$USER_EMAIL" | awk -F: '/^sec:/{print $5; exit}')
+echo "$GPG_KEY_ID"
 
 # Export public key
-# Open https://github.com/settings/gpg/new and paste you GPG key id from:
-# (use second part of "sec" as gpg_key_id)
-gpg --armor --export <gpg_key_id>
+# Open https://github.com/settings/gpg/new and paste your GPG key id from:
+gpg --armor --export "$GPG_KEY_ID"
 
 # Configure git to use GPG key
-git config --global user.signingkey <gpg_key_id>
+git config --global gpg.program "$(command -v gpg)"
+git config --global user.signingkey "$GPG_KEY_ID"
 git config --global commit.gpgsign true
+git config --global tag.gpgsign true
 
-[ -f ~/.bashrc ] && echo 'export GPG_TTY=$(tty)' >> ~/.bashrc
-
-# cache GPG passphrase for 1 hour
-mkdir -p ~/.gnupg
-touch ~/.gnupg/gpg-agent.conf
+# cache GPG passphrase (max 24h) - shorten max-cache-ttl on shared/less-trusted servers
 grep -qxF "default-cache-ttl 3600" ~/.gnupg/gpg-agent.conf || echo "default-cache-ttl 3600" >> ~/.gnupg/gpg-agent.conf
 grep -qxF "max-cache-ttl 86400" ~/.gnupg/gpg-agent.conf || echo "max-cache-ttl 86400" >> ~/.gnupg/gpg-agent.conf
 gpgconf --reload gpg-agent
 
 # (optional) if you have issues with gpg
 # sudo install -d -m 755 /etc/gnupg && sudo touch /etc/gnupg/gpgconf.conf
-gpgconf --check-config
+gpgconf --check-programs
 
 # create alias to test gpg signature 
-grep -q "alias signme=" ~/.bashrc || echo "alias signme='echo \"test\" | gpg --clearsign | gpg --verify'" >> ~/.bashrc
+grep -q "alias signme=" ~/.bashrc || echo "alias signme='echo \"signme\" | gpg --clearsign | gpg --verify'" >> ~/.bashrc
+
+# end-to-end test: confirm git itself produces and recognizes a signed commit
+# git commit --allow-empty -S -m "test signed commit" && git log --show-signature -1
 
 
 # References ----
