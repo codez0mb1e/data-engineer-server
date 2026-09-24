@@ -148,7 +148,7 @@ mkdir -p ~/.ssh && chmod 700 ~/.ssh
 touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
 
 # run command below on the client/laptop side
-cd ./~ssh && ssh-keygen -y -f "$KEY_NAME" | ssh "$USR@$HOST" 'cat >> .ssh/authorized_keys'
+cd ~/.ssh && ssh-keygen -y -f "$KEY_NAME" | ssh "$USR@$HOST" 'cat >> .ssh/authorized_keys'
 
 # prohibit password auth
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
