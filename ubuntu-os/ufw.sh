@@ -62,6 +62,19 @@ next_step "Hardening SSH configuration..."
 SSHD_HARDENING=/etc/ssh/sshd_config.d/99-hardening.conf
 mkdir -p /etc/ssh/sshd_config.d
 
+# Lockout guard: refuse to disable password auth if the login user has no SSH key
+if [ "$DISABLE_PASSWORD_AUTH" = "yes" ]; then
+  TARGET_USER="${SUDO_USER:-$(logname 2>/dev/null || echo root)}"
+  TARGET_HOME=$(getent passwd "$TARGET_USER" | cut -d: -f6)
+  if [ -z "$TARGET_HOME" ] || [ ! -s "${TARGET_HOME}/.ssh/authorized_keys" ]; then
+    echo "Error: user '${TARGET_USER}' has no SSH key in ${TARGET_HOME:-?}/.ssh/authorized_keys." >&2
+    echo "       Refusing to disable password authentication (would lock you out)." >&2
+    echo "       Add a key first, or re-run with DISABLE_PASSWORD_AUTH=no." >&2
+    exit 1
+  fi
+  echo "Verified SSH key present for '${TARGET_USER}'; safe to disable password auth."
+fi
+
 {
   [ -n "$NEW_SSH_PORT" ] && [ "$NEW_SSH_PORT" != "$SSH_PORT" ] && echo "Port ${NEW_SSH_PORT}"
   [ "$DISABLE_ROOT_LOGIN" = "yes" ]    && echo "PermitRootLogin no"
@@ -157,7 +170,7 @@ echo "--- Fail2ban sshd jail ---"
 fail2ban-client status sshd || true
 echo ""
 echo "--- SSH listening ports ---"
-ss -tlnp | grep ":${F2B_PORT}" || true
+ss -tlnp | grep -E ":${F2B_PORT}\b" || true
 echo ""
 echo "--- Configuration Complete ---"
 echo ""
