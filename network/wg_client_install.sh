@@ -7,7 +7,7 @@
 #   sudo ./wg_client_install.sh /path/to/client.conf [interface_name]
 #
 # Example:
-#   sudo ./wg_client_install.sh wg_client.conf awg0
+#   sudo ./wg_client_install.sh wg_client.conf awg1
 #
 
 set -euo pipefail
